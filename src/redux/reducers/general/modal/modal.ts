@@ -1,10 +1,12 @@
-import { createModal } from "../../../actions/general/modal/_actionName";
+import { createModal, createContent } from "../../../actions/general/modal/_actionName";
 import { IAction } from "../../../namespace";
 import { IModalProps } from "./IModalProps";
 
 const defaultState:IModalProps = {
     content:null,
-    header:null
+    header:null,
+    isOpen: false,
+    onDismiss : () => {}
 };
 
 function reducer(state = defaultState, { type, payload }:IAction) : IModalProps {    
@@ -13,6 +15,12 @@ function reducer(state = defaultState, { type, payload }:IAction) : IModalProps 
             return {
                 ...state,
                 ...payload
+            };
+        }
+        case createContent: {                                  
+            return {
+                ...state,
+                content: payload
             };
         }
         default:

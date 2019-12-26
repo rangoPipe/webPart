@@ -1,4 +1,4 @@
-import { createButton } from "../../../actions/general/button/_actionName";
+import { createDropdown, loadOptions } from "../../../actions/general/dropdown/_actionName";
 import { IAction } from "../../../namespace";
 import { IDropdownProps } from "./IDropdownProps";
 
@@ -10,12 +10,18 @@ const defaultState:IDropdownProps = {
     }
 };
 
-function reducer(state = defaultState, { type, payload }:IAction) : IDropdownProps {    
+function reducer(state = defaultState, { type, payload }:IAction) : IDropdownProps {
     switch(type) {
-        case createButton: {                                  
+        case createDropdown: {
             return {
                 ...state,
                 ...payload
+            };
+        }
+        case loadOptions: {
+            return {
+                ...state,
+                options : payload
             };
         }
         default:

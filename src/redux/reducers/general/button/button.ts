@@ -1,6 +1,6 @@
-import { createButton } from "../../../actions/general/button/_actionName";
+import { createButton, hideButton } from "../../../actions/general/button/_actionName";
 import { IAction } from "../../../namespace";
-import { IButtonProps } from "./IButtonProps";
+import { IButtonProps, ButtonStyle } from "./IButtonProps";
 
 const defaultState:IButtonProps = {
     text:"",
@@ -10,6 +10,8 @@ const defaultState:IButtonProps = {
     onClick: undefined,
     disabled: undefined,
     checked: false,
+    hidden: false,
+    buttonStyle: ButtonStyle.DefaultButton
 };
 
 function reducer(state = defaultState, { type, payload }:IAction) : IButtonProps {    
@@ -20,6 +22,13 @@ function reducer(state = defaultState, { type, payload }:IAction) : IButtonProps
                 ...payload
             };
         }
+        case hideButton: {                                  
+            return {
+                ...state,
+                hidden : payload
+            };
+        }
+        
         default:
             return state;
     }

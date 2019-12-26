@@ -11,7 +11,6 @@ import Search from "../search";
 
 import { detailListNs, detailList2Ns, detailList3Ns, detailList4Ns, IIOIPStore } from "../../../../redux/namespace";
 import { SubspaceProvider } from "react-redux-subspace";
-import { LendingNameSpace } from "../../../../enum/lending/lendingEnum";
 
 export default function Page(props:ILendingMainProps) {
     return (
@@ -38,11 +37,19 @@ export default function Page(props:ILendingMainProps) {
                       <SubspaceProvider
                         mapState={(state: IIOIPStore) => {
                           return {
-                            detailList: state[LendingNameSpace.detailListSearch]
+                            detailList: state.detailListSearch,
+                            dropDownSectionSearch: state.dropDownSectionSearch,
+                            dropDownSubsectionSearch: state.dropDownSubsectionSearch,
+                            dropDownSerieSearch: state.dropDownSerieSearch,
+                            dropDownSubserieSearch: state.dropDownSubserieSearch,                            
+                            buttonSearchSearch: state.buttonSearchSearch,                            
+                            buttonCancelSearch: state.buttonCancelSearch,
+                            buttonLendSearch: state.buttonLendSearch,
+                            modalSearch: state.modalSearch,
                           };
                         }}
                       >
-                        <Search namespace = { LendingNameSpace.detailListSearch } />
+                        <Search />
                       </SubspaceProvider>
                     </div>
                   </div>

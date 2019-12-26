@@ -10,6 +10,8 @@ import commadBar from "./reducers/general/commandBar/commadBar";
 import button from "./reducers/general/button/button";
 import choiceGroup from "./reducers/general/choiceGroup/choiceGroup";
 import modal from "./reducers/general/modal/modal";
+import dropdown from "./reducers/general/dropdown/dropdown";
+
 import * as namespace from "./namespace";
 import { LendingNameSpace } from "../enum/lending/lendingEnum";
 
@@ -27,8 +29,16 @@ const reducer = combineReducers<any>({
     choiceGroup: namespaced(namespace.choiceGroupNS)(choiceGroup),
     modal: namespaced(namespace.modalNS)(modal),
 
-    //Lending
+    //Lending-Search
     detailListSearch: namespaced( LendingNameSpace.detailListSearch )(detailList),
+    dropDownSectionSearch: namespaced( LendingNameSpace.dropDownSectionSearch )(dropdown),
+    dropDownSubsectionSearch: namespaced( LendingNameSpace.dropDownSubsectionSearch )(dropdown),
+    dropDownSerieSearch: namespaced( LendingNameSpace.dropDownSerieSearch )(dropdown),
+    dropDownSubserieSearch: namespaced( LendingNameSpace.dropDownSubserieSearch )(dropdown),
+    buttonSearchSearch: namespaced( LendingNameSpace.buttonSearchSearch )(button),
+    buttonCancelSearch: namespaced( LendingNameSpace.buttonCancelSearch )(button),
+    buttonLendSearch: namespaced( LendingNameSpace.buttonLendSearch )(button),
+    modalSearch: namespaced( LendingNameSpace.modalSearch )(modal),
 });
 
 const store = createStore(reducer);

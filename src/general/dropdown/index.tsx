@@ -15,7 +15,7 @@ export class DropdownGeneral extends React.Component<IDropdownGeneralProps> {
    */
   public render(): JSX.Element {
     const { dropdown } = this.props;
-    return <Page dropdown={dropdown} />;
+    return <Page dropdown = { dropdown } />;
   }
 }
 

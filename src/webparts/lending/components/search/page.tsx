@@ -1,21 +1,22 @@
 import React from "react";
-import { ISearchProps, SectionVisibleEnum, IdDropdownsEnum } from "./ISearchProps";
+import { ISearchProps, SectionVisibleEnum } from "./ISearchProps";
 
 import { Separator, Stack, ITheme, createTheme } from "office-ui-fabric-react";
-import { ButtonGeneral as  Button } from "../../../../general/button";
 import { TextFieldGeneral as Textfield } from "../../../../general/textField";
-import { DropdownGeneral as Dropdown } from "../../../../general/dropdown";
-import DetailList  from "../../../../general/detailList";
 import { ChoiceGroupGeneral as ChoiceGroup } from "../../../../general/choiceGroup";
 
+import Button from "../../../../general/button";
+import Dropdown from "../../../../general/dropdown";
+import DetailList from "../../../../general/detailList";
+import Modal from "../../../../general/modal";
+
 import './style.css';
-import { IButtonProps } from "../../../../redux/reducers/general/button/IButtonProps";
 import { SubspaceProvider } from "react-redux-subspace";
 import { IIOIPStore } from "../../../../redux/namespace";
 
 export default function Page(props:ISearchProps) {
-
-  const { sectionVisible } = props;
+  
+  const { sectionVisible, resultVisible, modalVisible } = props;
 
   const theme: ITheme = createTheme({
     fonts: {
@@ -45,43 +46,52 @@ export default function Page(props:ISearchProps) {
                 <div className="ms-Grid-row section">
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
                     Sección:
-                    <Dropdown
-                      dropdown={
-                        props.dropdowns.filter(
-                          x => x.id === IdDropdownsEnum.ddlSection.toString()
-                        )[0]
-                      }
-                    />
+                    <SubspaceProvider
+                      mapState={(state: IIOIPStore) => {
+                        return {
+                          dropdown: state.dropDownSectionSearch
+                        };
+                      }}
+                    >
+                      <Dropdown />
+                    </SubspaceProvider>
+                    
                   </div>
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
                     Subsección:
-                    <Dropdown
-                      dropdown={
-                        props.dropdowns.filter(
-                          x => x.id === IdDropdownsEnum.ddlSubsection.toString()
-                        )[0]
-                      }
-                    />
+                    <SubspaceProvider
+                      mapState={(state: IIOIPStore) => {
+                        return {
+                          dropdown: state.dropDownSubsectionSearch
+                        };
+                      }}
+                    >
+                      <Dropdown />
+                    </SubspaceProvider>
                   </div>
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
                     Serie:
-                    <Dropdown
-                      dropdown={
-                        props.dropdowns.filter(
-                          x => x.id === IdDropdownsEnum.ddlSerie.toString()
-                        )[0]
-                      }
-                    />
+                    <SubspaceProvider
+                      mapState={(state: IIOIPStore) => {
+                        return {
+                          dropdown: state.dropDownSerieSearch
+                        };
+                      }}
+                    >
+                      <Dropdown />
+                    </SubspaceProvider>
                   </div>
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
                     Subserie:
-                    <Dropdown
-                      dropdown={
-                        props.dropdowns.filter(
-                          x => x.id === IdDropdownsEnum.ddlSubserie.toString()
-                        )[0]
-                      }
-                    />
+                    <SubspaceProvider
+                      mapState={(state: IIOIPStore) => {
+                        return {
+                          dropdown: state.dropDownSubserieSearch
+                        };
+                      }}
+                    >
+                      <Dropdown />
+                    </SubspaceProvider>
                   </div>
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
                     Usuario Responsable:
@@ -140,11 +150,15 @@ export default function Page(props:ISearchProps) {
                 <div className="ms-Grid-row footer">
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6 ms-mdPush6">
                     <Stack horizontal>
-                      {props.buttons.map((item: IButtonProps, key: number) => {
-                        return !item.hidden ? (
-                          <Button key={key} button={item} />
-                        ) : null;
-                      })}
+                      <SubspaceProvider mapState={(state: IIOIPStore) => { return { button: state.buttonSearchSearch }; }} >
+                        <Button />
+                      </SubspaceProvider>
+                      <SubspaceProvider mapState={(state: IIOIPStore) => { return { button: state.buttonLendSearch }; }} >
+                        <Button />
+                      </SubspaceProvider>
+                      <SubspaceProvider mapState={(state: IIOIPStore) => { return { button: state.buttonCancelSearch }; }} >
+                        <Button />
+                      </SubspaceProvider>
                     </Stack>
                   </div>
                 </div>
@@ -152,17 +166,18 @@ export default function Page(props:ISearchProps) {
             </div>
           </div>
         </div>
-        {props.resultVisible ? (
-          <SubspaceProvider
-            mapState={(state: IIOIPStore) => {
-              return {
-                detailList: state.detailList
-              };
-            }}
-          >
+        { resultVisible ? (
+          <SubspaceProvider mapState={(state: IIOIPStore) => { return { detailList: state.detailList }; }} >
             <DetailList />
           </SubspaceProvider>
         ) : null}
+
+        { modalVisible 
+         ?  <SubspaceProvider mapState={(state: IIOIPStore) => { return { modal: state.modalSearch }; }} >
+              <Modal />
+            </SubspaceProvider>
+         : null
+         }
       </Stack>
     );
 }

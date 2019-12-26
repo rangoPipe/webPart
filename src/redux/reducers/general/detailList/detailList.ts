@@ -10,7 +10,9 @@ const defaultState:IDetailListProps = {
     groupProps : undefined,
     checkboxVisibility : CheckboxVisibility.onHover,
     enableShimmer:true,
-    selectedItems: []
+    selectedItems: [],
+    selectionMode: undefined,
+    selection: undefined
 };
 
 function reducer(state = defaultState, { type, payload }:IAction):IDetailListProps {

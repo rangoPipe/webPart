@@ -13,7 +13,7 @@ export class ButtonGeneral extends React.Component<IButtonGeneralProps> {
   /**
    * El metodo render() es requerido para generar el HTML.
    */
-  public render(): JSX.Element {
+  public render(): JSX.Element {    
     const { button } = this.props;
     return <Page button={button} />;
   }

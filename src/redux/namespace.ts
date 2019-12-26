@@ -23,7 +23,7 @@ export const choiceGroupNS:string = "choiceGroupNS";
 export const dropdownNS:string = "dropdownNS";
 export const modalNS:string = "modalNs";
 
-export interface IIOIPStore {
+export interface IIOIPStoreGeneral {
     /**
      * Almacena componentes globales
      */
@@ -73,6 +73,20 @@ export interface IIOIPStore {
      * Almacena las propiedades nativas y genericas para el componente general de modal de UiFabric
      */
     modal:IModalProps;
+}
+
+
+export interface IIOIPStore extends IIOIPStoreGeneral {
+    //Lending - Search 
+    detailListSearch:         IDetailListProps;
+    dropDownSectionSearch:    IDropdownProps;
+    dropDownSubsectionSearch: IDropdownProps;
+    dropDownSerieSearch:      IDropdownProps;
+    dropDownSubserieSearch:   IDropdownProps;
+    buttonSearchSearch:       IButtonProps;
+    buttonLendSearch:         IButtonProps;
+    buttonCancelSearch:       IButtonProps;
+    modalSearch:              IModalProps;
 }
 
 export interface IAction {
