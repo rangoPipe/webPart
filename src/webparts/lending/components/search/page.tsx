@@ -11,7 +11,7 @@ import { ChoiceGroupGeneral as ChoiceGroup } from "../../../../general/choiceGro
 import './style.css';
 import { IButtonProps } from "../../../../redux/reducers/general/button/IButtonProps";
 import { SubspaceProvider } from "react-redux-subspace";
-import { IIOIPStore, detailListNs } from "../../../../redux/namespace";
+import { IIOIPStore } from "../../../../redux/namespace";
 
 export default function Page(props:ISearchProps) {
 
@@ -156,7 +156,7 @@ export default function Page(props:ISearchProps) {
           <SubspaceProvider
             mapState={(state: IIOIPStore) => {
               return {
-                detailList: state[detailListNs]
+                detailList: state.detailList
               };
             }}
           >

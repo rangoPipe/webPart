@@ -24,7 +24,8 @@ function reducer(state = defaultState, { type, payload }:IAction):IDetailListPro
         case loadDetailList: {
             return {
                 ...state,
-                items : payload
+                items : payload,
+                enableShimmer: false
             };
         }        
         case selectRowItem: {

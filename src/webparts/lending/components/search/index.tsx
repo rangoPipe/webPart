@@ -16,7 +16,7 @@ import { IDetailListProps } from "../../../../redux/reducers/general/detailList/
 import { BaseService } from "../../../../common/classes/baseService";
 import { LendingResultFilter, LendingFilter, LendingResultDTO, LendingDTO } from "../../../../interface/lending/lendingResult";
 import { apiTransferencia } from "../../../../common/connectionString";
-import { createDetailList } from "../../../../redux/actions/general/detailList/_actionName";
+import { createDetailList, loadDetailList  } from "../../../../redux/actions/general/detailList/_actionName";
 
 class SearchClass extends React.Component<ISearchProps, ISearchState> {
 
@@ -35,7 +35,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
   constructor(props: ISearchProps) {
     super(props);
 
-    this._detailListController  = subspace((state: IIOIPStore) => props.detailList )(store);
+    this._detailListController  = subspace((state: IIOIPStore) => state[props.namespace], props.namespace )(store);
     
     this.state = {
       sectionVisible: SectionVisibleEnum.Record,
@@ -380,6 +380,9 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
             ...this.state,
             resultVisible: true
           });
+
+          this._detailListController.dispatch({ type: loadDetailList, payload: _response.result });
+
         }                           
       })
       .catch(err => {

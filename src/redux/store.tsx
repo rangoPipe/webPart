@@ -11,6 +11,7 @@ import button from "./reducers/general/button/button";
 import choiceGroup from "./reducers/general/choiceGroup/choiceGroup";
 import modal from "./reducers/general/modal/modal";
 import * as namespace from "./namespace";
+import { LendingNameSpace } from "../enum/lending/lendingEnum";
 
 const reducer = combineReducers<any>({
     context: namespaced(namespace.contextNs)(context),
@@ -25,6 +26,9 @@ const reducer = combineReducers<any>({
     button: namespaced(namespace.buttonNS)(button),
     choiceGroup: namespaced(namespace.choiceGroupNS)(choiceGroup),
     modal: namespaced(namespace.modalNS)(modal),
+
+    //Lending
+    detailListSearch: namespaced( LendingNameSpace.detailListSearch )(detailList),
 });
 
 const store = createStore(reducer);

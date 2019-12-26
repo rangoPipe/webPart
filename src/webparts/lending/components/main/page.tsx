@@ -9,8 +9,9 @@ import Devolution from "../devolution";
 import Lending from "../lending";
 import Search from "../search";
 
-import { detailListNs, detailList2Ns, detailList3Ns, detailList4Ns } from "../../../../redux/namespace";
+import { detailListNs, detailList2Ns, detailList3Ns, detailList4Ns, IIOIPStore } from "../../../../redux/namespace";
 import { SubspaceProvider } from "react-redux-subspace";
+import { LendingNameSpace } from "../../../../enum/lending/lendingEnum";
 
 export default function Page(props:ILendingMainProps) {
     return (
@@ -35,13 +36,13 @@ export default function Page(props:ILendingMainProps) {
                   <div className="ms-Grid-row">
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">                      
                       <SubspaceProvider
-                        mapState={(state: any) => {
+                        mapState={(state: IIOIPStore) => {
                           return {
-                            detailList: state[detailListNs]
+                            detailList: state[LendingNameSpace.detailListSearch]
                           };
                         }}
                       >
-                        <Search />
+                        <Search namespace = { LendingNameSpace.detailListSearch } />
                       </SubspaceProvider>
                     </div>
                   </div>
