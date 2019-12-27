@@ -5,6 +5,7 @@ import { IDropdownProps } from "./IDropdownProps";
 const defaultState:IDropdownProps = {
     options:[],
     placeHolder : "",
+    label: undefined,
     onChange: (e) => {
         
     }

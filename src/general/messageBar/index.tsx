@@ -10,7 +10,7 @@ import { IIOIPStore } from "../../redux/namespace";
 /**
  * @class Clase MessageBar UiFabric.
  */
-class MessageBarGeneral extends React.Component<IMessageBarGeneralProps> {
+export class MessageBarGeneral extends React.Component<IMessageBarGeneralProps> {
   /** @private */ private _messageBarController: Subspace<any, any, any>;
 
   /**

@@ -9,4 +9,6 @@ export enum LendingNameSpace {
     buttonCancelSearch = "buttonCancelSearch",
     buttonLendSearch = "buttonLendSearch",
     modalSearch = "modalSearch",
+    textAreaSearch = "textAreaSearch",
+    messageBarSearch = "messageBarSearch",
 }

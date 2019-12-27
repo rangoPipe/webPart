@@ -1,4 +1,4 @@
-import { createMessageBar } from "../../../actions/general/messageBar/_actionName";
+import { createMessageBar, hideMessageBar } from "../../../actions/general/messageBar/_actionName";
 import { MessageBarType } from "office-ui-fabric-react";
 import { IAction } from "../../../namespace";
 import { IMessageBarProps } from "./IMessageBarProps";
@@ -17,6 +17,13 @@ const defaultState:IMessageBarProps = {
 function reducer(state = defaultState, { type, payload }:IAction) : IMessageBarProps {    
     switch(type) {
         case createMessageBar: {                                  
+            return {
+                ...state,
+                ...payload
+            };
+        }
+
+        case hideMessageBar: {                                  
             return {
                 ...state,
                 ...payload

@@ -45,7 +45,6 @@ export default function Page(props:ISearchProps) {
 
                 <div className="ms-Grid-row section">
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                    Sección:
                     <SubspaceProvider
                       mapState={(state: IIOIPStore) => {
                         return {
@@ -58,7 +57,6 @@ export default function Page(props:ISearchProps) {
                     
                   </div>
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                    Subsección:
                     <SubspaceProvider
                       mapState={(state: IIOIPStore) => {
                         return {
@@ -70,7 +68,6 @@ export default function Page(props:ISearchProps) {
                     </SubspaceProvider>
                   </div>
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                    Serie:
                     <SubspaceProvider
                       mapState={(state: IIOIPStore) => {
                         return {
@@ -82,7 +79,6 @@ export default function Page(props:ISearchProps) {
                     </SubspaceProvider>
                   </div>
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                    Subserie:
                     <SubspaceProvider
                       mapState={(state: IIOIPStore) => {
                         return {
@@ -94,8 +90,7 @@ export default function Page(props:ISearchProps) {
                     </SubspaceProvider>
                   </div>
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                    Usuario Responsable:
-                    <Textfield textField={{ onChange: e => {} }} />
+                    <Textfield textField={{ onChange: e => {}, label : "Usuario Responsable:" }} />
                   </div>
                 </div>
 
@@ -105,12 +100,10 @@ export default function Page(props:ISearchProps) {
                       <Separator theme={theme}>Expediente</Separator>
                     </Stack>
                     <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                      Número Expediente:
-                      <Textfield textField={{ onChange: e => {} }} />
+                      <Textfield textField={{ onChange: e => {}, label:"Número Expediente:" }} />
                     </div>
                     <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                      Titulo Expediente:
-                      <Textfield textField={{ onChange: e => {} }} />
+                      <Textfield textField={{ onChange: e => {}, label:"Titulo Expediente:" }} />
                     </div>
                   </div>
                 ) : null}
@@ -121,12 +114,10 @@ export default function Page(props:ISearchProps) {
                       <Separator theme={theme}>Radicado</Separator>
                     </Stack>
                     <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                      Número Radicado:
-                      <Textfield textField={{ onChange: e => {} }} />
+                      <Textfield textField={{ onChange: e => {}, label:"Número Radicado:" }} />
                     </div>
                     <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                      Asunto Radicado:
-                      <Textfield textField={{ onChange: e => {} }} />
+                      <Textfield textField={{ onChange: e => {}, label: "Asunto Radicado:" }} />
                     </div>
                   </div>
                 ) : null}
@@ -136,13 +127,11 @@ export default function Page(props:ISearchProps) {
                     <Stack>
                       <Separator theme={theme}>Tipo Documental</Separator>
                     </Stack>
-                    <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                      Número Tipo Documental:
-                      <Textfield textField={{ onChange: e => {} }} />
+                    <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">                      
+                      <Textfield textField={{ onChange: e => {}, label:"Número Tipo Documental:" }} />
                     </div>
-                    <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                      Titulo Tipo Documental:
-                      <Textfield textField={{ onChange: e => {} }} />
+                    <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">                      
+                      <Textfield textField={{ onChange: e => {}, label: "Titulo Tipo Documental:" }} />
                     </div>
                   </div>
                 ) : null}
@@ -173,7 +162,8 @@ export default function Page(props:ISearchProps) {
         ) : null}
 
         { modalVisible 
-         ?  <SubspaceProvider mapState={(state: IIOIPStore) => { return { modal: state.modalSearch }; }} >
+         ?  <SubspaceProvider mapState={(state: IIOIPStore) => { 
+              return { modal: state.modalSearch, textField : state.textAreaSearch, messageBar: state.messageBarSearch }; }} >
               <Modal />
             </SubspaceProvider>
          : null

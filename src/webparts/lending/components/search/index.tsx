@@ -10,22 +10,24 @@ import { ISearchProps, ISearchState, SectionVisibleEnum, IdDropdownsEnum } from 
 import { IIOIPStore } from "../../../../redux/namespace";
 import { IButtonProps, ButtonStyle } from "../../../../redux/reducers/general/button/IButtonProps";
 import { IChoiceGroupProps } from "../../../../redux/reducers/general/choiceGroup/IChoiceGroupProps";
-import { IChoiceGroupOptionProps, createTheme, IColumn, IDropdownOption, Selection, SelectionMode, IModalProps, IconButton, Stack } from "office-ui-fabric-react";
+import { IChoiceGroupOptionProps, createTheme, IColumn, IDropdownOption, Selection, SelectionMode, IModalProps, IconButton, ITextFieldProps, IMessageBarProps, MessageBarType } from "office-ui-fabric-react";
 import { IDropdownProps } from "../../../../redux/reducers/general/dropdown/IDropdownProps";
 import { IDetailListProps } from "../../../../redux/reducers/general/detailList/IDetailListProps";
 
 import { BaseService } from "../../../../common/classes/baseService";
 import { LendingResultFilter, LendingFilter, LendingResultDTO, LendingDTO } from "../../../../interface/lending/lendingResult";
 import { apiTransferencia } from "../../../../common/connectionString";
-import { createDetailList, loadDetailList, selectRowItem  } from "../../../../redux/actions/general/detailList/_actionName";
-import { createDropdown, loadOptions } from "../../../../redux/actions/general/dropdown/_actionName";
+
 
 import { LendingNameSpace } from "../../../../enum/lending/lendingEnum";
+import { createDetailList, loadDetailList, selectRowItem  } from "../../../../redux/actions/general/detailList/_actionName";
+import { createDropdown, loadOptions } from "../../../../redux/actions/general/dropdown/_actionName";
 import { createButton, hideButton } from "../../../../redux/actions/general/button/_actionName";
 import { createModal, createContent } from "../../../../redux/actions/general/modal/_actionName";
+import { createTextField, changeTextField } from "../../../../redux/actions/general/textField/_actionName";
+import { createMessageBar, hideMessageBar } from "../../../../redux/actions/general/messageBar/_actionName";
 
-import { TextFieldGeneral as Textfield } from "../../../../general/textField";
-import { ButtonGeneral as Button } from "../../../../general/button";
+import Content from "./contentModal";
 
 class SearchClass extends React.Component<ISearchProps, ISearchState> {
 
@@ -40,6 +42,8 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
   private _buttonLendController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonLendSearch, LendingNameSpace.buttonLendSearch )(store);
 
   private _modalController:Subspace<IModalProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.modalSearch, LendingNameSpace.modalSearch )(store);
+  private _textAreaController:Subspace<ITextFieldProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.textAreaSearch, LendingNameSpace.textAreaSearch )(store);
+  private _messageBarController:Subspace<IMessageBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.messageBarSearch, LendingNameSpace.messageBarSearch )(store);
 
   private _choiceGroup: IChoiceGroupProps;
 
@@ -70,13 +74,23 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
         this._buttonLendController.dispatch({ type: hideButton, payload: !(this._selection.getSelectedCount() > 0 ) });       
       }
     });
-
     
     this._detailListController.dispatch({ type: createDetailList, payload: {
       columns: this._createColumns(),
       selection: this._selection,
       selectionMode: SelectionMode.single
     }});
+
+    this._textAreaController.dispatch({ type: createTextField, payload: {
+      multiline: true,
+      label: "Observaciones solicitud",
+      rows: 5,
+      onChange: (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+        this._textAreaController.dispatch({ type:changeTextField, payload: newValue});
+      }
+    }});
+
+    this._messageBarController.dispatch({ type: createMessageBar, payload: {}});
 
     this._createButtons();
     this._createChoices();
@@ -123,67 +137,24 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
         });
 
         const item:LendingDTO = this._detailListController.getState().selectedItems[0];
-
-        const content:JSX.Element = (
-          <Stack>
-            <div className="ms-Grid ms-depth-8 container">
-              <div className="ms-Grid-row body">
-                <div className="ms-Grid-col ms-sm10 ms-md10 ms-lg10 ms-smPush1">
-                  <div className="ms-Grid">
-                    <div className="ms-Grid-row section">
-                      <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                        Número de expediente:
-                        <Textfield textField={{ value : item.nroExpediente , disabled : true }} />                   
-                      </div>
-                      <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                        Titulo de expediente:
-                        <Textfield textField={{ value : item.nombre_expediente , disabled : true }} />
-                      </div>
-                      <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                        Subsección:
-                        <Textfield textField={{ value : item.nombre_subseccion, disabled : true }} />
-                      </div>
-                      <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                        Serie:
-                        <Textfield textField={{ value : item.nombre_serie , disabled : true }} />
-                      </div>
-                      <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                        Subserie:
-                        <Textfield textField={{ value : "subserie", disabled : true }} />
-                      </div>
-                      <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg12">
-                        Observaciones solicitud:
-                        <Textfield textField={{ value : "subserie", multiline :true, rows : 5 }} />
-                      </div>
-                    </div>
-                    </div>
-                    <div className="ms-Grid-row footer">
-                    <div className="ms-Grid-col ms-sm12 ms-md4 ms-lg6 ms-mdPush8">
-                      <Stack horizontal>
-                          <Button button = { { text : "Solicitar", buttonStyle: ButtonStyle.PrimaryButton }} />
-                          <Button button = { { text : "Cancelar", buttonStyle: ButtonStyle.DefaultButton, onClick : () => { this.setState({...this.state, modalVisible : false}) } }}  />
-                      </Stack>
-                    </div>
-                  </div>
-                  </div>
-                </div>
-              </div>
-            </Stack>
-        );
-        this._modalController.dispatch({ type :createContent, payload: content });
+        this._modalController.dispatch({ 
+          type :createContent,
+           payload: 
+            <Content item = { item } 
+              onCancel = { () => this._closeModal() } 
+              onAccept = { () => this._sendRequest(item) }
+              /> 
+          });
       }
     }});
 
     this._buttonCancelController.dispatch({ type: createButton, payload: {
       text: "Cancelar",
-      onClick: e => {
-        
-        this.setState({
-          ...this.state,
-          resultVisible: false,
-          modalVisible: false
-        });
-        this._buttonLendController.dispatch({ type: hideButton, payload: true });   
+      onClick: () => {
+
+        this._selection.setAllSelected(false);
+        this._buttonLendController.dispatch({ type: hideButton, payload: true }); 
+        this._closeModal({ resultVisible: false });  
       }
     }});   
   }
@@ -267,7 +238,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     this._dropDownSectionController.dispatch({ type: createDropdown, payload: {
       id: IdDropdownsEnum.ddlSection.toString(),
       placeholder: "Seleccione una Sección",
-      
+      label:"Sección:",
       onChange: (e:React.FormEvent, o:IDropdownOption) => {
         this._lendingFilter.idSeccion = o.key;
         this._loadDropdown();
@@ -277,6 +248,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     this._dropDownSubsectionController.dispatch({ type: createDropdown, payload: {
       id: IdDropdownsEnum.ddlSubsection.toString(),
       placeholder: "Seleccione una Subsección",
+      label:"Subsección:",
       onChange: (e:React.FormEvent, o:IDropdownOption) => {
         this._lendingFilter.idSubseccion = o.key;
       }
@@ -285,6 +257,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     this._dropDownSerieController.dispatch({ type: createDropdown, payload: {
       id: IdDropdownsEnum.ddlSerie.toString(),
       placeholder: "Seleccione una Serie",
+      label:"Serie:",
       onChange: (e:React.FormEvent, o:IDropdownOption) => {
         this._lendingFilter.idSerie = o.key;
         this._loadDropdown();
@@ -294,6 +267,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     this._dropDownSubserieController.dispatch({ type: createDropdown, payload: {
       id: IdDropdownsEnum.ddlSubserie.toString(),
       placeholder: "Seleccione una Subserie",
+      label:"Subserie:",
       onChange: (e:React.FormEvent, o:IDropdownOption) => {
         this._lendingFilter.idSubserie = o.key;
       }
@@ -309,18 +283,14 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
           styles = { iconButtonStyles }
           iconProps={{ iconName: 'Cancel' }}
           ariaLabel="Close popup modal"
-          onClick={ () => {
-            this.setState({...this.state, modalVisible: false });
-          }}
+          onClick={ () => this._closeModal() }
         />
       </div>);
 
     this._modalController.dispatch({ type: createModal, payload: {
       header,
       isOpen: true,
-      onDismiss : () => {
-        this.setState({...this.state, modalVisible: false });
-      }
+      onDismiss : () => this._closeModal()
     }});
   }
 
@@ -464,6 +434,32 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
       .catch(err => {
         console.log(err);        
       });
+  }
+
+  private _closeModal = (properties = {}) => {
+    this.setState({
+      ...this.state,
+      ...properties,
+      modalVisible: false
+    });
+  }
+
+  private _sendRequest = (item:LendingDTO) => {
+
+    const observaciones:string = this._textAreaController.getState().value;
+
+    if(!observaciones || observaciones.length === 0){
+      this._messageBarController.dispatch({ type: hideMessageBar, payload : {
+        messageBarType: MessageBarType.error,
+        isMultiline: false,
+        value: "El campo observaciones no puede estar vacio",
+        hideMessage: false
+      }});
+    }
+    else {
+      this._messageBarController.dispatch({ type: hideMessageBar, payload : { hideMessage: true }});
+      console.log({...item, observaciones }); 
+    }
   }
 
   public render(): JSX.Element {

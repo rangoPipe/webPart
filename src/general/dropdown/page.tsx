@@ -11,6 +11,7 @@ function Page(props: IDropdownGeneralProps) {
 
   return (
       <Dropdown
+      label = { dropdown.label }
       options = { dropdown.options }
       placeholder = { dropdown.placeholder }
       onChange = { dropdown.onChange } />

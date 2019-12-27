@@ -46,6 +46,8 @@ export default function Page(props:ILendingMainProps) {
                             buttonCancelSearch: state.buttonCancelSearch,
                             buttonLendSearch: state.buttonLendSearch,
                             modalSearch: state.modalSearch,
+                            textAreaSearch: state.textAreaSearch,
+                            messageBarSearch: state.messageBarSearch,
                           };
                         }}
                       >

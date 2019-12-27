@@ -37,14 +37,12 @@ export class BaseService {
         requestHeaders.append('Content-type', 'application/json');
         requestHeaders.append("Accept","application/json");
 
-            const requestInit:RequestInit = { method: 'POST',
-                       headers: requestHeaders,
-                       body: JSON.stringify(body) };
+        const requestInit:RequestInit = { method: 'POST', headers: requestHeaders,  body: JSON.stringify(body) };
         
-           return fetch(url, requestInit)
-            .then((_response) => {
-                return _response.json();
-            })
-            .catch(error => console.error('Error:', error))
+        return fetch(url, requestInit)
+        .then((_response) => {
+            return _response.json();
+        })
+        .catch(error => console.error('Error:', error));
       }
 }

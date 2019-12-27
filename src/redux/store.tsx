@@ -39,6 +39,8 @@ const reducer = combineReducers<any>({
     buttonCancelSearch: namespaced( LendingNameSpace.buttonCancelSearch )(button),
     buttonLendSearch: namespaced( LendingNameSpace.buttonLendSearch )(button),
     modalSearch: namespaced( LendingNameSpace.modalSearch )(modal),
+    textAreaSearch: namespaced( LendingNameSpace.textAreaSearch )(textField),
+    messageBarSearch: namespaced( LendingNameSpace.messageBarSearch )(messageBar),
 });
 
 const store = createStore(reducer);
