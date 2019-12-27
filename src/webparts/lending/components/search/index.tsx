@@ -25,6 +25,7 @@ import { createButton, hideButton } from "../../../../redux/actions/general/butt
 import { createModal, createContent } from "../../../../redux/actions/general/modal/_actionName";
 
 import { TextFieldGeneral as Textfield } from "../../../../general/textField";
+import { ButtonGeneral as Button } from "../../../../general/button";
 
 class SearchClass extends React.Component<ISearchProps, ISearchState> {
 
@@ -156,6 +157,14 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
                       </div>
                     </div>
                     </div>
+                    <div className="ms-Grid-row footer">
+                    <div className="ms-Grid-col ms-sm12 ms-md4 ms-lg6 ms-mdPush8">
+                      <Stack horizontal>
+                          <Button button = { { text : "Solicitar", buttonStyle: ButtonStyle.PrimaryButton }} />
+                          <Button button = { { text : "Cancelar", buttonStyle: ButtonStyle.DefaultButton, onClick : () => { this.setState({...this.state, modalVisible : false}) } }}  />
+                      </Stack>
+                    </div>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -172,7 +181,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
         this.setState({
           ...this.state,
           resultVisible: false,
-          modalVisible: true
+          modalVisible: false
         });
         this._buttonLendController.dispatch({ type: hideButton, payload: true });   
       }
