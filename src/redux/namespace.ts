@@ -89,6 +89,9 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
     modalSearch:              IModalProps;
     textAreaSearch:           ITextFieldProps;
     messageBarSearch:         IMessageBarProps;
+
+    //Sended - Search 
+    detailListSended:         IDetailListProps;
 }
 
 export interface IAction {

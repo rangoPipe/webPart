@@ -24,7 +24,12 @@ export interface LendingDTO {
     nombre_seccion?: string;
     nombre_subseccion?: string;
     nombre_serie?: string;
+    nombre_subserie?: string;
+    userName?: string;
+    fecha_solicitud?: string;
+    estado?:string;
     observacion?: string;
+    tipo?:string;
 }
 
 export interface LendingResultFilter extends LendingResult {

@@ -12,3 +12,8 @@ export enum LendingNameSpace {
     textAreaSearch = "textAreaSearch",
     messageBarSearch = "messageBarSearch",
 }
+
+export enum SendedNameSpace {
+    context = "context",
+    detailListSended = "detailListSended",
+}

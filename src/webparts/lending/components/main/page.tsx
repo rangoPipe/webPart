@@ -65,7 +65,15 @@ export default function Page(props:ILendingMainProps) {
                 <div className="ms-Grid" dir="ltr">
                   <div className="ms-Grid-row">
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
-                        <SendRequest namespace={detailListNs} />
+                      <SubspaceProvider
+                          mapState={(state: IIOIPStore) => {
+                            return {
+                              detailList: state.detailListSended,
+                            };
+                          }}
+                        >                        
+                          <SendRequest />
+                      </SubspaceProvider>
                     </div>
                   </div>
                 </div>

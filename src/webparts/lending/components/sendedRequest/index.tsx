@@ -6,31 +6,35 @@ import { IColumn } from "office-ui-fabric-react";
 import Page from "./page";
 import ISendedRequestProps from "./ISendedRequestProps";
 import { IIOIPStore } from "../../../../redux/namespace";
-import { subspace } from "redux-subspace";
+import { subspace, Subspace } from "redux-subspace";
 import store from "../../../../redux/store";
-import { createDetailList } from "../../../../redux/actions/general/detailList/_actionName";
+import { apiTransferencia } from "../../../../common/connectionString";
+import { createDetailList, loadDetailList } from "../../../../redux/actions/general/detailList/_actionName";
+import { SendedNameSpace } from "../../../../enum/lending/lendingEnum";
+import { IDetailListProps } from "../../../../redux/reducers/general/detailList/IDetailListProps";
+import { LendingDTO, LendingResultDTO } from "../../../../interface/lending/lendingResult";
+import { BaseService } from "../../../../common/classes/baseService";
 
 
 class SendendRequestClass extends React.Component<ISendedRequestProps>  {
 
-  /** @private */ private _detailListSendedController = subspace( (state: IIOIPStore) => state[this.props.namespace], this.props.namespace)(store);
+  private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListSended, SendedNameSpace.detailListSended )(store);
+  private _http: BaseService = new BaseService();
 
     constructor(props:ISendedRequestProps) {
        super(props);
        
-       this._detailListSendedController.dispatch({
+       this._detailListController.dispatch({
          type: createDetailList,
          payload: {
-          columns: this._loadColumns()
+          columns: this._createColumns()
          }
-       })
+       });
+
+       this._loadData();
     }
 
-    public render(): JSX.Element {
-        return <Page namespace={this.props.namespace}/>;
-    }
-
-    private _loadColumns = ():IColumn[] => {
+    private _createColumns = (): IColumn[] => {
       const dateFormat = "YYYY/MM/DD";
       return [
         {
@@ -45,8 +49,8 @@ class SendendRequestClass extends React.Component<ISendedRequestProps>  {
           data: "string",
           minWidth: 30,
           maxWidth: 30,
-          onRender: (item: any) => {
-            return <span>{item.count}</span>;
+          onRender: (item: LendingDTO) => {
+            return <span>{item.idExpediente}</span>;
           }
         },
         {
@@ -57,8 +61,8 @@ class SendendRequestClass extends React.Component<ISendedRequestProps>  {
           data: "string",
           minWidth: 100,
           maxWidth: 150,
-          onRender: (item: any) => {
-            return <span>{item.nroExpediente}</span>;
+          onRender: (item: LendingDTO) => {
+            return <span>{ item.tipo }</span>;
           }
         },
         {
@@ -69,8 +73,8 @@ class SendendRequestClass extends React.Component<ISendedRequestProps>  {
           data: "string",
           minWidth: 250,
           maxWidth: 250,
-          onRender: (item: any) => {
-            return <span>{item.name}</span>;
+          onRender: (item: LendingDTO) => {
+            return <span>{item.nombre_seccion}</span>;
           }
         },
         {
@@ -81,8 +85,8 @@ class SendendRequestClass extends React.Component<ISendedRequestProps>  {
           data: "string",
           minWidth: 250,
           maxWidth: 250,
-          onRender: (item: any) => {
-            return <span>{item.serie}</span>;
+          onRender: (item: LendingDTO) => {
+            return <span>{item.userName}</span>;
           }
         },
         {
@@ -93,8 +97,8 @@ class SendendRequestClass extends React.Component<ISendedRequestProps>  {
           data: "string",
           minWidth: 250,
           maxWidth: 250,
-          onRender: (item: any) => {
-            return <span>{item.subserie}</span>;
+          onRender: (item: LendingDTO) => {
+            return <span>{item.nombre_subserie}</span>;
           }
         },
         {
@@ -104,8 +108,8 @@ class SendendRequestClass extends React.Component<ISendedRequestProps>  {
           isResizable: true,
           data: "string",
           minWidth: 100,
-          onRender: (item: any) => {
-            return <span>{moment(item.endDate).format(dateFormat)}</span>;
+          onRender: (item: LendingDTO) => {
+            return <span>{moment(item.fecha_solicitud).format(dateFormat)}</span>;
           }
         },
         {
@@ -115,8 +119,8 @@ class SendendRequestClass extends React.Component<ISendedRequestProps>  {
           isResizable: true,
           data: "string",
           minWidth: 100,
-          onRender: (item: any) => {
-            return <span>{item.endDate}</span>;
+          onRender: (item: LendingDTO) => {
+            return <span>{item.observacion}</span>;
           }
         },
         {
@@ -126,8 +130,8 @@ class SendendRequestClass extends React.Component<ISendedRequestProps>  {
           isResizable: true,
           data: "string",
           minWidth: 100,
-          onRender: (item: any) => {
-            return <span>{item.endDate}</span>;
+          onRender: (item: LendingDTO) => {
+            return <span>{item.estado}</span>;
           }
         },
         {
@@ -137,19 +141,36 @@ class SendendRequestClass extends React.Component<ISendedRequestProps>  {
           isResizable: true,
           data: "string",
           minWidth: 100,
-          onRender: (item: any) => {
-            return <span>{item.endDate}</span>;
+          onRender: (item: LendingDTO) => {
+            return <span>{item.nroExpediente}</span>;
           }
         }
       ];
     }
+
+    private _loadData = ():void => {
+      this._http.FetchPost(`${apiTransferencia}/Api/Lending/MyRequests`)
+      .then((_response:LendingResultDTO) => {
+        if(_response.success) {        
+          this._detailListController.dispatch({ type: loadDetailList, payload: _response.result });
+        }                           
+      })
+      .catch(err => {
+        console.log(err);        
+      });
+    }
+
+    public render(): JSX.Element {
+        return <Page namespace={this.props.namespace}/>;
+    }
+    
 }
 
-const mapStateToProps = (state: IIOIPStore) => {
-    return {
-      detailList: state.detailList
+    const mapStateToProps = (state: IIOIPStore) => {
+      return {
+        detailList: state.detailList
+      };
     };
-  };
   
   /**
    * Conecta el componente con el store de Redux
