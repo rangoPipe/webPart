@@ -1,10 +1,10 @@
 export interface LendingResult {
     success:boolean;
-    message?:String;
+    message?:string;
 }
 
 export interface LendingFilter {
-    userName?:String;
+    userName?:string;
     idSerie?:number | string;
     idSubserie?:number | string;
     idSeccion?:number | string;
@@ -17,12 +17,14 @@ export interface LendingFilter {
 }
 
 export interface LendingDTO {
+    idExpediente?: number;
     nroExpediente?: string;
     nroRadicado?: string;
     nombre_expediente?: string;
     nombre_seccion?: string;
     nombre_subseccion?: string;
     nombre_serie?: string;
+    observacion?: string;
 }
 
 export interface LendingResultFilter extends LendingResult {

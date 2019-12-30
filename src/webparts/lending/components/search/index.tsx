@@ -444,21 +444,43 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     });
   }
 
+  private _hideMessage =  ( showMessage, message = "", messageBarType = MessageBarType.error) => {
+    this._messageBarController.dispatch({ type: hideMessageBar, payload : {
+      messageBarType,
+      isMultiline: false,
+      value: message,
+      hideMessage: showMessage
+    }});
+  }
+
   private _sendRequest = (item:LendingDTO) => {
 
-    const observaciones:string = this._textAreaController.getState().value;
+    const observacion:string = this._textAreaController.getState().value;
 
-    if(!observaciones || observaciones.length === 0){
-      this._messageBarController.dispatch({ type: hideMessageBar, payload : {
-        messageBarType: MessageBarType.error,
-        isMultiline: false,
-        value: "El campo observaciones no puede estar vacio",
-        hideMessage: false
-      }});
+    if(!observacion || observacion.length === 0) {
+      this._hideMessage(false, "El campo observaciones no puede estar vacio");
     }
-    else {
-      this._messageBarController.dispatch({ type: hideMessageBar, payload : { hideMessage: true }});
-      console.log({...item, observaciones }); 
+    else {      
+      this._hideMessage(true);
+      const requestLend: LendingDTO = {
+        ...item, observacion 
+      }
+      this._http.FetchPost(`${apiTransferencia}/Api/Lending/RequestLend`, requestLend)
+      .then((_response:LendingResultFilter) => {
+        if(_response) {          
+          if(_response.success) {
+            
+            this._hideMessage(false, "Solicitud registrada exitosamente", MessageBarType.success );
+          }
+          else {            
+            this._hideMessage(false, _response.message );
+          }
+           
+        }                   
+      })
+      .catch(err => {
+        console.log(err);        
+      });
     }
   }
 
