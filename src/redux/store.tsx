@@ -13,7 +13,7 @@ import modal from "./reducers/general/modal/modal";
 import dropdown from "./reducers/general/dropdown/dropdown";
 
 import * as namespace from "./namespace";
-import { LendingNameSpace, SendedNameSpace } from "../enum/lending/lendingEnum";
+import { LendingNameSpace, SendedNameSpace, ReceivedNameSpace } from "../enum/lending/lendingEnum";
 
 const reducer = combineReducers<any>({
     context: namespaced(namespace.contextNs)(context),
@@ -44,6 +44,13 @@ const reducer = combineReducers<any>({
 
     //Sended-Request    
     detailListSended: namespaced( SendedNameSpace.detailListSended )(detailList),
+
+    //Received-Request
+    detailListReceived: namespaced( ReceivedNameSpace.detailListReceived )(detailList),
+    commandBarReceived: namespaced( ReceivedNameSpace.commandBarReceived )(commadBar),
+    modalReceived: namespaced( ReceivedNameSpace.modalReceived )(modal),
+    textAreaReceived: namespaced( ReceivedNameSpace.textAreaReceived )(textField),
+    messageBarReceived: namespaced( ReceivedNameSpace.messageBarReceived )(messageBar),
 });
 
 const store = createStore(reducer);

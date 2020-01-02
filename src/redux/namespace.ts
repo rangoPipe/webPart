@@ -92,6 +92,13 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
 
     //Sended - Search 
     detailListSended:         IDetailListProps;
+
+    //Received - Search 
+    detailListReceived:       IDetailListProps;
+    commandBarReceived:       ICommandBarProps;
+    modalReceived:            IModalProps;
+    textAreaReceived:         ITextFieldProps;
+    messageBarReceived:       IMessageBarProps;
 }
 
 export interface IAction {

@@ -17,3 +17,12 @@ export enum SendedNameSpace {
     context = "context",
     detailListSended = "detailListSended",
 }
+
+export enum ReceivedNameSpace {
+    context = "context",
+    detailListReceived = "detailListReceived",
+    commandBarReceived = "commandBarReceived",
+    modalReceived = "modalReceived",
+    textAreaReceived = "textAreaReceived",
+    messageBarReceived = "messageBarReceived",
+}
