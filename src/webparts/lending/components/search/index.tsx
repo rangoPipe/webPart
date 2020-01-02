@@ -25,7 +25,7 @@ import { createDropdown, loadOptions } from "../../../../redux/actions/general/d
 import { createButton, hideButton } from "../../../../redux/actions/general/button/_actionName";
 import { createModal, createContent } from "../../../../redux/actions/general/modal/_actionName";
 import { createTextField, changeTextField } from "../../../../redux/actions/general/textField/_actionName";
-import { createMessageBar, hideMessageBar } from "../../../../redux/actions/general/messageBar/_actionName";
+import { hideMessageBar } from "../../../../redux/actions/general/messageBar/_actionName";
 
 import Content from "./contentModal";
 
@@ -90,8 +90,6 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
       }
     }});
 
-    this._messageBarController.dispatch({ type: createMessageBar, payload: {}});
-
     this._createButtons();
     this._createChoices();
     this._createDropdowns();
@@ -137,6 +135,10 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
         });
 
         const item:LendingDTO = this._detailListController.getState().selectedItems[0];
+        this._hideMessage(true);
+
+        this._textAreaController.dispatch({type: changeTextField, payload:""});
+
         this._modalController.dispatch({ 
           type :createContent,
            payload: 
@@ -465,21 +467,21 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
       const requestLend: LendingDTO = {
         ...item, observacion 
       }
+      this._hideMessage(false, "Solicitando...", MessageBarType.warning );
       this._http.FetchPost(`${apiTransferencia}/Api/Lending/RequestLend`, requestLend)
       .then((_response:LendingResultFilter) => {
         if(_response) {          
           if(_response.success) {
-            
             this._hideMessage(false, "Solicitud registrada exitosamente", MessageBarType.success );
           }
           else {            
             this._hideMessage(false, _response.message );
           }
-           
         }                   
       })
       .catch(err => {
-        console.log(err);        
+        console.log(err);  
+        this._hideMessage(false, err, MessageBarType.severeWarning );      
       });
     }
   }

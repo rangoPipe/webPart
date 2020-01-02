@@ -1,3 +1,7 @@
-export default interface IReceivedRequestProps {
-    namespace?:string;
+export interface IReceivedRequestProps {
+    modalVisible?:boolean;
+}
+
+export interface IReceivedRequestState{
+    modalVisible?:boolean;
 }

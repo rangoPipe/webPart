@@ -9,7 +9,7 @@ import Devolution from "../devolution";
 import Lending from "../lending";
 import Search from "../search";
 
-import { detailListNs, detailList2Ns, detailList3Ns, detailList4Ns, IIOIPStore } from "../../../../redux/namespace";
+import { detailList3Ns, detailList4Ns, IIOIPStore } from "../../../../redux/namespace";
 import { SubspaceProvider } from "react-redux-subspace";
 
 export default function Page(props:ILendingMainProps) {
@@ -65,13 +65,7 @@ export default function Page(props:ILendingMainProps) {
                 <div className="ms-Grid" dir="ltr">
                   <div className="ms-Grid-row">
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
-                      <SubspaceProvider
-                          mapState={(state: IIOIPStore) => {
-                            return {
-                              detailList: state.detailListSended,
-                            };
-                          }}
-                        >                        
+                      <SubspaceProvider mapState={(state: IIOIPStore) => { return { detailList: state.detailListSended }; }}>                        
                           <SendRequest />
                       </SubspaceProvider>
                     </div>
@@ -86,7 +80,16 @@ export default function Page(props:ILendingMainProps) {
                 <div className="ms-Grid" dir="ltr">
                   <div className="ms-Grid-row">
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
-                      <ReceivedRequest namespace={detailList2Ns} />
+                      <SubspaceProvider mapState={(state: IIOIPStore) => { 
+                          return { 
+                            detailList: state.detailListReceived,
+                            commandBar: state.commandBarReceived,
+                            modalReceived: state.modalReceived,
+                            messageBarReceived: state.messageBarReceived,
+                            textAreaReceived: state.textAreaReceived,
+                            }; }}>                        
+                        <ReceivedRequest/>
+                      </SubspaceProvider>
                     </div>
                   </div>
                 </div>
