@@ -1,12 +1,13 @@
 import React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
-import { IColumn } from "office-ui-fabric-react";
+import { IColumn, SelectionMode} from "office-ui-fabric-react";
+import { subspace, Subspace } from "redux-subspace";
 
 import Page from "./page";
+
 import ISendedRequestProps from "./ISendedRequestProps";
 import { IIOIPStore } from "../../../../redux/namespace";
-import { subspace, Subspace } from "redux-subspace";
 import store from "../../../../redux/store";
 import { apiTransferencia } from "../../../../common/connectionString";
 import { createDetailList, loadDetailList } from "../../../../redux/actions/general/detailList/_actionName";
@@ -15,10 +16,10 @@ import { IDetailListProps } from "../../../../redux/reducers/general/detailList/
 import { LendingDTO, LendingResultDTO } from "../../../../interface/lending/lendingResult";
 import { BaseService } from "../../../../common/classes/baseService";
 
-
 class SendendRequestClass extends React.Component<ISendedRequestProps>  {
 
   private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListSended, SendedNameSpace.detailListSended )(store);
+
   private _http: BaseService = new BaseService();
 
     constructor(props:ISendedRequestProps) {
@@ -27,7 +28,8 @@ class SendendRequestClass extends React.Component<ISendedRequestProps>  {
        this._detailListController.dispatch({
          type: createDetailList,
          payload: {
-          columns: this._createColumns()
+          columns: this._createColumns(),
+          selectionMode: SelectionMode.single
          }
        });
 
@@ -161,7 +163,7 @@ class SendendRequestClass extends React.Component<ISendedRequestProps>  {
     }
 
     public render(): JSX.Element {
-        return <Page namespace={this.props.namespace}/>;
+        return <Page/>;
     }
     
 }
