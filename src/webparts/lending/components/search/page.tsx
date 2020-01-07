@@ -156,7 +156,7 @@ export default function Page(props:ISearchProps) {
           </div>
         </div>
         { resultVisible ? (
-          <SubspaceProvider mapState={(state: IIOIPStore) => { return { detailList: state.detailList }; }} >
+          <SubspaceProvider mapState={(state: IIOIPStore) => { return { detailList: state.detailListSearch }; }} >
             <DetailList />
           </SubspaceProvider>
         ) : null}

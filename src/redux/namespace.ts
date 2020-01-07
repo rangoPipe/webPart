@@ -90,15 +90,30 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
     textAreaSearch:           ITextFieldProps;
     messageBarSearch:         IMessageBarProps;
 
-    //Sended - Search 
+    //Lending - Sended 
     detailListSended:         IDetailListProps;
+    commandBarSended:         ICommandBarProps;
+    modalSended:              IModalProps;
+    dialogSended:             IDialogProps;
 
-    //Received - Search 
+    //Lending - Received 
     detailListReceived:       IDetailListProps;
     commandBarReceived:       ICommandBarProps;
     modalReceived:            IModalProps;
     textAreaReceived:         ITextFieldProps;
     messageBarReceived:       IMessageBarProps;
+    choiceGroupReceived:      IChoiceGroupProps;
+    btnLeadReceived:          IButtonProps;
+
+    //Lending - Lending 
+    detailListLending:        IDetailListProps;
+    commandBarLending:        ICommandBarProps;
+    dialogLending:            IDialogProps;
+
+    //Lending - Payback 
+    detailListPayback:        IDetailListProps;
+    commandBarPayback:        ICommandBarProps;
+    dialogPayback:            IDialogProps;
 }
 
 export interface IAction {

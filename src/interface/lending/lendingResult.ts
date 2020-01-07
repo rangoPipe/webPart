@@ -17,6 +17,7 @@ export interface LendingFilter {
 }
 
 export interface LendingDTO {
+    idPrestamoDocumental?: number;
     idExpediente?: number;
     nroExpediente?: string;
     nroRadicado?: string;
@@ -28,6 +29,7 @@ export interface LendingDTO {
     userName?: string;
     fecha_solicitud?: string;
     estado?:string;
+    idEstado?:number | string;
     observacion?: string;
     tipo?:string;
 }

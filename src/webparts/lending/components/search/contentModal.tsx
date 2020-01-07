@@ -48,7 +48,7 @@ export default function Page(props : contentModalProps ) {
                         <Textfield textField={{ value : item.nombre_serie , disabled : true, label: "Serie:" }} />
                     </div>
                     <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                        <Textfield textField={{ value : "subserie", disabled : true, label: "Subserie:" }} />
+                        <Textfield textField={{ value : item.nombre_subserie, disabled : true, label: "Subserie:" }} />
                     </div>
                     <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg12">
                         <SubspaceProvider mapState={(state: IIOIPStore) => { return { textField: state.textField }; }} >

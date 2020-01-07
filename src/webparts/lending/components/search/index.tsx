@@ -19,7 +19,7 @@ import { LendingResultFilter, LendingFilter, LendingResultDTO, LendingDTO } from
 import { apiTransferencia } from "../../../../common/connectionString";
 
 
-import { LendingNameSpace } from "../../../../enum/lending/lendingEnum";
+import { SearchNameSpace } from "../../../../enum/lending/lendingEnum";
 import { createDetailList, loadDetailList, selectRowItem  } from "../../../../redux/actions/general/detailList/_actionName";
 import { createDropdown, loadOptions } from "../../../../redux/actions/general/dropdown/_actionName";
 import { createButton, hideButton } from "../../../../redux/actions/general/button/_actionName";
@@ -31,19 +31,19 @@ import Content from "./contentModal";
 
 class SearchClass extends React.Component<ISearchProps, ISearchState> {
 
-  private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListSearch, LendingNameSpace.detailListSearch )(store);
-  private _dropDownSectionController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSectionSearch, LendingNameSpace.dropDownSectionSearch )(store);
-  private _dropDownSubsectionController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSubsectionSearch, LendingNameSpace.dropDownSubsectionSearch )(store);
-  private _dropDownSerieController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSerieSearch, LendingNameSpace.dropDownSerieSearch )(store);
-  private _dropDownSubserieController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSubserieSearch, LendingNameSpace.dropDownSubserieSearch )(store);
+  private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListSearch, SearchNameSpace.detailListSearch )(store);
+  private _dropDownSectionController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSectionSearch, SearchNameSpace.dropDownSectionSearch )(store);
+  private _dropDownSubsectionController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSubsectionSearch, SearchNameSpace.dropDownSubsectionSearch )(store);
+  private _dropDownSerieController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSerieSearch, SearchNameSpace.dropDownSerieSearch )(store);
+  private _dropDownSubserieController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSubserieSearch, SearchNameSpace.dropDownSubserieSearch )(store);
   
-  private _buttonSearchController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonSearchSearch, LendingNameSpace.buttonSearchSearch )(store);
-  private _buttonCancelController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonCancelSearch, LendingNameSpace.buttonCancelSearch )(store);
-  private _buttonLendController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonLendSearch, LendingNameSpace.buttonLendSearch )(store);
+  private _buttonSearchController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonSearchSearch, SearchNameSpace.buttonSearchSearch )(store);
+  private _buttonCancelController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonCancelSearch, SearchNameSpace.buttonCancelSearch )(store);
+  private _buttonLendController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonLendSearch, SearchNameSpace.buttonLendSearch )(store);
 
-  private _modalController:Subspace<IModalProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.modalSearch, LendingNameSpace.modalSearch )(store);
-  private _textAreaController:Subspace<ITextFieldProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.textAreaSearch, LendingNameSpace.textAreaSearch )(store);
-  private _messageBarController:Subspace<IMessageBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.messageBarSearch, LendingNameSpace.messageBarSearch )(store);
+  private _modalController:Subspace<IModalProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.modalSearch, SearchNameSpace.modalSearch )(store);
+  private _textAreaController:Subspace<ITextFieldProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.textAreaSearch, SearchNameSpace.textAreaSearch )(store);
+  private _messageBarController:Subspace<IMessageBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.messageBarSearch, SearchNameSpace.messageBarSearch )(store);
 
   private _choiceGroup: IChoiceGroupProps;
 
@@ -128,7 +128,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
       iconProps: {
         iconName: "PageHeaderEdit"
       },
-      onClick: e => {
+      onClick: () => {
         this.setState({
           ...this.state,
           modalVisible: true

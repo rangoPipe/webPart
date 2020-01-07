@@ -20,6 +20,7 @@ function Page(props: IDetailListGeneralProps) {
         selection={detailList.selection}
         enableShimmer ={detailList.enableShimmer}
         selectionMode = { detailList.selectionMode }
+        //onRenderItemColumn = {(item:any) => { console.log(item);  return null; } }
       />
     </div>
   );

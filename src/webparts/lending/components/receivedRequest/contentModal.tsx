@@ -1,9 +1,11 @@
 import React from "react";
 
-import { Stack } from "office-ui-fabric-react";
+import { Stack, Separator } from "office-ui-fabric-react";
 import { TextFieldGeneral as Textfield } from "../../../../general/textField";
 import TextArea from "../../../../general/textField";
 import MessageBar from "../../../../general/messageBar";
+import ChoiceGroup from "../../../../general/choiceGroup";
+import ButtonLead from "../../../../general/button";
 
 import { ButtonGeneral as Button } from "../../../../general/button";
 
@@ -16,13 +18,11 @@ import { SubspaceProvider } from "react-redux-subspace";
 interface contentModalProps { 
     item:LendingDTO; 
     onCancel:any; 
-    onAccept:any;
 }
 
 
 export default function Page(props : contentModalProps ) {
-  const { item, onCancel, onAccept} = props;
-  console.log(item);
+  const { item, onCancel } = props;
   
     return (
     <Stack>
@@ -63,9 +63,20 @@ export default function Page(props : contentModalProps ) {
                     </div>
                   </div>
                   <div className="ms-Grid-row">
+                    <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg12">                        
+                      <Textfield textField={{ value : item.observacion, disabled : true, label: "Observación solicitud:", rows: 5, multiline: true }} />
+                    </div>
+                  </div>
+                  <Separator>Respuesta</Separator>
+                  <div className="ms-Grid-row">
+                    <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg12">
+                      <SubspaceProvider mapState={(state: IIOIPStore) => { return { choiceGroup: state.choiceGroupReceived }; }} >
+                        <ChoiceGroup />
+                      </SubspaceProvider>
+                    </div>
                     <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg12">
                         <SubspaceProvider mapState={(state: IIOIPStore) => { return { textField: state.textAreaReceived }; }} >
-                            <TextArea />
+                          <TextArea />
                         </SubspaceProvider>
                     </div>
                   </div>
@@ -74,7 +85,9 @@ export default function Page(props : contentModalProps ) {
                 <div className="ms-Grid-row footer">
                 <div className="ms-Grid-col ms-sm12 ms-md4 ms-lg6 ms-mdPush8">
                   <Stack horizontal>
-                      <Button button = { { text : "Enviar solicitud", buttonStyle: ButtonStyle.PrimaryButton, onClick : onAccept }} />
+                        <SubspaceProvider mapState={(state: IIOIPStore) => { return { button: state.btnLeadReceived }; }} >
+                          <ButtonLead />
+                        </SubspaceProvider>
                       <Button button = { { text : "Cancelar", buttonStyle: ButtonStyle.DefaultButton, onClick : onCancel }}  />
                   </Stack>
                 </div>

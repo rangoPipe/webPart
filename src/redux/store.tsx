@@ -13,7 +13,7 @@ import modal from "./reducers/general/modal/modal";
 import dropdown from "./reducers/general/dropdown/dropdown";
 
 import * as namespace from "./namespace";
-import { LendingNameSpace, SendedNameSpace, ReceivedNameSpace } from "../enum/lending/lendingEnum";
+import { SearchNameSpace, SendedNameSpace, ReceivedNameSpace, LendingNameSpace, PaybackNameSpace } from "../enum/lending/lendingEnum";
 
 const reducer = combineReducers<any>({
     context: namespaced(namespace.contextNs)(context),
@@ -30,27 +30,42 @@ const reducer = combineReducers<any>({
     modal: namespaced(namespace.modalNS)(modal),
 
     //Lending-Search
-    detailListSearch: namespaced( LendingNameSpace.detailListSearch )(detailList),
-    dropDownSectionSearch: namespaced( LendingNameSpace.dropDownSectionSearch )(dropdown),
-    dropDownSubsectionSearch: namespaced( LendingNameSpace.dropDownSubsectionSearch )(dropdown),
-    dropDownSerieSearch: namespaced( LendingNameSpace.dropDownSerieSearch )(dropdown),
-    dropDownSubserieSearch: namespaced( LendingNameSpace.dropDownSubserieSearch )(dropdown),
-    buttonSearchSearch: namespaced( LendingNameSpace.buttonSearchSearch )(button),
-    buttonCancelSearch: namespaced( LendingNameSpace.buttonCancelSearch )(button),
-    buttonLendSearch: namespaced( LendingNameSpace.buttonLendSearch )(button),
-    modalSearch: namespaced( LendingNameSpace.modalSearch )(modal),
-    textAreaSearch: namespaced( LendingNameSpace.textAreaSearch )(textField),
-    messageBarSearch: namespaced( LendingNameSpace.messageBarSearch )(messageBar),
+    detailListSearch: namespaced( SearchNameSpace.detailListSearch )(detailList),
+    dropDownSectionSearch: namespaced( SearchNameSpace.dropDownSectionSearch )(dropdown),
+    dropDownSubsectionSearch: namespaced( SearchNameSpace.dropDownSubsectionSearch )(dropdown),
+    dropDownSerieSearch: namespaced( SearchNameSpace.dropDownSerieSearch )(dropdown),
+    dropDownSubserieSearch: namespaced( SearchNameSpace.dropDownSubserieSearch )(dropdown),
+    buttonSearchSearch: namespaced( SearchNameSpace.buttonSearchSearch )(button),
+    buttonCancelSearch: namespaced( SearchNameSpace.buttonCancelSearch )(button),
+    buttonLendSearch: namespaced( SearchNameSpace.buttonLendSearch )(button),
+    modalSearch: namespaced( SearchNameSpace.modalSearch )(modal),
+    textAreaSearch: namespaced( SearchNameSpace.textAreaSearch )(textField),
+    messageBarSearch: namespaced( SearchNameSpace.messageBarSearch )(messageBar),
 
-    //Sended-Request    
+    //Lending-Sended-Request    
     detailListSended: namespaced( SendedNameSpace.detailListSended )(detailList),
+    commandBarSended: namespaced( SendedNameSpace.commandBarSended )(commadBar),
+    modalSended: namespaced( SendedNameSpace.modalSended )(modal),
+    dialogSended: namespaced( SendedNameSpace.dialogSended )(dialog),
 
-    //Received-Request
+    //Lending-Received-Request
     detailListReceived: namespaced( ReceivedNameSpace.detailListReceived )(detailList),
     commandBarReceived: namespaced( ReceivedNameSpace.commandBarReceived )(commadBar),
     modalReceived: namespaced( ReceivedNameSpace.modalReceived )(modal),
     textAreaReceived: namespaced( ReceivedNameSpace.textAreaReceived )(textField),
     messageBarReceived: namespaced( ReceivedNameSpace.messageBarReceived )(messageBar),
+    choiceGroupReceived: namespaced( ReceivedNameSpace.choiceGroupReceived )(choiceGroup),
+    btnLeadReceived: namespaced( ReceivedNameSpace.btnLeadReceived )(button),
+
+    //Lending-Lending
+    detailListLending: namespaced( LendingNameSpace.detailListLending )(detailList),
+    commandBarLending: namespaced( LendingNameSpace.commandBarLending )(commadBar),
+    dialogLending: namespaced( LendingNameSpace.dialogLending )(dialog),
+
+    //Lending-Payback
+    detailListPayback: namespaced( PaybackNameSpace.detailListPayback )(detailList),
+    commandBarPayback: namespaced( PaybackNameSpace.commandBarPayback )(commadBar),
+    dialogPayback: namespaced( PaybackNameSpace.dialogPayback )(dialog),
 });
 
 const store = createStore(reducer);

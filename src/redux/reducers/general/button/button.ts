@@ -1,4 +1,4 @@
-import { createButton, hideButton } from "../../../actions/general/button/_actionName";
+import { createButton, hideButton, changeText } from "../../../actions/general/button/_actionName";
 import { IAction } from "../../../namespace";
 import { IButtonProps, ButtonStyle } from "./IButtonProps";
 
@@ -26,6 +26,12 @@ function reducer(state = defaultState, { type, payload }:IAction) : IButtonProps
             return {
                 ...state,
                 hidden : payload
+            };
+        }        
+        case changeText: {                                  
+            return {
+                ...state,
+                text : payload
             };
         }
         

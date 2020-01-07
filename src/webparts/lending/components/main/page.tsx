@@ -5,11 +5,11 @@ import ILendingMainProps from "./ILendingMainProps";
 
 import SendRequest from "../sendedRequest";
 import ReceivedRequest from "../receivedRequest";
-import Devolution from "../devolution";
+import Payback from "../payback";
 import Lending from "../lending";
 import Search from "../search";
 
-import { detailList3Ns, detailList4Ns, IIOIPStore } from "../../../../redux/namespace";
+import { IIOIPStore } from "../../../../redux/namespace";
 import { SubspaceProvider } from "react-redux-subspace";
 
 export default function Page(props:ILendingMainProps) {
@@ -37,7 +37,7 @@ export default function Page(props:ILendingMainProps) {
                       <SubspaceProvider
                         mapState={(state: IIOIPStore) => {
                           return {
-                            detailList: state.detailListSearch,
+                            detailListSearch: state.detailListSearch,
                             dropDownSectionSearch: state.dropDownSectionSearch,
                             dropDownSubsectionSearch: state.dropDownSubsectionSearch,
                             dropDownSerieSearch: state.dropDownSerieSearch,
@@ -65,7 +65,13 @@ export default function Page(props:ILendingMainProps) {
                 <div className="ms-Grid" dir="ltr">
                   <div className="ms-Grid-row">
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
-                      <SubspaceProvider mapState={(state: IIOIPStore) => { return { detailList: state.detailListSended }; }}>                        
+                      <SubspaceProvider mapState={(state: IIOIPStore) => { 
+                        return { 
+                          detailListSended: state.detailListSended,
+                          commandBarSended: state.commandBarSended,
+                          modalSended : state.modalSended,
+                          dialogSended : state.dialogSended
+                          }; }}>                        
                           <SendRequest />
                       </SubspaceProvider>
                     </div>
@@ -80,13 +86,15 @@ export default function Page(props:ILendingMainProps) {
                 <div className="ms-Grid" dir="ltr">
                   <div className="ms-Grid-row">
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
-                      <SubspaceProvider mapState={(state: IIOIPStore) => { 
+                      <SubspaceProvider mapState={(state: IIOIPStore) => {
                           return { 
-                            detailList: state.detailListReceived,
-                            commandBar: state.commandBarReceived,
+                            detailListReceived: state.detailListReceived,
+                            commandBarReceived: state.commandBarReceived,
                             modalReceived: state.modalReceived,
                             messageBarReceived: state.messageBarReceived,
                             textAreaReceived: state.textAreaReceived,
+                            choiceGroupReceived: state.choiceGroupReceived,
+                            btnLeadReceived : state.btnLeadReceived
                             }; }}>                        
                         <ReceivedRequest/>
                       </SubspaceProvider>
@@ -102,20 +110,34 @@ export default function Page(props:ILendingMainProps) {
                 <div className="ms-Grid" dir="ltr">
                   <div className="ms-Grid-row">
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
-                        <Devolution namespace={detailList3Ns} />
+                    <SubspaceProvider mapState={(state: IIOIPStore) => {
+                          return { 
+                            detailListPayback: state.detailListPayback,
+                            commandBarPayback: state.commandBarPayback,
+                            dialogPayback: state.dialogPayback,
+                            }; }}>                        
+                        <Payback/>
+                      </SubspaceProvider>
                     </div>
                   </div>
                 </div>
               </PivotItem>
               <PivotItem
-                headerText="Prestamos"
+                headerText="Préstamos"
                 itemKey="lendings"
                 key="lendings"
               >
                 <div className="ms-Grid" dir="ltr">
                   <div className="ms-Grid-row">
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
-                        <Lending namespace={detailList4Ns} />
+                    <SubspaceProvider mapState={(state: IIOIPStore) => {
+                          return { 
+                            detailListLending: state.detailListLending,
+                            commandBarLending: state.commandBarLending,
+                            dialogLending : state.dialogLending
+                            }; }}>                        
+                        <Lending/>
+                      </SubspaceProvider>
                     </div>
                   </div>
                 </div>

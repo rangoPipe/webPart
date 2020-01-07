@@ -15,19 +15,24 @@ export default function Page(props:IReceivedRequestProps) {
     <Stack>
         <div className="ms-Grid-row">
         <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
-          <SubspaceProvider mapState={(state: IIOIPStore) => { return { commandBar: state.commandBar }; }} >
+          <SubspaceProvider mapState={(state: IIOIPStore) => { return { commandBar: state.commandBarReceived }; }} >
             <CommandBar />
           </SubspaceProvider>
         </div>
         <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
-          <SubspaceProvider mapState={(state: IIOIPStore) => { return { detailList: state.detailList }; }} >
+          <SubspaceProvider mapState={(state: IIOIPStore) => { return { detailList: state.detailListReceived }; }} >
             <DetailList />
           </SubspaceProvider>
         </div>
       </div>
       { modalVisible 
          ?  <SubspaceProvider mapState={(state: IIOIPStore) => {
-              return { modal: state.modalReceived, textAreaReceived : state.textAreaReceived, messageBarReceived: state.messageBarReceived }; }} >
+              return { 
+                modal: state.modalReceived, 
+                textAreaReceived : state.textAreaReceived, 
+                messageBarReceived: state.messageBarReceived,
+                choiceGroupReceived : state.choiceGroupReceived,
+                btnLeadReceived: state.btnLeadReceived }; }} >
               <Modal />
             </SubspaceProvider>
          : null

@@ -1,10 +1,11 @@
-import { createChoiceGroup } from "../../../actions/general/choiceGroup/_actionName";
+import { createChoiceGroup, selectChoiceGroup } from "../../../actions/general/choiceGroup/_actionName";
 import { IAction } from "../../../namespace";
 import { IChoiceGroupProps } from "./IChoiceGroupProps";
 
 const defaultState:IChoiceGroupProps = {
     defaultSelectedKey:"",
-    options:[]
+    options:[],
+    optionSelected: undefined
 };
 
 function reducer(state = defaultState, { type, payload }:IAction) : IChoiceGroupProps {    
@@ -13,6 +14,12 @@ function reducer(state = defaultState, { type, payload }:IAction) : IChoiceGroup
             return {
                 ...state,
                 ...payload
+            };
+        }
+        case selectChoiceGroup: {                                  
+            return {
+                ...state,
+                optionSelected: payload
             };
         }
         default:

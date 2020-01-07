@@ -1,3 +1,5 @@
-export default interface ILendingProps {
-    namespace?:string;
+export interface ILendingState{
+}
+
+export interface ILendingProps extends ILendingState {
 }

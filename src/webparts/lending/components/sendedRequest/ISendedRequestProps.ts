@@ -1,2 +1,8 @@
-export default interface ISendedRequestProps {
+export interface ISendedRequestState {
+    modalVisible?: boolean;
 }
+
+export interface ISendedRequestProps extends ISendedRequestState {
+
+}
+
