@@ -5,7 +5,9 @@ export enum EnumEstadoPrestamo
     Rechazado = 3,
     Prestado = 4,
     Cancelado = 5,
-    Devolver = 6
+    Devolver = 6,
+    Devuelto = 7,
+    Renovado = 8
 }
 
 export enum SearchNameSpace {
@@ -47,6 +49,9 @@ export enum LendingNameSpace {
     detailListLending = "detailListLending",
     commandBarLending = "commandBarLending",
     dialogLending = "dialogLending",
+    modalLending = "modalLending",
+    textAreaLending = "textAreaLending",
+    messageBarLending = "messageBarLending",
 }
 
 export enum PaybackNameSpace {
@@ -54,4 +59,19 @@ export enum PaybackNameSpace {
     detailListPayback = "detailListPayback",
     commandBarPayback = "commandBarPayback",
     dialogPayback = "dialogPayback",
+}
+
+export enum ReportNameSpace {    
+    context = "context",
+    detailListReport = "detailListReport",
+    buttonSearchReport = "buttonSearchReport",
+    buttonCancelReport = "buttonCancelReport",
+    datePickerStartReport = "datePickerStartReport",
+    datePickerEndReport = "datePickerEndReport",
+    chkSendedReport = "chkSendedReport",
+    chkRequestReport = "chkRequestReport",
+    chkAcceptedReport = "chkAcceptedReport",
+    chkRejectedReport = "chkRejectedReport",
+    chkLendedReport = "chkLendedReport",
+    chkPaybackReport = "chkPaybackReport",
 }

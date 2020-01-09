@@ -2,8 +2,8 @@ import { IChoiceGroupProps } from "../../../../redux/reducers/general/choiceGrou
 import { ITextFieldProps } from "../../../../redux/reducers/general/textField/ITextFieldProps";
 
 export interface ISearchState {
-    sectionVisible:SectionVisibleEnum;
-    resultVisible:boolean;
+    sectionVisible?:SectionVisibleEnum;
+    resultVisible?:boolean;
     modalVisible?:boolean;
 
     noRecord?:string;

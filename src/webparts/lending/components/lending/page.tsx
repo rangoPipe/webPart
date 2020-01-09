@@ -7,8 +7,10 @@ import { IIOIPStore } from "../../../../redux/namespace";
 import DetailListGeneral from "../../../../general/detailList";
 import CommandBar from "../../../../general/commandBar";
 import Dialog from "../../../../general/dialog";
+import Modal from "../../../../general/modal";
 
 export default function Page(props:ILendingProps) {
+  const { modalVisible } = props;  
     return (
     <Stack>
       <div className="ms-Grid-row">
@@ -27,6 +29,13 @@ export default function Page(props:ILendingProps) {
       <SubspaceProvider mapState={(state: IIOIPStore) => { return { dialog: state.dialogLending }; }} >
         <Dialog />
       </SubspaceProvider>
+      { modalVisible 
+         ?  <SubspaceProvider mapState={(state: IIOIPStore) => { 
+              return { modal: state.modalLending, textField : state.textAreaLending, messageBar: state.messageBarLending }; }} >
+              <Modal />
+            </SubspaceProvider>
+         : null
+         }
     </Stack>
     );
 }

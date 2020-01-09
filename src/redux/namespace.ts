@@ -8,6 +8,8 @@ import { IButtonProps } from "./reducers/general/button/IButtonProps";
 import { IChoiceGroupProps } from "./reducers/general/choiceGroup/IChoiceGroupProps";
 import { IDropdownProps } from "./reducers/general/dropdown/IDropdownProps";
 import { IModalProps } from "./reducers/general/modal/IModalProps";
+import { IDatePickerProps } from "./reducers/general/datePicker/IDatePickerProps";
+import { ICheckboxProps } from "./reducers/general/checkbox/ICheckboxProps";
 
 export const contextNs:string = "context";
 export const detailListNs:string = "detailList";
@@ -73,6 +75,16 @@ export interface IIOIPStoreGeneral {
      * Almacena las propiedades nativas y genericas para el componente general de modal de UiFabric
      */
     modal:IModalProps;
+
+    /**
+     * Almacena las propiedades nativas y genericas para el componente general de datePicker de UiFabric
+     */
+    datePicker:IDatePickerProps;
+
+    /**
+     * Almacena las propiedades nativas y genericas para el componente general de checkbox de UiFabric
+     */
+    checkbox:ICheckboxProps;
 }
 
 
@@ -109,11 +121,27 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
     detailListLending:        IDetailListProps;
     commandBarLending:        ICommandBarProps;
     dialogLending:            IDialogProps;
+    modalLending:             IModalProps;
+    textAreaLending:          ITextFieldProps;
+    messageBarLending:        IMessageBarProps;
 
     //Lending - Payback 
     detailListPayback:        IDetailListProps;
     commandBarPayback:        ICommandBarProps;
     dialogPayback:            IDialogProps;
+
+    //Lending - Report 
+    detailListReport:         IDetailListProps;
+    buttonSearchReport:       IButtonProps;
+    buttonCancelReport:       IButtonProps;
+    datePickerStartReport:    IDatePickerProps;
+    datePickerEndReport:      IDatePickerProps;
+    chkSendedReport:          ICheckboxProps;
+    chkRequestReport:         ICheckboxProps;
+    chkAcceptedReport:        ICheckboxProps;
+    chkRejectedReport:        ICheckboxProps;
+    chkLendedReport:          ICheckboxProps;
+    chkPaybackReport:         ICheckboxProps;
 }
 
 export interface IAction {

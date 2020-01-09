@@ -11,9 +11,11 @@ import button from "./reducers/general/button/button";
 import choiceGroup from "./reducers/general/choiceGroup/choiceGroup";
 import modal from "./reducers/general/modal/modal";
 import dropdown from "./reducers/general/dropdown/dropdown";
+import datePicker from "./reducers/general/datePicker/datePicker";
+import checkbox from "./reducers/general/checkbox/checkbox";
 
 import * as namespace from "./namespace";
-import { SearchNameSpace, SendedNameSpace, ReceivedNameSpace, LendingNameSpace, PaybackNameSpace } from "../enum/lending/lendingEnum";
+import { SearchNameSpace, SendedNameSpace, ReceivedNameSpace, LendingNameSpace, PaybackNameSpace, ReportNameSpace } from "../enum/lending/lendingEnum";
 
 const reducer = combineReducers<any>({
     context: namespaced(namespace.contextNs)(context),
@@ -61,11 +63,27 @@ const reducer = combineReducers<any>({
     detailListLending: namespaced( LendingNameSpace.detailListLending )(detailList),
     commandBarLending: namespaced( LendingNameSpace.commandBarLending )(commadBar),
     dialogLending: namespaced( LendingNameSpace.dialogLending )(dialog),
+    modalLending: namespaced( LendingNameSpace.modalLending )(modal),
+    textAreaLending: namespaced( LendingNameSpace.textAreaLending )(textField),
+    messageBarLending: namespaced( LendingNameSpace.messageBarLending )(messageBar),
 
     //Lending-Payback
     detailListPayback: namespaced( PaybackNameSpace.detailListPayback )(detailList),
     commandBarPayback: namespaced( PaybackNameSpace.commandBarPayback )(commadBar),
     dialogPayback: namespaced( PaybackNameSpace.dialogPayback )(dialog),
+
+    //Lending-Report
+    detailListReport: namespaced( ReportNameSpace.detailListReport )(detailList),
+    buttonSearchReport: namespaced( ReportNameSpace.buttonSearchReport )(button),
+    buttonCancelReport: namespaced( ReportNameSpace.buttonCancelReport )(button),
+    datePickerStartReport: namespaced( ReportNameSpace.datePickerStartReport )(datePicker),
+    datePickerEndReport: namespaced( ReportNameSpace.datePickerEndReport )(datePicker),
+    chkSendedReport: namespaced( ReportNameSpace.chkSendedReport )(checkbox),
+    chkRequestReport: namespaced( ReportNameSpace.chkRequestReport )(checkbox),
+    chkAcceptedReport: namespaced( ReportNameSpace.chkAcceptedReport )(checkbox),
+    chkRejectedReport: namespaced( ReportNameSpace.chkRejectedReport )(checkbox),
+    chkLendedReport: namespaced( ReportNameSpace.chkLendedReport )(checkbox),
+    chkPaybackReport: namespaced( ReportNameSpace.chkPaybackReport )(checkbox)
 });
 
 const store = createStore(reducer);

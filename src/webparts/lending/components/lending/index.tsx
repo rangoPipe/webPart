@@ -1,10 +1,11 @@
 import React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
-import { IColumn, Selection, ICommandBarItemProps, SelectionMode, DialogType, Stack, PrimaryButton, DefaultButton } from "office-ui-fabric-react";
+import { IColumn, Selection, ICommandBarItemProps, SelectionMode, DialogType, Stack, PrimaryButton, DefaultButton, IconButton, MessageBarType } from "office-ui-fabric-react";
 import { subspace } from "redux-subspace";
 
 import Page from "./page";
+import Content from "./contentModal";
 
 import { BaseService } from "../../../../common/classes/baseService";
 import { apiTransferencia } from "../../../../common/connectionString";
@@ -18,6 +19,10 @@ import { LendingDTO, LendingResultDTO, LendingResultFilter } from "../../../../i
 import { LendingNameSpace, EnumEstadoPrestamo } from "../../../../enum/lending/lendingEnum";
 import { createCommandBar } from "../../../../redux/actions/general/commandBar/_actionName";
 import { createDialog, hideDialog } from "../../../../redux/actions/general/dialog/_actionName";
+import { contentStyles, iconButtonStyles } from "../../../../common/classes/style";
+import { createModal, createContent } from "../../../../redux/actions/general/modal/_actionName";
+import { hideMessageBar } from "../../../../redux/actions/general/messageBar/_actionName";
+import { createTextField, changeTextField } from "../../../../redux/actions/general/textField/_actionName";
 
 
 class LendingClass extends React.Component<ILendingProps, ILendingState>  {
@@ -25,12 +30,19 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
   /** @private */ private _detailListController = subspace( (state: IIOIPStore) => state.detailListLending, LendingNameSpace.detailListLending)(store);
   /** @private */ private _commandBarController = subspace( (state: IIOIPStore) => state.commandBarLending, LendingNameSpace.commandBarLending)(store);
   /** @private */ private _dialogController = subspace( (state: IIOIPStore) => state.dialogLending, LendingNameSpace.dialogLending)(store);
+  /** @private */ private _modalController = subspace( (state: IIOIPStore) => state.modalLending, LendingNameSpace.modalLending)(store);
+  /** @private */ private _messageBarController = subspace( (state: IIOIPStore) => state.messageBarLending, LendingNameSpace.messageBarLending)(store);
+  /** @private */ private _textAreaController = subspace( (state: IIOIPStore) => state.textAreaLending, LendingNameSpace.textAreaLending)(store);
 
   private _http: BaseService = new BaseService();
   private _selection: Selection;
 
     constructor(props:ILendingProps) {
        super(props);
+
+       this.state = {
+         modalVisible : false
+       }
 
        this._selection = new Selection({
         onSelectionChanged: () => {
@@ -54,7 +66,17 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
          }
        });
 
+       this._textAreaController.dispatch({ type: createTextField, payload: {        
+        multiline: true,
+        label: "Observación renovación",
+        rows: 5,
+        onChange: (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+          this._textAreaController.dispatch({ type:changeTextField, payload: newValue});
+        }
+      }});
+
        this._loadData();
+       this._createModal();
     }
 
     private _loadColumns = ():IColumn[] => {
@@ -83,9 +105,21 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
           isResizable: true,
           data: "string",
           minWidth: 100,
-          maxWidth: 150,
+          maxWidth: 700,
           onRender: (item: LendingDTO) => {
             return <span>{item.nombre_expediente}</span>;
+          }
+        },
+        {
+          key: "requestDate",
+          name: "Fecha Solicitud",
+          fieldName: "requestDate",
+          isResizable: true,
+          data: "string",
+          minWidth: 100,
+          maxWidth:300,
+          onRender: (item: LendingDTO) => {
+            return <span>{moment(item.fecha_solicitud).format(dateFormat)}</span>;
           }
         },
         {
@@ -95,11 +129,51 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
           isResizable: true,
           data: "string",
           minWidth: 100,
+          maxWidth:300,
           onRender: (item: LendingDTO) => {
-            return <span>{moment(item.fecha_solicitud).format(dateFormat)}</span>;
+            return <span>{moment(item.fecha_devolucion).format(dateFormat)}</span>;
+          }
+        },
+        {
+          key: "state",
+          name: "Estado",
+          fieldName: "state",
+          isResizable: true,
+          data: "string",
+          minWidth: 100,
+          onRender: (item: LendingDTO) => {
+            return <span>{ item.estado }</span>;
           }
         }
       ];
+    }
+
+    private _createModal() {
+
+      const header:JSX.Element = (
+        <div className = { contentStyles.header } >
+          <span>Renovar préstamo</span>
+          <IconButton
+            styles = { iconButtonStyles }
+            iconProps={{ iconName: 'Cancel' }}
+            ariaLabel="Close popup modal"
+            onClick={ () => this._closeModal() }
+          />
+        </div>);
+  
+      this._modalController.dispatch({ type: createModal, payload: {
+        header,
+        isOpen: true,
+        onDismiss : () => this._closeModal()
+      }});
+    }
+
+    private _closeModal = (properties = {}) => {
+      this.setState({
+        ...this.state,
+        ...properties,
+        modalVisible: false
+      });
     }
 
     private _loadMenu = ():ICommandBarItemProps[] => {
@@ -110,7 +184,19 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
           iconName: "RenewalCurrent"
         },
         onClick: () => {
-          
+          const item:LendingDTO = this._detailListController.getState().selectedItems[0];
+          this._hideMessage(true);
+
+          this._modalController.dispatch({ 
+            type: createContent,
+             payload: 
+              <Content item = { item } onCancel = { () => this._closeModal() } onAccept = {() =>{ this._renew()  }} /> 
+            });
+
+          this.setState({
+            ...this.state,
+            modalVisible : true
+          });
         }
       },{
         key: "payBack",
@@ -146,30 +232,57 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
       this._dialogController.dispatch({type: hideDialog, payload: true });
     }
 
+    private _hideMessage =  ( showMessage, message = "", messageBarType = MessageBarType.error) => {
+      this._messageBarController.dispatch({ type: hideMessageBar, payload : {
+        messageBarType,
+        isMultiline: false,
+        value: message,
+        hideMessage: showMessage
+      }});
+    }
+
     private _payback = ():void => {
       let item:LendingDTO = this._detailListController.getState().selectedItems[0];
-      item.idEstado = EnumEstadoPrestamo.Devolver
-      item.observacion = "El usuario solicita el retorno del prestamo";
+      item = {...item, idEstado : EnumEstadoPrestamo.Devolver, observacion: "El usuario solicita el retorno del prestamo" };
+      this._sendRequest(item);
+    }
+
+    private _renew = ():void => {
+      let observacion:string = this._textAreaController.getState().value;
+      if(!observacion || observacion.length === 0) {
+        this._hideMessage(false, "El campo observación no puede estar vacio");
+        return;
+      }
+
+      let item:LendingDTO = this._detailListController.getState().selectedItems[0];
+      item = {...item, idEstado : EnumEstadoPrestamo.Renovado, observacion };
       this._sendRequest(item);
     }
 
     private _sendRequest = (item:LendingDTO):void => {        
       this._closeDialog();
+      this._hideMessage(true);
+      this._hideMessage(false, "Solicitando...", MessageBarType.warning );
       this._http.FetchPost(`${apiTransferencia}/Api/Lending/AproveLend`, item)
       .then((_response:LendingResultFilter) => {
         if(_response) {          
           if(_response.success) {
             this._loadData();
+            this._hideMessage(false, "Solicitud registrada exitosamente", MessageBarType.success );
+          }
+          else {            
+            this._hideMessage(false, _response.message );
           }
         }                   
       })
       .catch(err => {
-        console.log(err);       
+        console.log(err);  
+        this._hideMessage(false, err, MessageBarType.severeWarning );      
       });
     }
 
     public render(): JSX.Element {
-      return <Page />;
+      return <Page modalVisible = { this.state.modalVisible } />;
     }
 }
 

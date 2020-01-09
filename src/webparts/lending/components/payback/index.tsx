@@ -1,7 +1,7 @@
 import React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
-import { IColumn, Selection, ICommandBarItemProps, SelectionMode } from "office-ui-fabric-react";
+import { IColumn, Selection, ICommandBarItemProps, SelectionMode, DialogType, Stack, DefaultButton, PrimaryButton } from "office-ui-fabric-react";
 import { subspace } from "redux-subspace";
 
 import Page from "./page";
@@ -9,12 +9,13 @@ import { IPaybackProps, IPaybackState } from "./IPaybackProps";
 import { IIOIPStore } from "../../../../redux/namespace";
 import store from "../../../../redux/store";
 import { createDetailList, loadDetailList, selectRowItem } from "../../../../redux/actions/general/detailList/_actionName";
-import { LendingDTO, LendingResultDTO } from "../../../../interface/lending/lendingResult";
-import { PaybackNameSpace } from "../../../../enum/lending/lendingEnum";
+import { LendingDTO, LendingResultDTO, LendingResultFilter } from "../../../../interface/lending/lendingResult";
+import { PaybackNameSpace, EnumEstadoPrestamo } from "../../../../enum/lending/lendingEnum";
 
 import { BaseService } from "../../../../common/classes/baseService";
 import { apiTransferencia } from "../../../../common/connectionString";
 import { createCommandBar } from "../../../../redux/actions/general/commandBar/_actionName";
+import { createDialog, hideDialog } from "../../../../redux/actions/general/dialog/_actionName";
 
 
 class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
@@ -110,6 +111,18 @@ class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
           }
         },
         {
+          key: "requestDate",
+          name: "Fecha Solicitud",
+          fieldName: "requestDate",
+          isResizable: true,
+          data: "string",
+          minWidth: 100,
+          maxWidth:300,
+          onRender: (item: LendingDTO) => {
+            return <span>{moment(item.fecha_solicitud).format(dateFormat)}</span>;
+          }
+        },
+        {
           key: "devolutionDate",
           name: "Fecha Devolución",
           fieldName: "devolutionDate",
@@ -117,7 +130,7 @@ class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
           data: "string",
           minWidth: 100,
           onRender: (item: LendingDTO) => {
-            return <span>{moment(item.fecha_solicitud).format(dateFormat)}</span>;
+            return <span>{moment(item.fecha_devolucion).format(dateFormat)}</span>;
           }
         },
         {
@@ -131,8 +144,23 @@ class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
           onRender: (item: LendingDTO) => {
             return <span>{"campo pendiente"}</span>;
           }
+        },
+        {
+          key: "state",
+          name: "Estado",
+          fieldName: "state",
+          isResizable: true,
+          data: "string",
+          minWidth: 100,
+          onRender: (item: LendingDTO) => {
+            return <span>{ item.estado }</span>;
+          }
         }
       ];
+    }
+
+    private _closeDialog = ():void => {
+      this._dialogController.dispatch({type: hideDialog, payload: true });
     }
 
     private _loadMenu = ():ICommandBarItemProps[] => {
@@ -143,9 +171,37 @@ class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
           iconName: "CheckMark"
         },
         onClick: () => {
-          
+          this._dialogController.dispatch({type: createDialog, payload : {
+            hideDialog: false,
+            type: DialogType.largeHeader,
+            title: "Devolución",
+            subText: "Está seguro de recibir el préstamo ?",
+            footer: (<Stack horizontal horizontalAlign={"center"}  ><PrimaryButton onClick= {()=>{ this._comeback() } }>Aceptar</PrimaryButton> <DefaultButton onClick= {()=>{ this._closeDialog() } }>Cancelar</DefaultButton>  </Stack>)
+          }});
         }
       }]
+    }
+
+    private _comeback = ():void => {
+      let item:LendingDTO = this._detailListController.getState().selectedItems[0];
+      item.idEstado = EnumEstadoPrestamo.Devuelto
+      item.observacion = "El responsable acepta el retorno del prestamo";
+      this._sendRequest(item);
+    }
+
+    private _sendRequest = (item:LendingDTO):void => {        
+      this._closeDialog();
+      this._http.FetchPost(`${apiTransferencia}/Api/Lending/AproveLend`, item)
+      .then((_response:LendingResultFilter) => {
+        if(_response) {          
+          if(_response.success) {
+            this._loadData();
+          }
+        }                   
+      })
+      .catch(err => {
+        console.log(err);
+      });
     }
 
     public render(): JSX.Element {

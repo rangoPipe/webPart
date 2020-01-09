@@ -8,6 +8,7 @@ import ReceivedRequest from "../receivedRequest";
 import Payback from "../payback";
 import Lending from "../lending";
 import Search from "../search";
+import Report from "../report";
 
 import { IIOIPStore } from "../../../../redux/namespace";
 import { SubspaceProvider } from "react-redux-subspace";
@@ -28,7 +29,7 @@ export default function Page(props:ILendingMainProps) {
                 headerText="Buscar"
                 headerButtonProps={{
                   "data-order": 1,
-                  "data-title": "My Files Title"
+                  "data-title": "search"
                 }}
               >
                 <div className="ms-Grid" dir="ltr">
@@ -134,9 +135,40 @@ export default function Page(props:ILendingMainProps) {
                           return { 
                             detailListLending: state.detailListLending,
                             commandBarLending: state.commandBarLending,
-                            dialogLending : state.dialogLending
+                            dialogLending : state.dialogLending,
+                            modalLending: state.modalLending,
+                            messageBarLending: state.messageBarLending,
+                            textAreaLending: state.textAreaLending,
                             }; }}>                        
                         <Lending/>
+                      </SubspaceProvider>
+                    </div>
+                  </div>
+                </div>
+              </PivotItem>
+              <PivotItem
+                headerText="Reportes"
+                itemKey="reports"
+                key="reports"
+              >
+                <div className="ms-Grid" dir="ltr">
+                  <div className="ms-Grid-row">
+                    <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
+                    <SubspaceProvider mapState={(state: IIOIPStore) => {                      
+                          return {
+                            detailListReport: state.detailListReport,                           
+                            buttonSearchReport: state.buttonSearchReport,
+                            buttonCancelReport: state.buttonCancelReport,
+                            datePickerStartReport: state.datePickerStartReport,
+                            datePickerEndReport: state.datePickerEndReport,
+                            chkSendedReport: state.chkSendedReport,
+                            chkRequestReport: state.chkRequestReport,
+                            chkAcceptedReport: state.chkAcceptedReport,
+                            chkRejectedReport: state.chkRejectedReport,
+                            chkLendedReport: state.chkLendedReport,
+                            chkPaybackReport: state.chkPaybackReport,
+                            }; }}>                        
+                        <Report/>
                       </SubspaceProvider>
                     </div>
                   </div>
