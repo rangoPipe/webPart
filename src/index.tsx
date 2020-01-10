@@ -5,11 +5,12 @@ import { Provider } from 'react-redux'
 import store from './redux/store';
 
 import Lending from "./webparts/lending/components/main";
+import Owner from "./webparts/transfer/components/owner";
 initializeIcons();
 
 const page = (
 <Provider store={store}>
-    <Lending/>
+    <Owner/>
 </Provider>
 );
 

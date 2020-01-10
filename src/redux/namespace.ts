@@ -89,6 +89,14 @@ export interface IIOIPStoreGeneral {
 
 
 export interface IIOIPStore extends IIOIPStoreGeneral {
+    //Owner
+    contextOwner:            IContextProps;
+    detailListOwner:         IDetailListProps;
+    dialogOwner:             IDialogProps;
+    textAreaOwner:           ITextFieldProps;
+    messageBarOwner:         IMessageBarProps;
+    commandBarOwner:         ICommandBarProps;
+    
     //Lending - Search 
     detailListSearch:         IDetailListProps;
     dropDownSectionSearch:    IDropdownProps;
