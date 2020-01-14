@@ -18,7 +18,6 @@ import CommandBar from "../../../../general/commandBar";
  * @param {IOwnerProps} props Atributos del componente OwnerMain
  */
 function Page(props: IOwnerProps) {
-  const { commandBarVisible } = props;
   return (
     <div className="ms-Grid" dir="ltr">
       <div className="ms-Grid-row">
@@ -31,11 +30,9 @@ function Page(props: IOwnerProps) {
       </div>
       <div className="ms-Grid-row">
         <div className="ms-Grid-col ms-md12">
-          { commandBarVisible ? 
-            <SubspaceProvider mapState={(state: IIOIPStore) => {  return { detailList: state.detailListOwner };  }} >
+            <SubspaceProvider mapState={(state: IIOIPStore) => {  return { commandBar: state.commandBarOwner };  }} >
               <CommandBar />
             </SubspaceProvider>
-            : null }
         </div>
       </div>
       <div className="ms-Grid-row">
@@ -49,8 +46,8 @@ function Page(props: IOwnerProps) {
         mapState={(state: IIOIPStore) => {
           return {
             dialog: state.dialogOwner,
-            textField: state.textAreaOwner,
-            messageBar: state.messageBar
+            textAreaOwner: state.textAreaOwner,
+            messageBarOwner: state.messageBarOwner
           };
         }}  >
         <Dialog />

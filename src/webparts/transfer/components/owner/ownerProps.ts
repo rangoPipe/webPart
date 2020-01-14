@@ -1,5 +1,4 @@
 export interface IOwnerState {
-    commandBarVisible?:boolean;
 }
 
 export interface IOwnerProps extends IOwnerState {
