@@ -97,6 +97,22 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
     messageBarOwner:         IMessageBarProps;
     commandBarOwner:         ICommandBarProps;
     
+    //Archivist - Pending
+    contextPendingArchivist:   IContextProps;
+    detailListPendingArchivist:IDetailListProps;
+    dialogPendingArchivist:    IDialogProps;
+    textAreaPendingArchivist:  ITextFieldProps;
+    messageBarPendingArchivist:IMessageBarProps;
+    commandBarPendingArchivist:ICommandBarProps;
+
+    //Archivist - Approved
+    contextApprovedArchivist:   IContextProps;
+    detailListApprovedArchivist:IDetailListProps;
+
+    //Archivist - Rejected
+    contextRejectedArchivist:   IContextProps;
+    detailListRejectedArchivist:IDetailListProps;
+    
     //Lending - Search 
     detailListSearch:         IDetailListProps;
     dropDownSectionSearch:    IDropdownProps;

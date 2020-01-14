@@ -13,7 +13,7 @@ import { apiTransferencia } from "../../../../common/connectionString";
 import { createDetailList, loadDetailList, selectRowItem } from "../../../../redux/actions/general/detailList/_actionName";
 import { SendedNameSpace, EnumEstadoPrestamo } from "../../../../enum/lending/lendingEnum";
 import { IDetailListProps } from "../../../../redux/reducers/general/detailList/IDetailListProps";
-import { LendingDTO, LendingResultDTO, LendingResultFilter } from "../../../../interface/lending/lendingResult";
+import { LendingDTO, LendingResultDTO, LendingResult } from "../../../../interface/lending/lendingResult";
 import { BaseService } from "../../../../common/classes/baseService";
 import { ICommandBarProps } from "../../../../redux/reducers/general/commandBar/ICommandBarProps";
 import { createCommandBar } from "../../../../redux/actions/general/commandBar/_actionName";
@@ -309,7 +309,7 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
     private _sendRequest = (item:LendingDTO):void => {        
       this._closeDialog();
       this._http.FetchPost(`${apiTransferencia}/Api/Lending/AproveLend`, item)
-      .then((_response:LendingResultFilter) => {
+      .then((_response:LendingResult) => {
         if(_response) {          
           if(_response.success) {
             this._loadData();

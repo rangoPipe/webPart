@@ -1,7 +1,4 @@
-export interface LendingResult {
-    success:boolean;
-    message?:string;
-}
+import { IOIPResult } from "../IOIPResult";
 
 export interface LendingFilter {
     userName?:string;
@@ -37,10 +34,10 @@ export interface LendingDTO {
     tipo?:string;
 }
 
-export interface LendingResultFilter extends LendingResult {
+export interface LendingResult extends IOIPResult {
     result?: LendingFilter
 }
 
-export interface LendingResultDTO extends LendingResult {
+export interface LendingResultDTO extends IOIPResult {
     result?: LendingDTO[]
 }

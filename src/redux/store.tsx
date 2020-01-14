@@ -17,6 +17,7 @@ import checkbox from "./reducers/general/checkbox/checkbox";
 import * as namespace from "./namespace";
 import { SearchNameSpace, SendedNameSpace, ReceivedNameSpace, LendingNameSpace, PaybackNameSpace, ReportNameSpace } from "../enum/lending/lendingEnum";
 import { OwnerNameSpace } from "../enum/owner/ownerEnum";
+import { PendingNameSpace, ApprovedNameSpace, RejectedNameSpace } from "../enum/archivist/archivistEnum";
 
 const reducer = combineReducers<any>({
     context: namespaced(namespace.contextNs)(context),
@@ -39,6 +40,22 @@ const reducer = combineReducers<any>({
     messageBarOwner: namespaced( OwnerNameSpace.messageBarOwner )(messageBar),
     textAreaOwner: namespaced( OwnerNameSpace.textAreaOwner )(textField),
     commandBarOwner: namespaced( OwnerNameSpace.commandBarOwner )(commnadBar),
+
+    //Archivist-Pending
+    contextPendingArchivist: namespaced( PendingNameSpace.context )(context),
+    detailListPendingArchivist: namespaced( PendingNameSpace.detailList )(detailList),
+    dialogPendingArchivist: namespaced( PendingNameSpace.dialog )(dialog),
+    messageBarPendingArchivist: namespaced( PendingNameSpace.messageBar )(messageBar),
+    textAreaPendingArchivist: namespaced( PendingNameSpace.textArea )(textField),
+    commandBarPendingArchivist: namespaced( PendingNameSpace.commandBar )(commnadBar),
+
+    //Archivist-Approved
+    contextApprovedArchivist: namespaced( ApprovedNameSpace.context )(context),
+    detailListApprovedArchivist: namespaced( ApprovedNameSpace.detailList )(detailList),
+
+    //Archivist-Rejected
+    contextRejectedArchivist: namespaced( RejectedNameSpace.context )(context),
+    detailListRejectedArchivist: namespaced( RejectedNameSpace.detailList )(detailList),
 
     //Lending-Search
     detailListSearch: namespaced( SearchNameSpace.detailListSearch )(detailList),

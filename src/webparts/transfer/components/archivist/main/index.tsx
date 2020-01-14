@@ -2,9 +2,9 @@ import * as React from "react";
 import Page from "./page";
 
 /**
- * @class Clase LendingMain contenedor principal del propietario.
+ * @class Clase ArchivistMain contenedor principal del propietario.
  */
-export default class LendingMain extends React.Component { 
+export default class ArchivistMain extends React.Component { 
 
   /**
    * El metodo render() es requerido para generar el HTML.

@@ -15,7 +15,7 @@ import { IDropdownProps } from "../../../../redux/reducers/general/dropdown/IDro
 import { IDetailListProps } from "../../../../redux/reducers/general/detailList/IDetailListProps";
 
 import { BaseService } from "../../../../common/classes/baseService";
-import { LendingResultFilter, LendingFilter, LendingResultDTO, LendingDTO } from "../../../../interface/lending/lendingResult";
+import { LendingResult, LendingFilter, LendingResultDTO, LendingDTO } from "../../../../interface/lending/lendingResult";
 import { apiTransferencia } from "../../../../common/connectionString";
 
 
@@ -381,7 +381,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
   private _loadDropdown = () => {
     
     this._http.FetchPost(`${apiTransferencia}/Api/Lending/Filters`, this._lendingFilter)
-      .then((_response:LendingResultFilter) => {
+      .then((_response:LendingResult) => {
         if(_response) {          
           if(_response.success) {
 
@@ -469,7 +469,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
       }
       this._hideMessage(false, "Solicitando...", MessageBarType.warning );
       this._http.FetchPost(`${apiTransferencia}/Api/Lending/RequestLend`, requestLend)
-      .then((_response:LendingResultFilter) => {
+      .then((_response:LendingResult) => {
         if(_response) {          
           if(_response.success) {
             this._hideMessage(false, "Solicitud registrada exitosamente", MessageBarType.success );

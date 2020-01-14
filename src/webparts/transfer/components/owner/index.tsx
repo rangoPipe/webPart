@@ -20,9 +20,8 @@ import MessageBar from "../../../../general/messageBar";
 
 //Propios
 import { apiTransferencia } from "../../../../common/connectionString";
-import { MoveRecordDTO } from "../../../../interface/trasnfer/moveRecordDTO";
-import { ColumnRecordOwner, IOwnerProps, IOwnerState } from "./ownerProps";
-import { ApiRecordItem } from "../../../../common/classes/apiRecordItem";
+import { TransferFilter, TransferResultDTO, TransferDTO } from "../../../../interface/trasnfer/transferResult";
+import { ColumnRecordOwner, IOwnerProps, IOwnerState } from "./IownerProps";
 
 //import { OwnerMenu } from "./menu";
 import { OwnerNameSpace } from "../../../../enum/owner/ownerEnum";
@@ -31,6 +30,7 @@ import { SubspaceProvider } from "react-redux-subspace";
 import { createMessageBar } from "../../../../redux/actions/general/messageBar/_actionName";
 import { createDialog, hideDialog } from "../../../../redux/actions/general/dialog/_actionName";
 import { createTextField, changeTextField } from "../../../../redux/actions/general/textField/_actionName";
+import { IOIPResult } from "../../../../interface/IOIPResult";
 
 /**
  * @class Clase OwnerMain contenedor principal del propietario.
@@ -263,7 +263,7 @@ export default class OwnerMain extends React.Component<IOwnerProps, IOwnerState>
    * @event @private
    */
   private _onAcceptAprove = () => {
-    this._changeState(RecordState.AprobadoParaAC);
+    this._sendRequest(RecordState.AprobadoParaAC);
   }
 
   /**
@@ -277,66 +277,9 @@ export default class OwnerMain extends React.Component<IOwnerProps, IOwnerState>
       return;
     }
 
-    this._changeState(RecordState.PospuestoParaAC);
+    this._sendRequest(RecordState.PospuestoParaAC);
   }
 
-  /**
-   * Modifica el estado de los expedientes segun el estado.
-   * @param {RecordState} recordState Nuevo estado de los expedientes seleccionados.
-   * @event @private
-   */
-  private _changeState = async (recordState: RecordState) => {
-    try {
-      const { selectedItems } = this._detailListController.getState();
-
-      if (selectedItems.length === 0) {
-        this._showMessage( "Seleccione al menos un elemento", MessageBarType.info );
-        return;
-      }
-
-      this._createDialog("Procesando...", "Procesando información");
-
-      let body: MoveRecordDTO = {
-        Record: [],
-        IdUsuario: 1,
-        State: [recordState]
-      };
-
-      if (recordState === RecordState.PospuestoParaAC) {
-        body.Description = this._textFieldController.getState().value;
-      }
-
-      selectedItems.map((x: ColumnRecordOwner) => {
-        return body.Record!.push({
-          idExpediente: x.key
-        });
-      });
-
-      this._http.FetchPost(`${apiTransferencia}/Api/Record/MoveRecordExpired`, body)
-      .then((_response:any) => {
-        
-
-        if (_response.result) {
-          this._dialogController.dispatch({
-            type: createDialog,
-            payload: {
-              hideDialog: true
-            }
-          });
-          this._showMessage(_response.message, MessageBarType.success);
-          window.location.reload();
-        } else {
-          this._showMessage(_response.message, MessageBarType.error, true);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        this._showMessage(err, MessageBarType.error, true);    
-      });
-    } catch (error) {
-      this._showMessage(error, MessageBarType.error, true);
-    }
-  }
 
   /**
    * Retorna un arreglo de ICommandBarItemProps para el menu principal
@@ -434,13 +377,17 @@ export default class OwnerMain extends React.Component<IOwnerProps, IOwnerState>
    */
   private _loadData = async () => {
 
-    const body: MoveRecordDTO = {
-      State: [RecordState.ParaGestion]
+    const body: TransferFilter = {
+      state: [RecordState.ParaGestion]
     };
 
     this._http.FetchPost(`${apiTransferencia}/Api/Record/RecordExpired`, body)
-      .then((_response:any) => {
-        let data = _response.map((x: ApiRecordItem, i: number) => {
+      .then((_response:TransferResultDTO) => {
+        if(!_response.success) {
+          return;
+        }
+        
+        let data = _response.result.map((x: TransferDTO, i: number) => {
           return {
             count: i + 1,
             key: x.idExpediente,
@@ -457,8 +404,66 @@ export default class OwnerMain extends React.Component<IOwnerProps, IOwnerState>
       })
       .catch(err => {
         console.log(err);
-        this._detailListController.dispatch({ type: createDetailList, payload: { enableShimmer:false  } });        
+        this._detailListController.dispatch({ type: loadDetailList, payload: [] });        
       });
+  }
+
+  
+  /**
+   * Modifica el estado de los expedientes segun el estado.
+   * @param {RecordState} recordState Nuevo estado de los expedientes seleccionados.
+   * @event @private
+   */
+  private _sendRequest = async (recordState: RecordState) => {
+    try {
+      const { selectedItems } = this._detailListController.getState();
+
+      if (selectedItems.length === 0) {
+        this._showMessage( "Seleccione al menos un elemento", MessageBarType.info );
+        return;
+      }
+
+      this._createDialog("Procesando...", "Procesando información");
+
+      let body: TransferFilter = {
+        record: [],
+        state: [recordState]
+      };
+
+      if (recordState === RecordState.PospuestoParaAC) {
+        body.description = this._textFieldController.getState().value;
+      }
+
+      selectedItems.map((x: ColumnRecordOwner) => {
+        return body.record!.push({
+          idExpediente: parseInt(x.key)
+        });
+      });
+
+      this._http.FetchPost(`${apiTransferencia}/Api/Record/MoveRecordExpired`, body)
+      .then((_response:IOIPResult) => {        
+
+        if (_response.success) {
+          this._dialogController.dispatch({
+            type: createDialog,
+            payload: {
+              hideDialog: true
+            }
+          });
+          this._showMessage(_response.message, MessageBarType.success);
+          window.location.reload();
+        } else {
+          this._showMessage(_response.message, MessageBarType.error, true);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        this._showMessage(err, MessageBarType.error, true);    
+      });
+
+    } catch (error) {
+      this._showMessage(error, MessageBarType.error, true);
+    }
   }
 
   /**

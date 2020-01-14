@@ -16,7 +16,7 @@ import { IIOIPStore } from "../../../../redux/namespace";
 import store from "../../../../redux/store";
 import { IDetailListProps } from "../../../../redux/reducers/general/detailList/IDetailListProps";
 import { ReceivedNameSpace } from "../../../../enum/lending/lendingEnum";
-import { LendingDTO, LendingResultDTO, LendingResultFilter } from "../../../../interface/lending/lendingResult";
+import { LendingDTO, LendingResultDTO, LendingResult } from "../../../../interface/lending/lendingResult";
 
 
 import { hideMessageBar } from "../../../../redux/actions/general/messageBar/_actionName";
@@ -300,7 +300,7 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
       this._hideMessage(false, "Procesando...", MessageBarType.warning );
 
       this._http.FetchPost(`${apiTransferencia}/Api/Lending/AproveLend`, requestLend)
-      .then((_response:LendingResultFilter) => {
+      .then((_response:LendingResult) => {
         if(_response) {          
           if(_response.success) {
             this._hideMessage(false, "Proceso finalizado exitosamente", MessageBarType.success );

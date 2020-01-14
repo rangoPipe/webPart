@@ -15,7 +15,7 @@ import { IIOIPStore } from "../../../../redux/namespace";
 import store from "../../../../redux/store";
 
 import { createDetailList, loadDetailList, selectRowItem } from "../../../../redux/actions/general/detailList/_actionName";
-import { LendingDTO, LendingResultDTO, LendingResultFilter } from "../../../../interface/lending/lendingResult";
+import { LendingDTO, LendingResultDTO, LendingResult } from "../../../../interface/lending/lendingResult";
 import { LendingNameSpace, EnumEstadoPrestamo } from "../../../../enum/lending/lendingEnum";
 import { createCommandBar } from "../../../../redux/actions/general/commandBar/_actionName";
 import { createDialog, hideDialog } from "../../../../redux/actions/general/dialog/_actionName";
@@ -264,7 +264,7 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
       this._hideMessage(true);
       this._hideMessage(false, "Solicitando...", MessageBarType.warning );
       this._http.FetchPost(`${apiTransferencia}/Api/Lending/AproveLend`, item)
-      .then((_response:LendingResultFilter) => {
+      .then((_response:LendingResult) => {
         if(_response) {          
           if(_response.success) {
             this._loadData();

@@ -6,7 +6,7 @@ import { IIOIPStore } from "../../../../redux/namespace";
 
 //Propios
 import DetailListGeneral from "../../../../general/detailList";
-import { IOwnerProps } from "./ownerProps";
+import { IOwnerProps } from "./IOwnerProps";
 import "./style.css";
 
 //Componentes

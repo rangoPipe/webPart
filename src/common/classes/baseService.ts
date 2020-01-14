@@ -32,7 +32,7 @@ export class BaseService {
           });*/
       }
 
-      public async FetchPost(url:string, body:object = {}){
+      public async FetchPost(url:string, body:object = {}) {
         const requestHeaders: Headers = new Headers();
         requestHeaders.append('Content-type', 'application/json');
         requestHeaders.append("Accept","application/json");
