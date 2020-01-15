@@ -17,10 +17,8 @@ import { RejectedNameSpace } from "../../../../../enum/archivist/archivistEnum";
 
 import { selectRowItem, createDetailList, loadDetailList } from "../../../../../redux/actions/general/detailList/_actionName";
 
-
-import { MoveRecordDTO } from "../../../../../interface/trasnfer/moveRecordDTO";
 import { RecordState } from "../../../../../enum/RecordState";
-import { TransferResultDTO, TransferDTO } from "../../../../../interface/trasnfer/transferResult";
+import { TransferResultDTO, TransferDTO, TransferFilter } from "../../../../../interface/trasnfer/transferResult";
 
 
 class RejectedClass extends React.Component<IRejectedProps, IRejectedState>  {
@@ -193,8 +191,8 @@ class RejectedClass extends React.Component<IRejectedProps, IRejectedState>  {
    */
   private _loadData = (recordState: RecordState): void => {
     try {
-      let body: MoveRecordDTO = {
-        State: [recordState]
+      let body: TransferFilter = {
+        state: [recordState]
       };
 
       this._http.FetchPost(`${apiTransferencia}/Api/Record/RecordExpired`, body).then((_response:TransferResultDTO) => {      

@@ -25,9 +25,8 @@ import { createMessageBar } from "../../../../../redux/actions/general/messageBa
 
 import TextField from "../../../../../general/textField";
 import MessageBar from "../../../../../general/messageBar";
-import { MoveRecordDTO } from "../../../../../interface/trasnfer/moveRecordDTO";
 import { RecordState } from "../../../../../enum/RecordState";
-import { TransferResultDTO, TransferDTO, TransferResult } from "../../../../../interface/trasnfer/transferResult";
+import { TransferResultDTO, TransferDTO, TransferResult, TransferFilter } from "../../../../../interface/trasnfer/transferResult";
 
 
 class PendingClass extends React.Component<IPendingProps, IPendingState>  {
@@ -458,8 +457,8 @@ class PendingClass extends React.Component<IPendingProps, IPendingState>  {
    */
   private _loadData = (recordState: RecordState): void => {
     try {
-      let body: MoveRecordDTO = {
-        State: [recordState]
+      let body: TransferFilter = {
+        state: [recordState]
       };
 
       this._http.FetchPost(`${apiTransferencia}/Api/Record/RecordExpired`, body).then((_response:TransferResultDTO) => {      
@@ -493,17 +492,17 @@ class PendingClass extends React.Component<IPendingProps, IPendingState>  {
 
       this._createDialog("Procesando...", "Procesando información");
 
-      let body: MoveRecordDTO = {
-        Record: [],
-        State: [recordState]
+      let body: TransferFilter = {
+        record: [],
+        state: [recordState]
       };
 
       if (recordState === RecordState.RechazadoEnAC) {
-        body.Description = this._textAreaController.getState().value;
+        body.description = this._textAreaController.getState().value;
       }
 
       selectedItems.map((x: ColumnRecordArchivist) => {
-        return body.Record!.push({
+        return body.record!.push({
           idExpediente: x.key
         });
       });
