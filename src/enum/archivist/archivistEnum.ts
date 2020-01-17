@@ -1,5 +1,5 @@
 export enum PendingNameSpace {
-    context = "context",
+    context = "contextPendingArchivist",
     detailList = "detailListPendingArchivist",
     textArea = "textAreaPendingArchivist",
     messageBar = "messageBarPendingArchivist",
@@ -8,11 +8,11 @@ export enum PendingNameSpace {
 }
 
 export enum ApprovedNameSpace {  
-    context = "context",
+    context = "contextApprovedArchivist",
     detailList = "detailListApprovedArchivist",
 }
 
 export enum RejectedNameSpace {  
-    context = "context",
+    context = "contextRejectedArchivist",
     detailList = "detailListRejectedArchivist",
 }

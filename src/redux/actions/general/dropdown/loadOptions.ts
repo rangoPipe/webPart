@@ -8,4 +8,4 @@ const loadOptions = (payload:string):IAction => {
     };
 };
 
-export default loadOptions
+export default loadOptions;

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { subspace, Subspace } from "redux-subspace";
@@ -8,7 +8,6 @@ import { IChoiceGroupProps } from "../../../../redux/reducers/general/choiceGrou
 import { contentStyles, iconButtonStyles } from "../../../../common/classes/style";
 import { EnumEstadoPrestamo } from "../../../../enum/lending/lendingEnum";
 import { BaseService } from "../../../../common/classes/baseService";
-import { apiTransferencia } from "../../../../common/connectionString";
 import Page from "./page";
 
 import { IReceivedRequestProps, IReceivedRequestState } from "./IReceivedRequestProps";
@@ -29,9 +28,10 @@ import { createModal, createContent } from "../../../../redux/actions/general/mo
 import { ButtonStyle } from "../../../../redux/reducers/general/button/IButtonProps";
 
 import Content from "./contentModal";
+import { IContextProps } from "../../../../redux/reducers/common/IContextProps";
 
 class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IReceivedRequestState>  {
-
+  private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextReceived, ReceivedNameSpace.context )(store);
   private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListReceived, ReceivedNameSpace.detailListReceived )(store);
   private _commandBarController:Subspace<ICommandBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.commandBarReceived, ReceivedNameSpace.commandBarReceived )(store);
   
@@ -41,7 +41,7 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
   private _choiceGruopController:Subspace<IChoiceGroupProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.choiceGroupReceived, ReceivedNameSpace.choiceGroupReceived )(store);
   private _btnLeadController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.btnLeadReceived, ReceivedNameSpace.btnLeadReceived )(store);
 
-  private _http: BaseService = new BaseService();
+  private _http: BaseService = new BaseService(ReceivedNameSpace.context);
   private _selection: Selection;
 
   private _aproveLeadbtn:string = "Aprobar";
@@ -52,7 +52,7 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
 
        this.state = {
          modalVisible : false
-       }
+       };
 
       this._selection = new Selection({
         onSelectionChanged: () => {
@@ -112,7 +112,7 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
         text: "Aceptar",
         onClick: () => {
           this._btnLeadController.dispatch({ type: changeText, payload: this._aproveLeadbtn });
-          this._choiceGruopController.dispatch({type: selectChoiceGroup, payload:  EnumEstadoPrestamo.Aprobado })
+          this._choiceGruopController.dispatch({type: selectChoiceGroup, payload:  EnumEstadoPrestamo.Aprobado });
         }
       },{
         key: "rejectChoice",
@@ -120,7 +120,7 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
         text: "Rechazar",
         onClick: () => {
           this._btnLeadController.dispatch({ type: changeText, payload: this._rejectLeadbtn });          
-          this._choiceGruopController.dispatch({type: selectChoiceGroup, payload: EnumEstadoPrestamo.Rechazado })
+          this._choiceGruopController.dispatch({type: selectChoiceGroup, payload: EnumEstadoPrestamo.Rechazado });
         }
       }];
     }
@@ -238,11 +238,11 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
             modalVisible : true
           });
         }
-      }]
+      }];
     }
 
     private _loadData = ():void => {
-      this._http.FetchPost(`${apiTransferencia}/Api/Lending/MyReceived`)
+      this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/MyReceived`)
       .then((_response:LendingResultDTO) => {
         if(_response.success) {        
           this._detailListController.dispatch({ type: loadDetailList, payload: _response.result });
@@ -299,7 +299,7 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
           idEstado: this._choiceGruopController.getState().optionSelected };
       this._hideMessage(false, "Procesando...", MessageBarType.warning );
 
-      this._http.FetchPost(`${apiTransferencia}/Api/Lending/AproveLend`, requestLend)
+      this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/AproveLend`, requestLend)
       .then((_response:LendingResult) => {
         if(_response) {          
           if(_response.success) {

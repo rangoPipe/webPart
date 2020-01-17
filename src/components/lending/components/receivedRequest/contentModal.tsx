@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 
 import { Stack, Separator } from "office-ui-fabric-react";
 import { TextFieldGeneral as Textfield } from "../../../../general/textField";

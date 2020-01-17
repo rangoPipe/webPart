@@ -19,9 +19,8 @@ import TextField from "../../../../general/textField";
 import MessageBar from "../../../../general/messageBar";
 
 //Propios
-import { apiTransferencia } from "../../../../common/connectionString";
 import { TransferFilter, TransferResultDTO, TransferDTO } from "../../../../interface/trasnfer/transferResult";
-import { ColumnRecordOwner, IOwnerProps, IOwnerState } from "./IownerProps";
+import { ColumnRecordOwner, IOwnerProps, IOwnerState } from "./IOwnerProps";
 
 //import { OwnerMenu } from "./menu";
 import { OwnerNameSpace } from "../../../../enum/owner/ownerEnum";
@@ -36,18 +35,17 @@ import { IOIPResult } from "../../../../interface/IOIPResult";
  * @class Clase OwnerMain contenedor principal del propietario.
  */
 export default class OwnerMain extends React.Component<IOwnerProps, IOwnerState> {
-  /** @private */ private _contextController = subspace( (state: IIOIPStore) => state.context, OwnerNameSpace.context )(store);
+  /** @private */ private _contextController = subspace((state: IIOIPStore) => state.contextOwner, OwnerNameSpace.context)(store);
   /** @private */ private _detailListController = subspace( (state: IIOIPStore) => state.detailListOwner, OwnerNameSpace.detailListOwner )(store);
   /** @private */ private _commandBarController = subspace( (state: IIOIPStore) => state.commandBarOwner, OwnerNameSpace.commandBarOwner )(store);
   /** @private */ private _messageBarController = subspace( (state: IIOIPStore) => state.messageBarOwner, OwnerNameSpace.messageBarOwner )(store);
   /** @private */ private _dialogController = subspace( (state: IIOIPStore) => state.dialogOwner, OwnerNameSpace.dialogOwner )(store);
   /** @private */ private _textFieldController = subspace( (state: IIOIPStore) => state.textAreaOwner, OwnerNameSpace.textAreaOwner )(store);
 
-  /** @private */ private _context: WebPartContext;
   /** @private */ private _selection: Selection;
   /** @private */ private _footerDialogDefault: any;
   /** @private */ private _bodyDialogDefault: any;
-  /** @private */ private _http: BaseService = new BaseService();
+  /** @private */ private _http: BaseService = new BaseService(OwnerNameSpace.context);
 
   /**
    * Crea una instancia de OwnerMain.
@@ -101,8 +99,6 @@ export default class OwnerMain extends React.Component<IOwnerProps, IOwnerState>
         selection: this._selection
       }
     });
-
-    this._context = this._contextController.getState().context;
   }
 
   /**
@@ -375,14 +371,15 @@ export default class OwnerMain extends React.Component<IOwnerProps, IOwnerState>
   /**
    * Actualiza el store, con detalle de expedientes
    */
-  private _loadData = async () => {
+  private _loadData = async () => {    
 
     const body: TransferFilter = {
       state: [RecordState.ParaGestion]
     };
-
-    this._http.FetchPost(`${apiTransferencia}/Api/Record/RecordExpired`, body)
+    
+    this._http.FetchPost(`${ this._contextController.getState().connectionString }/Api/Record/RecordExpired`, body)
       .then((_response:TransferResultDTO) => {
+        
         if(!_response.success) {
           return;
         }
@@ -440,7 +437,7 @@ export default class OwnerMain extends React.Component<IOwnerProps, IOwnerState>
         });
       });
 
-      this._http.FetchPost(`${apiTransferencia}/Api/Record/MoveRecordExpired`, body)
+      this._http.FetchPost(`${ this._contextController.getState().connectionString }/Api/Record/MoveRecordExpired`, body)
       .then((_response:IOIPResult) => {        
 
         if (_response.success) {
@@ -473,10 +470,14 @@ export default class OwnerMain extends React.Component<IOwnerProps, IOwnerState>
     this._loadData();
   }
 
+  public componentDidUpdate() {
+    this._loadData();    
+  }
+
   /**
    * El metodo render() es requerido para generar el HTML.
    */
   public render(): JSX.Element {
-    return <Page />;
+    return <Page title = { this._contextController.getState().appTitle } />;
   }
 }

@@ -35,9 +35,9 @@ export interface LendingDTO {
 }
 
 export interface LendingResult extends IOIPResult {
-    result?: LendingFilter
+    result?: LendingFilter;
 }
 
 export interface LendingResultDTO extends IOIPResult {
-    result?: LendingDTO[]
+    result?: LendingDTO[];
 }

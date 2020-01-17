@@ -114,6 +114,7 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
     detailListRejectedArchivist:IDetailListProps;
     
     //Lending - Search 
+    contextSearch:            IContextProps;
     detailListSearch:         IDetailListProps;
     dropDownSectionSearch:    IDropdownProps;
     dropDownSubsectionSearch: IDropdownProps;
@@ -127,12 +128,14 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
     messageBarSearch:         IMessageBarProps;
 
     //Lending - Sended 
+    contextSended:            IContextProps;
     detailListSended:         IDetailListProps;
     commandBarSended:         ICommandBarProps;
     modalSended:              IModalProps;
     dialogSended:             IDialogProps;
 
     //Lending - Received 
+    contextReceived:          IContextProps;
     detailListReceived:       IDetailListProps;
     commandBarReceived:       ICommandBarProps;
     modalReceived:            IModalProps;
@@ -142,6 +145,7 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
     btnLeadReceived:          IButtonProps;
 
     //Lending - Lending 
+    contextLending:           IContextProps;
     detailListLending:        IDetailListProps;
     commandBarLending:        ICommandBarProps;
     dialogLending:            IDialogProps;
@@ -150,11 +154,13 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
     messageBarLending:        IMessageBarProps;
 
     //Lending - Payback 
+    contextPayback:           IContextProps;
     detailListPayback:        IDetailListProps;
     commandBarPayback:        ICommandBarProps;
     dialogPayback:            IDialogProps;
 
     //Lending - Report 
+    contextReport:            IContextProps;
     detailListReport:         IDetailListProps;
     buttonSearchReport:       IButtonProps;
     buttonCancelReport:       IButtonProps;

@@ -8,4 +8,4 @@ const createModal = (payload:string):IAction => {
     };
 };
 
-export default createModal
+export default createModal;

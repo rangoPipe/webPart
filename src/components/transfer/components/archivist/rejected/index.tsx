@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { subspace } from "redux-subspace";
@@ -8,7 +8,6 @@ import Page from "./page";
 
 import { BaseService } from "../../../../../common/classes/baseService";
 import { ColumnRecordArchivist } from "../../../../../interface/trasnfer/archivist/archivistResult";
-import { apiTransferencia } from "../../../../../common/connectionString";
 
 import { IIOIPStore } from "../../../../../redux/namespace";
 import store from "../../../../../redux/store";
@@ -22,10 +21,10 @@ import { TransferResultDTO, TransferDTO, TransferFilter } from "../../../../../i
 
 
 class RejectedClass extends React.Component<IRejectedProps, IRejectedState>  {
-
+  /** @private */ private _contextController = subspace((state: IIOIPStore) => state.contextRejectedArchivist, RejectedNameSpace.context)(store);
   /** @private */ private _detailListController = subspace( (state: IIOIPStore) => state.detailListRejectedArchivist, RejectedNameSpace.detailList)(store);
 
-  private _http: BaseService = new BaseService();
+  private _http: BaseService = new BaseService(RejectedNameSpace.context);
   private _selection: Selection;
 
     constructor(props:IRejectedProps) {
@@ -195,7 +194,7 @@ class RejectedClass extends React.Component<IRejectedProps, IRejectedState>  {
         state: [recordState]
       };
 
-      this._http.FetchPost(`${apiTransferencia}/Api/Record/RecordExpired`, body).then((_response:TransferResultDTO) => {      
+      this._http.FetchPost(`${ this._contextController.getState().connectionString }/Api/Record/RecordExpired`, body).then((_response:TransferResultDTO) => {      
         if(_response) {
           this._setDataPending(_response.result);
         }
@@ -211,11 +210,17 @@ class RejectedClass extends React.Component<IRejectedProps, IRejectedState>  {
     }
   }
 
-
   /**
    * El componentDidMount() es llamado despues de renderizar el componente.
    */
   public async componentDidMount() {
+    this._loadData(RecordState.RechazadoEnAC);    
+  }
+
+  /**
+   * El componentDidUpdate() es llamado despues de actualizar el componente.
+   */
+  public componentDidUpdate() {
     this._loadData(RecordState.RechazadoEnAC);    
   }
 

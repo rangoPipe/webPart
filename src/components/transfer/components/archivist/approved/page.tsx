@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { IApprovedProps } from "./IApprovedProps";
 import { SubspaceProvider } from "react-redux-subspace";
 import { Stack } from "office-ui-fabric-react";

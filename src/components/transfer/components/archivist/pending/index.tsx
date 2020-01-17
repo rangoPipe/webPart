@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { subspace } from "redux-subspace";
@@ -9,7 +9,6 @@ import Page from "./page";
 
 import { BaseService } from "../../../../../common/classes/baseService";
 import { ColumnRecordArchivist } from "../../../../../interface/trasnfer/archivist/archivistResult";
-import { apiTransferencia } from "../../../../../common/connectionString";
 
 import { IIOIPStore } from "../../../../../redux/namespace";
 import store from "../../../../../redux/store";
@@ -30,7 +29,7 @@ import { TransferResultDTO, TransferDTO, TransferResult, TransferFilter } from "
 
 
 class PendingClass extends React.Component<IPendingProps, IPendingState>  {
-
+  /** @private */ private _contextController = subspace((state: IIOIPStore) => state.contextPendingArchivist, PendingNameSpace.context)(store);
   /** @private */ private _detailListController = subspace( (state: IIOIPStore) => state.detailListPendingArchivist, PendingNameSpace.detailList)(store);
   /** @private */ private _commandBarController = subspace( (state: IIOIPStore) => state.commandBarPendingArchivist, PendingNameSpace.commandBar)(store);
   /** @private */ private _dialogController = subspace( (state: IIOIPStore) => state.dialogPendingArchivist, PendingNameSpace.dialog)(store);
@@ -40,7 +39,7 @@ class PendingClass extends React.Component<IPendingProps, IPendingState>  {
   /** @private */ private _footerDialogDefault: any;
   /** @private */ private _bodyDialogDefault: any;
 
-  private _http: BaseService = new BaseService();
+  private _http: BaseService = new BaseService(PendingNameSpace.context);
   private _selection: Selection;
 
     constructor(props:IPendingProps) {
@@ -461,7 +460,7 @@ class PendingClass extends React.Component<IPendingProps, IPendingState>  {
         state: [recordState]
       };
 
-      this._http.FetchPost(`${apiTransferencia}/Api/Record/RecordExpired`, body).then((_response:TransferResultDTO) => {      
+      this._http.FetchPost(`${ this._contextController.getState().connectionString }/Api/Record/RecordExpired`, body).then((_response:TransferResultDTO) => {      
         if(_response) {
           this._setDataPending(_response.result);
         }
@@ -507,7 +506,7 @@ class PendingClass extends React.Component<IPendingProps, IPendingState>  {
         });
       });
 
-      return this._http.FetchPost(`${apiTransferencia}/Api/Record/MoveRecordExpired`, body);
+      return this._http.FetchPost(`${ this._contextController.getState().connectionString }/Api/Record/MoveRecordExpired`, body);
 
     } catch (error) {
       this._onShowMessage(error, MessageBarType.error, true);
@@ -519,6 +518,13 @@ class PendingClass extends React.Component<IPendingProps, IPendingState>  {
    * El componentDidMount() es llamado despues de renderizar el componente.
    */
   public async componentDidMount() {
+    this._loadData(RecordState.AprobadoParaAC);    
+  }
+
+  /**
+   * El componentDidUpdate() es llamado despues de actualizar el componente.
+   */
+  public componentDidUpdate() {
     this._loadData(RecordState.AprobadoParaAC);    
   }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { IColumn, Selection, ICommandBarItemProps, SelectionMode, DialogType, Stack, PrimaryButton, DefaultButton, IconButton, MessageBarType } from "office-ui-fabric-react";
@@ -8,7 +8,6 @@ import Page from "./page";
 import Content from "./contentModal";
 
 import { BaseService } from "../../../../common/classes/baseService";
-import { apiTransferencia } from "../../../../common/connectionString";
 
 import { ILendingProps, ILendingState } from "./ILendingProps";
 import { IIOIPStore } from "../../../../redux/namespace";
@@ -26,7 +25,7 @@ import { createTextField, changeTextField } from "../../../../redux/actions/gene
 
 
 class LendingClass extends React.Component<ILendingProps, ILendingState>  {
-
+  /** @private */ private _contextController = subspace( (state: IIOIPStore) => state.contextLending, LendingNameSpace.context)(store);
   /** @private */ private _detailListController = subspace( (state: IIOIPStore) => state.detailListLending, LendingNameSpace.detailListLending)(store);
   /** @private */ private _commandBarController = subspace( (state: IIOIPStore) => state.commandBarLending, LendingNameSpace.commandBarLending)(store);
   /** @private */ private _dialogController = subspace( (state: IIOIPStore) => state.dialogLending, LendingNameSpace.dialogLending)(store);
@@ -34,7 +33,7 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
   /** @private */ private _messageBarController = subspace( (state: IIOIPStore) => state.messageBarLending, LendingNameSpace.messageBarLending)(store);
   /** @private */ private _textAreaController = subspace( (state: IIOIPStore) => state.textAreaLending, LendingNameSpace.textAreaLending)(store);
 
-  private _http: BaseService = new BaseService();
+  private _http: BaseService = new BaseService(LendingNameSpace.context);
   private _selection: Selection;
 
     constructor(props:ILendingProps) {
@@ -42,7 +41,7 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
 
        this.state = {
          modalVisible : false
-       }
+       };
 
        this._selection = new Selection({
         onSelectionChanged: () => {
@@ -190,7 +189,7 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
           this._modalController.dispatch({ 
             type: createContent,
              payload: 
-              <Content item = { item } onCancel = { () => this._closeModal() } onAccept = {() =>{ this._renew()  }} /> 
+              <Content item = { item } onCancel = { () => this._closeModal() } onAccept = {() => this._renew() } /> 
             });
 
           this.setState({
@@ -210,14 +209,14 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
             type: DialogType.largeHeader,
             title: "Devolución",
             subText: "Está seguro de devolver el préstamo ?",
-            footer: (<Stack horizontal horizontalAlign={"center"}  ><PrimaryButton onClick= {()=>{ this._payback() } }>Aceptar</PrimaryButton> <DefaultButton onClick= {()=>{ this._closeDialog() } }>Cancelar</DefaultButton>  </Stack>)
+            footer: (<Stack horizontal horizontalAlign={"center"}  ><PrimaryButton onClick= {()=> this._payback() }>Aceptar</PrimaryButton> <DefaultButton onClick= {()=> this._closeDialog() }>Cancelar</DefaultButton>  </Stack>)
           }});
         }
-      }]
+      }];
     }
 
     private _loadData = ():void => {
-      this._http.FetchPost(`${apiTransferencia}/Api/Lending/MyLendings`)
+      this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/MyLendings`)
       .then((_response:LendingResultDTO) => {
         if(_response.success) {        
           this._detailListController.dispatch({ type: loadDetailList, payload: _response.result });
@@ -263,7 +262,7 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
       this._closeDialog();
       this._hideMessage(true);
       this._hideMessage(false, "Solicitando...", MessageBarType.warning );
-      this._http.FetchPost(`${apiTransferencia}/Api/Lending/AproveLend`, item)
+      this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/AproveLend`, item)
       .then((_response:LendingResult) => {
         if(_response) {          
           if(_response.success) {

@@ -22,7 +22,7 @@ function reducer(state = defaultState, { type, payload }: IAction): ICheckboxPro
       return {
         ...state,
         label: payload
-      }
+      };
     }
 
     default:

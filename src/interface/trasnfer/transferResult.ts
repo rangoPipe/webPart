@@ -26,9 +26,9 @@ export interface TransferDTO extends IRecord {
 }
 
 export interface TransferResult extends IOIPResult {
-    result?: TransferFilter
+    result?: TransferFilter;
 }
 
 export interface TransferResultDTO extends IOIPResult {
-    result?: TransferDTO[]
+    result?: TransferDTO[];
 }

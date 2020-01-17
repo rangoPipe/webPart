@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { IColumn, SelectionMode, ICommandBarItemProps, Selection, IconButton, DialogType, Stack, PrimaryButton, DefaultButton } from "office-ui-fabric-react";
@@ -9,7 +9,6 @@ import Page from "./page";
 
 import { ISendedRequestProps, ISendedRequestState } from "./ISendedRequestProps";
 import { IIOIPStore } from "../../../../redux/namespace";
-import { apiTransferencia } from "../../../../common/connectionString";
 import { createDetailList, loadDetailList, selectRowItem } from "../../../../redux/actions/general/detailList/_actionName";
 import { SendedNameSpace, EnumEstadoPrestamo } from "../../../../enum/lending/lendingEnum";
 import { IDetailListProps } from "../../../../redux/reducers/general/detailList/IDetailListProps";
@@ -22,15 +21,16 @@ import { createModal } from "../../../../redux/actions/general/modal/_actionName
 import { contentStyles, iconButtonStyles } from "../../../../common/classes/style";
 import { IDialogProps } from "../../../../redux/reducers/general/dialog/IDialogProps";
 import { createDialog, hideDialog } from "../../../../redux/actions/general/dialog/_actionName";
+import { IContextProps } from "../../../../redux/reducers/common/IContextProps";
 
 class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRequestState>  {
-
+  private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextSended, SendedNameSpace.context )(store);
   private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListSended, SendedNameSpace.detailListSended )(store);
   private _commandBarController:Subspace<ICommandBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.commandBarSended, SendedNameSpace.commandBarSended )(store);
   private _modalController:Subspace<IModalProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.modalReceived, SendedNameSpace.modalSended )(store);
   private _dialogController:Subspace<IDialogProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dialogSended, SendedNameSpace.dialogSended )(store);
 
-  private _http: BaseService = new BaseService();
+  private _http: BaseService = new BaseService(SendedNameSpace.context);
   private _selection:Selection;
 
     constructor(props:ISendedRequestProps) {
@@ -38,7 +38,7 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
 
        this.state = {
         modalVisible : false
-      }
+      };
 
        this._selection = new Selection({
         onSelectionChanged: () => {
@@ -208,7 +208,7 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
             type: DialogType.largeHeader,
             title: "Aceptar préstamo",
             subText: "Está seguro de aceptar el préstamo ?",
-            footer: (<Stack horizontal horizontalAlign={"center"}  ><PrimaryButton onClick= {()=>{ this._aproveRequest() } }>Aceptar</PrimaryButton> <DefaultButton onClick= {()=>{ this._closeDialog() } }>Cancelar</DefaultButton>  </Stack>)
+            footer: (<Stack horizontal horizontalAlign={"center"}  ><PrimaryButton onClick= {()=> this._aproveRequest() }>Aceptar</PrimaryButton> <DefaultButton onClick= {()=> this._closeDialog() }>Cancelar</DefaultButton>  </Stack>)
           }});
         }
       },{
@@ -224,10 +224,10 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
             title: "Cancelar solicitud",
             subText: "Está seguro de cancelar la solicitud ?",
             footer: (
-              <Stack  horizontal horizontalAlign={"center"}><PrimaryButton onClick= {()=>{ this._cancelRequest() } }>Aceptar</PrimaryButton> <DefaultButton onClick= {()=>{ this._closeDialog() } }>Cancelar</DefaultButton>  </Stack>)
+              <Stack  horizontal horizontalAlign={"center"}><PrimaryButton onClick= {()=> this._cancelRequest() }>Aceptar</PrimaryButton> <DefaultButton onClick= {()=> this._closeDialog() }>Cancelar</DefaultButton>  </Stack>)
           }});
         }
-      }]
+      }];
     }
 
     private _menuRequest = ():ICommandBarItemProps[] => {
@@ -244,14 +244,14 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
             title: "Cancelar solicitud",
             subText: "Está seguro de cancelar la solicitud ?",
             footer: (
-              <Stack  horizontal horizontalAlign={"center"}><PrimaryButton onClick= {()=>{ this._cancelRequest()} }>Aceptar</PrimaryButton> <DefaultButton onClick= {()=>{ this._closeDialog() } }>Cancelar</DefaultButton>  </Stack>)
+              <Stack  horizontal horizontalAlign={"center"}><PrimaryButton onClick= {()=> this._cancelRequest() }>Aceptar</PrimaryButton> <DefaultButton onClick= {()=> this._closeDialog() }>Cancelar</DefaultButton>  </Stack>)
           }});
         }
-      }]
+      }];
     }
 
     private _loadData = ():void => {
-      this._http.FetchPost(`${apiTransferencia}/Api/Lending/MyRequests`)
+      this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/MyRequests`)
       .then((_response:LendingResultDTO) => {
         if(_response.success) {        
           this._detailListController.dispatch({ type: loadDetailList, payload: _response.result });
@@ -308,7 +308,7 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
 
     private _sendRequest = (item:LendingDTO):void => {        
       this._closeDialog();
-      this._http.FetchPost(`${apiTransferencia}/Api/Lending/AproveLend`, item)
+      this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/AproveLend`, item)
       .then((_response:LendingResult) => {
         if(_response) {          
           if(_response.success) {

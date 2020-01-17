@@ -1,4 +1,5 @@
 export interface IOwnerState {
+    title?:string;
 }
 
 export interface IOwnerProps extends IOwnerState {

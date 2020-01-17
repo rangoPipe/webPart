@@ -1,5 +1,5 @@
 export enum OwnerNameSpace {
-    context = "context",
+    context = "contextOwner",
     detailListOwner = "detailListOwner",
     textAreaOwner = "textAreaOwner",
     messageBarOwner = "messageBarOwner",

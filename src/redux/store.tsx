@@ -58,6 +58,7 @@ const reducer = combineReducers<any>({
     detailListRejectedArchivist: namespaced( RejectedNameSpace.detailList )(detailList),
 
     //Lending-Search
+    contextSearch: namespaced( SearchNameSpace.context )(context),
     detailListSearch: namespaced( SearchNameSpace.detailListSearch )(detailList),
     dropDownSectionSearch: namespaced( SearchNameSpace.dropDownSectionSearch )(dropdown),
     dropDownSubsectionSearch: namespaced( SearchNameSpace.dropDownSubsectionSearch )(dropdown),
@@ -70,13 +71,15 @@ const reducer = combineReducers<any>({
     textAreaSearch: namespaced( SearchNameSpace.textAreaSearch )(textField),
     messageBarSearch: namespaced( SearchNameSpace.messageBarSearch )(messageBar),
 
-    //Lending-Sended-Request    
+    //Lending-Sended-Request
+    contextSended: namespaced( SendedNameSpace.context )(context),
     detailListSended: namespaced( SendedNameSpace.detailListSended )(detailList),
     commandBarSended: namespaced( SendedNameSpace.commandBarSended )(commnadBar),
     modalSended: namespaced( SendedNameSpace.modalSended )(modal),
     dialogSended: namespaced( SendedNameSpace.dialogSended )(dialog),
 
     //Lending-Received-Request
+    contextReceived: namespaced( ReceivedNameSpace.context )(context),
     detailListReceived: namespaced( ReceivedNameSpace.detailListReceived )(detailList),
     commandBarReceived: namespaced( ReceivedNameSpace.commandBarReceived )(commnadBar),
     modalReceived: namespaced( ReceivedNameSpace.modalReceived )(modal),
@@ -86,6 +89,7 @@ const reducer = combineReducers<any>({
     btnLeadReceived: namespaced( ReceivedNameSpace.btnLeadReceived )(button),
 
     //Lending-Lending
+    contextLending: namespaced( LendingNameSpace.context )(context),
     detailListLending: namespaced( LendingNameSpace.detailListLending )(detailList),
     commandBarLending: namespaced( LendingNameSpace.commandBarLending )(commnadBar),
     dialogLending: namespaced( LendingNameSpace.dialogLending )(dialog),
@@ -94,11 +98,13 @@ const reducer = combineReducers<any>({
     messageBarLending: namespaced( LendingNameSpace.messageBarLending )(messageBar),
 
     //Lending-Payback
+    contextPayback: namespaced( PaybackNameSpace.context )(context),
     detailListPayback: namespaced( PaybackNameSpace.detailListPayback )(detailList),
     commandBarPayback: namespaced( PaybackNameSpace.commandBarPayback )(commnadBar),
     dialogPayback: namespaced( PaybackNameSpace.dialogPayback )(dialog),
 
     //Lending-Report
+    contextReport: namespaced( ReportNameSpace.context )(context),
     detailListReport: namespaced( ReportNameSpace.detailListReport )(detailList),
     buttonSearchReport: namespaced( ReportNameSpace.buttonSearchReport )(button),
     buttonCancelReport: namespaced( ReportNameSpace.buttonCancelReport )(button),

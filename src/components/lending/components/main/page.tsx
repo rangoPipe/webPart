@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Pivot, PivotItem } from "office-ui-fabric-react";
 
-import ILendingMainProps from "./ILendingMainProps";
+import { ILendingMainProps } from "./ILendingMainProps";
 
 import SendRequest from "../sendedRequest";
 import ReceivedRequest from "../receivedRequest";
@@ -19,7 +19,7 @@ export default function Page(props:ILendingMainProps) {
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
               <h1 className={"ms-font-xl ms-fontColor-themePrimary"} tabIndex={0}>
-                Préstamos Documentales
+                { props.title }
               </h1>
             </div>
           </div>
@@ -38,6 +38,7 @@ export default function Page(props:ILendingMainProps) {
                       <SubspaceProvider
                         mapState={(state: IIOIPStore) => {
                           return {
+                            contextSearch : state.contextSearch,
                             detailListSearch: state.detailListSearch,
                             dropDownSectionSearch: state.dropDownSectionSearch,
                             dropDownSubsectionSearch: state.dropDownSubsectionSearch,
@@ -52,7 +53,7 @@ export default function Page(props:ILendingMainProps) {
                           };
                         }}
                       >
-                        <Search />
+                        <Search key = { props.key } />
                       </SubspaceProvider>
                     </div>
                   </div>
@@ -67,13 +68,14 @@ export default function Page(props:ILendingMainProps) {
                   <div className="ms-Grid-row">
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
                       <SubspaceProvider mapState={(state: IIOIPStore) => { 
-                        return { 
+                        return {
+                          contextSended: state.contextSended,
                           detailListSended: state.detailListSended,
                           commandBarSended: state.commandBarSended,
                           modalSended : state.modalSended,
                           dialogSended : state.dialogSended
                           }; }}>                        
-                          <SendRequest />
+                          <SendRequest key = { props.key } />
                       </SubspaceProvider>
                     </div>
                   </div>
@@ -89,6 +91,7 @@ export default function Page(props:ILendingMainProps) {
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
                       <SubspaceProvider mapState={(state: IIOIPStore) => {
                           return { 
+                            contextReceived: state.contextReceived,
                             detailListReceived: state.detailListReceived,
                             commandBarReceived: state.commandBarReceived,
                             modalReceived: state.modalReceived,
@@ -97,7 +100,7 @@ export default function Page(props:ILendingMainProps) {
                             choiceGroupReceived: state.choiceGroupReceived,
                             btnLeadReceived : state.btnLeadReceived
                             }; }}>                        
-                        <ReceivedRequest/>
+                        <ReceivedRequest key = { props.key }/>
                       </SubspaceProvider>
                     </div>
                   </div>
@@ -112,12 +115,13 @@ export default function Page(props:ILendingMainProps) {
                   <div className="ms-Grid-row">
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
                     <SubspaceProvider mapState={(state: IIOIPStore) => {
-                          return { 
+                          return {
+                            contextPayback : state.contextPayback,
                             detailListPayback: state.detailListPayback,
                             commandBarPayback: state.commandBarPayback,
                             dialogPayback: state.dialogPayback,
                             }; }}>                        
-                        <Payback/>
+                        <Payback key = { props.key }/>
                       </SubspaceProvider>
                     </div>
                   </div>
@@ -132,7 +136,8 @@ export default function Page(props:ILendingMainProps) {
                   <div className="ms-Grid-row">
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
                     <SubspaceProvider mapState={(state: IIOIPStore) => {
-                          return { 
+                          return {
+                            contextLending: state.contextLending,
                             detailListLending: state.detailListLending,
                             commandBarLending: state.commandBarLending,
                             dialogLending : state.dialogLending,
@@ -140,7 +145,7 @@ export default function Page(props:ILendingMainProps) {
                             messageBarLending: state.messageBarLending,
                             textAreaLending: state.textAreaLending,
                             }; }}>                        
-                        <Lending/>
+                        <Lending key = { props.key }/>
                       </SubspaceProvider>
                     </div>
                   </div>
@@ -156,6 +161,7 @@ export default function Page(props:ILendingMainProps) {
                     <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
                     <SubspaceProvider mapState={(state: IIOIPStore) => {                      
                           return {
+                            contextReport: state.contextReport,
                             detailListReport: state.detailListReport,                           
                             buttonSearchReport: state.buttonSearchReport,
                             buttonCancelReport: state.buttonCancelReport,
@@ -168,7 +174,7 @@ export default function Page(props:ILendingMainProps) {
                             chkLendedReport: state.chkLendedReport,
                             chkPaybackReport: state.chkPaybackReport,
                             }; }}>                        
-                        <Report/>
+                        <Report key = { props.key }/>
                       </SubspaceProvider>
                     </div>
                   </div>

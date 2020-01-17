@@ -8,4 +8,4 @@ const createButton = (payload:string):IAction => {
     };
 };
 
-export default createButton
+export default createButton;

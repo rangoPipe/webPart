@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { subspace } from "redux-subspace";
@@ -8,7 +8,6 @@ import Page from "./page";
 
 import { BaseService } from "../../../../../common/classes/baseService";
 import { ColumnRecordArchivist } from "../../../../../interface/trasnfer/archivist/archivistResult";
-import { apiTransferencia } from "../../../../../common/connectionString";
 
 import { IIOIPStore } from "../../../../../redux/namespace";
 import store from "../../../../../redux/store";
@@ -17,17 +16,15 @@ import { ApprovedNameSpace } from "../../../../../enum/archivist/archivistEnum";
 
 import { selectRowItem, createDetailList, loadDetailList } from "../../../../../redux/actions/general/detailList/_actionName";
 
-
-import { MoveRecordDTO } from "../../../../../interface/trasnfer/moveRecordDTO";
 import { RecordState } from "../../../../../enum/RecordState";
-import { TransferResultDTO, TransferDTO } from "../../../../../interface/trasnfer/transferResult";
+import { TransferResultDTO, TransferDTO, TransferFilter } from "../../../../../interface/trasnfer/transferResult";
 
 
 class ApprovedClass extends React.Component<IApprovedProps, IApprovedState>  {
-
+  /** @private */ private _contextController = subspace((state: IIOIPStore) => state.contextApprovedArchivist, ApprovedNameSpace.context)(store);
   /** @private */ private _detailListController = subspace( (state: IIOIPStore) => state.detailListApprovedArchivist, ApprovedNameSpace.detailList)(store);
 
-  private _http: BaseService = new BaseService();
+  private _http: BaseService = new BaseService(ApprovedNameSpace.context);
   private _selection: Selection;
 
     constructor(props:IApprovedProps) {
@@ -193,11 +190,11 @@ class ApprovedClass extends React.Component<IApprovedProps, IApprovedState>  {
    */
   private _loadData = (recordState: RecordState): void => {
     try {
-      let body: MoveRecordDTO = {
-        State: [recordState]
+      let body: TransferFilter = {
+        state: [recordState]
       };
 
-      this._http.FetchPost(`${apiTransferencia}/Api/Record/RecordExpired`, body).then((_response:TransferResultDTO) => {      
+      this._http.FetchPost(`${ this._contextController.getState().connectionString }/Api/Record/RecordExpired`, body).then((_response:TransferResultDTO) => {      
         if(_response) {
           this._setDataPending(_response.result);
         }
@@ -218,6 +215,13 @@ class ApprovedClass extends React.Component<IApprovedProps, IApprovedState>  {
    * El componentDidMount() es llamado despues de renderizar el componente.
    */
   public async componentDidMount() {
+    this._loadData(RecordState.AprobadoEnAC);    
+  }
+
+  /**
+   * El componentDidUpdate() es llamado despues de actualizar el componente.
+   */
+  public componentDidUpdate() {
     this._loadData(RecordState.AprobadoEnAC);    
   }
 

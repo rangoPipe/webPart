@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { IColumn, Selection, ICommandBarItemProps, SelectionMode, DialogType, Stack, DefaultButton, PrimaryButton } from "office-ui-fabric-react";
@@ -10,21 +10,20 @@ import { IIOIPStore } from "../../../../redux/namespace";
 import store from "../../../../redux/store";
 import { createDetailList, loadDetailList, selectRowItem } from "../../../../redux/actions/general/detailList/_actionName";
 import { LendingDTO, LendingResultDTO, LendingResult } from "../../../../interface/lending/lendingResult";
-import { PaybackNameSpace, EnumEstadoPrestamo } from "../../../../enum/lending/lendingEnum";
+import { PaybackNameSpace, EnumEstadoPrestamo, LendingNameSpace } from "../../../../enum/lending/lendingEnum";
 
 import { BaseService } from "../../../../common/classes/baseService";
-import { apiTransferencia } from "../../../../common/connectionString";
 import { createCommandBar } from "../../../../redux/actions/general/commandBar/_actionName";
 import { createDialog, hideDialog } from "../../../../redux/actions/general/dialog/_actionName";
 
 
 class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
-
+  /** @private */ private _contextController = subspace( (state: IIOIPStore) => state.contextPayback, PaybackNameSpace.context)(store);
   /** @private */ private _detailListController = subspace( (state: IIOIPStore) => state.detailListPayback, PaybackNameSpace.detailListPayback)(store);
   /** @private */ private _commandBarController = subspace( (state: IIOIPStore) => state.commandBarPayback, PaybackNameSpace.commandBarPayback)(store);
   /** @private */ private _dialogController = subspace( (state: IIOIPStore) => state.dialogPayback, PaybackNameSpace.dialogPayback)(store);
 
-  private _http: BaseService = new BaseService();
+  private _http: BaseService = new BaseService(LendingNameSpace.context);
   private _selection: Selection;
 
     constructor(props:IPaybackProps) {
@@ -50,13 +49,13 @@ class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
           selectionMode: SelectionMode.single,
           selection: this._selection
          }
-       })
+       });
 
        this._loadData();
     }
 
     private _loadData = ():void => {
-      this._http.FetchPost(`${apiTransferencia}/Api/Lending/Payback`)
+      this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/Payback`)
       .then((_response:LendingResultDTO) => {
         if(_response.success) {        
           this._detailListController.dispatch({ type: loadDetailList, payload: _response.result });
@@ -176,22 +175,22 @@ class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
             type: DialogType.largeHeader,
             title: "Devolución",
             subText: "Está seguro de recibir el préstamo ?",
-            footer: (<Stack horizontal horizontalAlign={"center"}  ><PrimaryButton onClick= {()=>{ this._comeback() } }>Aceptar</PrimaryButton> <DefaultButton onClick= {()=>{ this._closeDialog() } }>Cancelar</DefaultButton>  </Stack>)
+            footer: (<Stack horizontal horizontalAlign={"center"}  ><PrimaryButton onClick= {()=> this._comeback()  }>Aceptar</PrimaryButton> <DefaultButton onClick= {()=> this._closeDialog() }>Cancelar</DefaultButton>  </Stack>)
           }});
         }
-      }]
+      }];
     }
 
     private _comeback = ():void => {
       let item:LendingDTO = this._detailListController.getState().selectedItems[0];
-      item.idEstado = EnumEstadoPrestamo.Devuelto
+      item.idEstado = EnumEstadoPrestamo.Devuelto;
       item.observacion = "El responsable acepta el retorno del prestamo";
       this._sendRequest(item);
     }
 
     private _sendRequest = (item:LendingDTO):void => {        
       this._closeDialog();
-      this._http.FetchPost(`${apiTransferencia}/Api/Lending/AproveLend`, item)
+      this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/AproveLend`, item)
       .then((_response:LendingResult) => {
         if(_response) {          
           if(_response.success) {

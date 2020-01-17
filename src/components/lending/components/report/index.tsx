@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { subspace, Subspace } from "redux-subspace";
@@ -8,7 +8,6 @@ import Page from "./page";
 import store from "../../../../redux/store";
 
 import { IIOIPStore } from "../../../../redux/namespace";
-import { apiTransferencia } from "../../../../common/connectionString";
 import { BaseService } from "../../../../common/classes/baseService";
 import { IReportProps, IReportState } from "./IReport";
 import { ReportNameSpace } from "../../../../enum/lending/lendingEnum";
@@ -25,9 +24,10 @@ import { IDatePickerProps, languageEs } from "../../../../redux/reducers/general
 import { createDatePicker } from "../../../../redux/actions/general/datePicker/_actionName";
 import { ICheckboxProps } from "../../../../redux/reducers/general/checkbox/ICheckboxProps";
 import { changeLabel } from "../../../../redux/actions/general/checkbox/_actionName";
+import { IContextProps } from "../../../../redux/reducers/common/IContextProps";
 
 class ReportClass extends React.Component<IReportProps, IReportState> {
-
+  private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextReport, ReportNameSpace.context )(store);
   private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListReport, ReportNameSpace.detailListReport )(store);
 
   private _buttonSearchController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonSearchReport, ReportNameSpace.buttonSearchReport )(store);
@@ -43,7 +43,7 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
   private _chkLendedController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkLendedReport, ReportNameSpace.chkLendedReport )(store);
   private _chkPaybackController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkPaybackReport, ReportNameSpace.chkPaybackReport )(store);
 
-  private _http: BaseService = new BaseService();
+  private _http: BaseService = new BaseService(ReportNameSpace.context);
   private _selection: Selection;
   private _dateFormat:string = "YYYY/MM/DD";
 
@@ -52,7 +52,7 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
 
     this.state = {
       resultVisible: false
-    }
+    };
   
     this._selection = new Selection({
       onSelectionChanged: () => {
@@ -185,10 +185,10 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
         }
       }
     ];
-  };
+  }
 
   private _loadPendings = ():void => {
-    this._http.FetchPost(`${apiTransferencia}/Api/Lending/Report`)
+    this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/Report`)
       .then((_response:LendingResultDTO) => {
         if(_response.success) {        
           

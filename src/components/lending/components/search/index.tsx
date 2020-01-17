@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { connect } from "react-redux";
 import { subspace, Subspace } from "redux-subspace";
 
@@ -16,7 +16,6 @@ import { IDetailListProps } from "../../../../redux/reducers/general/detailList/
 
 import { BaseService } from "../../../../common/classes/baseService";
 import { LendingResult, LendingFilter, LendingResultDTO, LendingDTO } from "../../../../interface/lending/lendingResult";
-import { apiTransferencia } from "../../../../common/connectionString";
 
 
 import { SearchNameSpace } from "../../../../enum/lending/lendingEnum";
@@ -28,9 +27,10 @@ import { createTextField, changeTextField } from "../../../../redux/actions/gene
 import { hideMessageBar } from "../../../../redux/actions/general/messageBar/_actionName";
 
 import Content from "./contentModal";
+import { IContextProps } from "../../../../redux/reducers/common/IContextProps";
 
 class SearchClass extends React.Component<ISearchProps, ISearchState> {
-
+  private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextSearch, SearchNameSpace.context )(store);
   private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListSearch, SearchNameSpace.detailListSearch )(store);
   private _dropDownSectionController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSectionSearch, SearchNameSpace.dropDownSectionSearch )(store);
   private _dropDownSubsectionController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSubsectionSearch, SearchNameSpace.dropDownSubsectionSearch )(store);
@@ -49,7 +49,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
 
   private _lendingFilter: LendingFilter = {};
 
-  private _http: BaseService = new BaseService();
+  private _http: BaseService = new BaseService(SearchNameSpace.context);
   private _selection: Selection;
 
   constructor(props: ISearchProps) {
@@ -96,11 +96,11 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     this._createModal();
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this._loadDropdown();
   }
 
-  componentDidUpdate() {
+  public componentDidUpdate() {
     if (this.state.resultVisible ){      
       window.scrollTo(0, document.body.scrollHeight);
     }
@@ -115,7 +115,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
       iconProps: {
         iconName: "Search"
       },
-      onClick: e => {
+      onClick: () => {
         this._loadPendings();
       }
     }});
@@ -376,11 +376,11 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
         }
       }
     ];
-  };
+  }
 
   private _loadDropdown = () => {
     
-    this._http.FetchPost(`${apiTransferencia}/Api/Lending/Filters`, this._lendingFilter)
+    this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/Filters`, this._lendingFilter)
       .then((_response:LendingResult) => {
         if(_response) {          
           if(_response.success) {
@@ -388,28 +388,28 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
             this._dropDownSectionController.dispatch({ 
               type: loadOptions, 
               payload: _response.result.section.map((x:any) => {
-                return { key:x.idSeccion, text: x.nombre }
+                return { key:x.idSeccion, text: x.nombre };
               })
             });
         
             this._dropDownSubsectionController.dispatch({ 
               type: loadOptions, 
               payload: _response.result.subsection.map((x:any) => {
-                return { key:x.idSeccion, text: x.nombre }
+                return { key:x.idSeccion, text: x.nombre };
               })
             });
         
             this._dropDownSerieController.dispatch({ 
               type: loadOptions, 
               payload: _response.result.serie.map((x:any) => {
-                return { key:x.idSerie, text: x.nombre }
+                return { key:x.idSerie, text: x.nombre };
               })
             });
         
             this._dropDownSubserieController.dispatch({ 
               type: loadOptions, 
               payload: _response.result.subserie.map((x:any) => {
-                return { key:x.idSubserie, text: x.nombre }
+                return { key:x.idSubserie, text: x.nombre };
               })
             });
           } 
@@ -421,7 +421,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
   }
 
   private _loadPendings = () => {
-    this._http.FetchPost(`${apiTransferencia}/Api/Lending/Lendings`, this._lendingFilter)
+    this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/Lendings`, this._lendingFilter)
       .then((_response:LendingResultDTO) => {
         if(_response.success) {        
           
@@ -466,9 +466,9 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
       this._hideMessage(true);
       const requestLend: LendingDTO = {
         ...item, observacion 
-      }
+      };
       this._hideMessage(false, "Solicitando...", MessageBarType.warning );
-      this._http.FetchPost(`${apiTransferencia}/Api/Lending/RequestLend`, requestLend)
+      this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/RequestLend`, requestLend)
       .then((_response:LendingResult) => {
         if(_response) {          
           if(_response.success) {

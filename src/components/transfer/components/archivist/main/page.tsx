@@ -14,12 +14,13 @@ import Approved from "../approved";
 import Rejected from "../rejected";
 
 export default function Page(props:IArchivistMainProps) {
+  
     return (
         <div className="ms-Grid" dir="ltr">
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
               <h1 className={"ms-font-xl ms-fontColor-themePrimary"} tabIndex={0}>
-                Expedientes pendientes de aprobación
+                { props.title }
                 <small> Archivista</small>
               </h1>
             </div>
@@ -47,7 +48,7 @@ export default function Page(props:IArchivistMainProps) {
                           };
                         }}
                       >
-                        <Pending />
+                        <Pending key = { props.key } />
                       </SubspaceProvider>
                     </div>
                   </div>
@@ -67,7 +68,7 @@ export default function Page(props:IArchivistMainProps) {
                             detailListApprovedArchivist : state.detailListApprovedArchivist,
                           };
                         }} >
-                        <Approved />
+                        <Approved key = { props.key } />
                       </SubspaceProvider>
                     </div>
                   </div>
@@ -87,7 +88,7 @@ export default function Page(props:IArchivistMainProps) {
                             detailListRejectedArchivist : state.detailListRejectedArchivist,
                           };
                         }} >
-                        <Rejected />
+                        <Rejected key = { props.key } />
                       </SubspaceProvider>
                     </div>
                   </div>

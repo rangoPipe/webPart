@@ -8,4 +8,4 @@ const createChoiceGroup = (payload:string):IAction => {
     };
 };
 
-export default createChoiceGroup
+export default createChoiceGroup;

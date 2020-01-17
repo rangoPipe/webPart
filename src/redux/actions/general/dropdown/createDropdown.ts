@@ -8,4 +8,4 @@ const createDropdown = (payload:string):IAction => {
     };
 };
 
-export default createDropdown
+export default createDropdown;

@@ -11,7 +11,7 @@ export enum EnumEstadoPrestamo
 }
 
 export enum SearchNameSpace {
-    context = "context",
+    context = "contextSearch",
     detailListSearch = "detailListSearch",
     dropDownSectionSearch = "dropDownSectionSearch",
     dropDownSubsectionSearch = "dropDownSubsectionSearch",
@@ -26,7 +26,7 @@ export enum SearchNameSpace {
 }
 
 export enum SendedNameSpace {
-    context = "context",
+    context = "contextSended",
     detailListSended = "detailListSended",
     commandBarSended = "commandBarSended",
     modalSended = "modalSended",
@@ -34,7 +34,7 @@ export enum SendedNameSpace {
 }
 
 export enum ReceivedNameSpace {
-    context = "context",
+    context = "contextReceived",
     detailListReceived = "detailListReceived",
     commandBarReceived = "commandBarReceived",
     modalReceived = "modalReceived",
@@ -45,7 +45,7 @@ export enum ReceivedNameSpace {
 }
 
 export enum LendingNameSpace {
-    context = "context",
+    context = "contextLending",
     detailListLending = "detailListLending",
     commandBarLending = "commandBarLending",
     dialogLending = "dialogLending",
@@ -55,14 +55,14 @@ export enum LendingNameSpace {
 }
 
 export enum PaybackNameSpace {
-    context = "context",
+    context = "contextPayback",
     detailListPayback = "detailListPayback",
     commandBarPayback = "commandBarPayback",
     dialogPayback = "dialogPayback",
 }
 
 export enum ReportNameSpace {    
-    context = "context",
+    context = "contextReport",
     detailListReport = "detailListReport",
     buttonSearchReport = "buttonSearchReport",
     buttonCancelReport = "buttonCancelReport",
