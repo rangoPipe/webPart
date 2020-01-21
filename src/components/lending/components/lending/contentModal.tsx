@@ -19,7 +19,10 @@ interface contentModalProps {
     onAccept:any;
 }
 
-
+/**
+ * Retorna el HTML del formulario para la modal.
+ * @param {contentModalProps} props Atributos del componente
+ */
 export default function Page(props : contentModalProps ) {
   const { item, onCancel, onAccept} = props;
     return (

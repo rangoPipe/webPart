@@ -22,17 +22,27 @@ import { contentStyles, iconButtonStyles } from "../../../../common/classes/styl
 import { IDialogProps } from "../../../../redux/reducers/general/dialog/IDialogProps";
 import { createDialog, hideDialog } from "../../../../redux/actions/general/dialog/_actionName";
 import { IContextProps } from "../../../../redux/reducers/common/IContextProps";
+import { ITextFieldProps } from "../../../../redux/reducers/general/textField/ITextFieldProps";
+import { createTextField, changeTextField } from "../../../../redux/actions/general/textField/_actionName";
 
+/**
+ * @class Clase SendendRequestClass contenedor principal del componente de listado para prestamos solicitados.
+ */
 class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRequestState>  {
-  private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextSended, SendedNameSpace.context )(store);
-  private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListSended, SendedNameSpace.detailListSended )(store);
-  private _commandBarController:Subspace<ICommandBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.commandBarSended, SendedNameSpace.commandBarSended )(store);
-  private _modalController:Subspace<IModalProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.modalReceived, SendedNameSpace.modalSended )(store);
-  private _dialogController:Subspace<IDialogProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dialogSended, SendedNameSpace.dialogSended )(store);
+  /** @private */ private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextSended, SendedNameSpace.context )(store);
+  /** @private */ private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListSended, SendedNameSpace.detailListSended )(store);
+  /** @private */ private _commandBarController:Subspace<ICommandBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.commandBarSended, SendedNameSpace.commandBarSended )(store);
+  /** @private */ private _modalController:Subspace<IModalProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.modalReceived, SendedNameSpace.modalSended )(store);
+  /** @private */ private _dialogController:Subspace<IDialogProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dialogSended, SendedNameSpace.dialogSended )(store);
+  /** @private */ private _txtSearchController:Subspace<ITextFieldProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.txtFilterDtlSended, SendedNameSpace.txtFilterDtlSended )(store);
 
-  private _http: BaseService = new BaseService(SendedNameSpace.context);
-  private _selection:Selection;
+  /** @private */ private _http: BaseService = new BaseService(SendedNameSpace.context);
+  /** @private */ private _selection:Selection;
 
+  /**
+   * Crea una instancia de SendendRequestClass.
+   * @param {ISendedRequestProps} props Recibe parametros inyectados por Redux.
+   */
     constructor(props:ISendedRequestProps) {
        super(props);
 
@@ -63,10 +73,24 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
          }
        });
 
+       this._txtSearchController.dispatch({ type: createTextField, payload: {
+        placeholder: "Buscar...",
+        style: { backgroundColor:"rgba(244, 244, 244, 0.43)" },
+        onChange: (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+          this._txtSearchController.dispatch({ type:changeTextField, payload: newValue});
+        }
+      }});
+
        this._loadData();
        this._createModal();
     }
 
+  /**
+   * Crea las columnas del detaillist, retornando un arreglo de tipo IColumn.
+   * @private
+   * @function
+   * @returns {IColumn[]}
+   */
     private _createColumns = (): IColumn[] => {
       const dateFormat = "YYYY/MM/DD";
       return [
@@ -181,6 +205,12 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
       ];
     }
 
+  /**
+   * Retorna items del menu segun sea el caso requerido
+   * @private
+   * @function
+   * @returns {ICommandBarItemProps[]}
+   */
     private _loadMenu = (items:LendingDTO[]):ICommandBarItemProps[] => {
 
       if(items.length === 0) {
@@ -195,6 +225,12 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
       }
     }
 
+  /**
+   * Retorna items del menu con el fin de aprobacion.
+   * @private
+   * @function
+   * @returns {ICommandBarItemProps[]}
+   */
     private _menuAproved = ():ICommandBarItemProps[] => {
       return [{
         key: "aprove",
@@ -230,6 +266,12 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
       }];
     }
 
+  /**
+   * Retorna items del menu con el fin de solicitud.
+   * @private
+   * @function
+   * @returns {ICommandBarItemProps[]}
+   */
     private _menuRequest = ():ICommandBarItemProps[] => {
       return [{
         key: "reject",
@@ -250,6 +292,12 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
       }];
     }
 
+  /**
+   * Carga listado de solicitudes al detaillist .
+   * @private
+   * @method
+   * @returns {void}
+   */
     private _loadData = ():void => {
       this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/MyRequests`)
       .then((_response:LendingResultDTO) => {
@@ -262,7 +310,13 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
       });
     }
 
-    private _createModal() {
+  /**
+   * Crea modal de la vista con el formulario de prestamo por medio de Redux.
+   * @private
+   * @method
+   * @returns {void}
+   */
+    private _createModal():void {
       const header:JSX.Element = (
         <div className = { contentStyles.header } >
           <span>Aceptar Préstamo</span>
@@ -280,7 +334,13 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
       }});
     }
 
-    private _closeModal = (properties = {}) => {
+  /**
+   * Cierra la modal
+   * @private
+   * @event
+   * @returns {void}
+   */
+    private _closeModal = (properties = {}):void => {
       this.setState({
         ...this.state,
         ...properties,
@@ -288,24 +348,48 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
       });
     }
 
-    private _closeDialog = () =>{
+  /**
+   * Oculta el dialogo
+   * @private
+   * @event
+   * @returns {void}
+   */
+    private _closeDialog = ():void =>{
       this._dialogController.dispatch({type: hideDialog, payload: true });
     }
 
-    private _cancelRequest = () => {
+  /**
+   * Metodo para cancelar solicitud de prestamo.
+   * @private
+   * @method
+   * @returns {void}
+   */
+    private _cancelRequest = ():void => {
       const item:LendingDTO = this._detailListController.getState().selectedItems[0];      
       item.idEstado = EnumEstadoPrestamo.Cancelado;
       item.observacion = "Se cancela la solicitud por el usuario";
       this._sendRequest(item);      
     }
 
-    private _aproveRequest = () => {
+  /**
+   * Metodo para aprobar recepcion de prestamo.
+   * @private
+   * @method
+   * @returns {void}
+   */
+    private _aproveRequest = ():void => {
       const item:LendingDTO = this._detailListController.getState().selectedItems[0];
       item.idEstado = EnumEstadoPrestamo.Prestado;
       item.observacion = "Inicia el tiempo predeterminado de prestamo";
       this._sendRequest(item);      
     }
 
+  /**
+   * Metodo con peticion http, para aprobacion o rechazo del prestamo.
+   * @private
+   * @method
+   * @returns {void}
+   */
     private _sendRequest = (item:LendingDTO):void => {        
       this._closeDialog();
       this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/AproveLend`, item)
@@ -321,6 +405,12 @@ class SendendRequestClass extends React.Component<ISendedRequestProps, ISendedRe
       });
     }
 
+  /**
+   * Renderiza el componente
+   * @public
+   * @function
+   * @returns {JSX.Element }
+   */
     public render(): JSX.Element {
         return <Page modalVisible = { this.state.modalVisible } />;
     }

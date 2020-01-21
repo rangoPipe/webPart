@@ -9,13 +9,13 @@ import Lending from "./components/lending/components/main";
 import { createContext } from "./redux/actions/common/_actionName";
 import { subspace, Subspace } from 'redux-subspace';
 import { IIOIPStore } from './redux/namespace';
-import { OwnerNameSpace } from './enum/owner/ownerEnum';
+//import { OwnerNameSpace } from './enum/owner/ownerEnum';
 import { IContextProps } from './redux/reducers/common/IContextProps';
 import { SearchNameSpace, SendedNameSpace, ReceivedNameSpace, LendingNameSpace, PaybackNameSpace, ReportNameSpace } from './enum/lending/lendingEnum';
 //import Archivist from "./components/transfer/components/archivist/main";
 initializeIcons();
 
-const _contextController: Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextOwner, OwnerNameSpace.context)(store);
+//const _contextController: Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextOwner, OwnerNameSpace.context)(store);
 const _contextSearchController: Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextSearch, SearchNameSpace.context)(store);
  const _contextSendedController: Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextSended, SendedNameSpace.context)(store);
  const _contextReceivedController: Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextReceived, ReceivedNameSpace.context)(store);

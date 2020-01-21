@@ -11,6 +11,10 @@ import Checkbox from "../../../../general/checkbox";
 
 import './style.css';
 
+/**
+ * Retorna el HTML del principal del componente de reportes para prestamos
+ * @param {IReportProps} props Atributos del componente ReportClass
+ */
 export default function Page(props:IReportProps) {
   const { resultVisible } = props;
     return (
@@ -39,12 +43,12 @@ export default function Page(props:IReportProps) {
                         <Checkbox />
                       </SubspaceProvider>
                   </div>
-                  <div className="ms-Grid-col ms-sm12 ms-md4 ms-lg4">                      
+                  <div className="ms-Grid-col ms-sm6 ms-md4 ms-lg4">                      
                       <SubspaceProvider mapState={(state: IIOIPStore) => { return { checkbox: state.chkRequestReport }; }} >
                         <Checkbox />
                       </SubspaceProvider>
                   </div>
-                  <div className="ms-Grid-col ms-sm12 ms-md4 ms-lg4">                      
+                  <div className="ms-Grid-col ms-sm6 ms-md4 ms-lg4">                      
                       <SubspaceProvider mapState={(state: IIOIPStore) => { return { checkbox: state.chkAcceptedReport }; }} >
                         <Checkbox />
                       </SubspaceProvider>
@@ -56,12 +60,12 @@ export default function Page(props:IReportProps) {
                         <Checkbox />
                       </SubspaceProvider>
                   </div>
-                  <div className="ms-Grid-col ms-sm12 ms-md4 ms-lg4">                      
+                  <div className="ms-Grid-col ms-sm6 ms-md4 ms-lg4">                      
                       <SubspaceProvider mapState={(state: IIOIPStore) => { return { checkbox: state.chkLendedReport }; }} >
                         <Checkbox />
                       </SubspaceProvider>
                   </div>
-                  <div className="ms-Grid-col ms-sm12 ms-md4 ms-lg4">                      
+                  <div className="ms-Grid-col ms-sm6 ms-md4 ms-lg4">                      
                       <SubspaceProvider mapState={(state: IIOIPStore) => { return { checkbox: state.chkPaybackReport }; }} >
                         <Checkbox />
                       </SubspaceProvider>

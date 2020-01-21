@@ -1,5 +1,9 @@
 import { IOIPResult } from "../IOIPResult";
 
+/**
+ * Interfaces para el proceso de prestamos.
+ */
+
 export interface LendingFilter {
     userName?:string;
     idSerie?:number | string;

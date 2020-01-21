@@ -14,6 +14,10 @@ import './style.css';
 import { SubspaceProvider } from "react-redux-subspace";
 import { IIOIPStore } from "../../../../redux/namespace";
 
+/**
+ * Retorna el HTML del principal del componente de busqueda para prestamos
+ * @param {ISearchProps} props Atributos del componente SearchClass
+ */
 export default function Page(props:ISearchProps) {
   
   const { sectionVisible, resultVisible, modalVisible } = props;

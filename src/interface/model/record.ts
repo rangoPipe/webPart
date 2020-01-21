@@ -1,3 +1,6 @@
+/**
+ * Model de la entidad expediente.
+ */
 export default interface IRecord {
      idExpediente: number;
      IdVersionTablaRetencionDocumental?: number;

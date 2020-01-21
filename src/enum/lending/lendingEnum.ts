@@ -1,3 +1,6 @@
+/**
+ * Estados de los prestamos.
+ */
 export enum EnumEstadoPrestamo
 {
     Solicitado = 1,
@@ -9,6 +12,10 @@ export enum EnumEstadoPrestamo
     Devuelto = 7,
     Renovado = 8
 }
+
+/**
+ * Namespace para las instancias de los componentes, utilizados por Redux.
+ */
 
 export enum SearchNameSpace {
     context = "contextSearch",
@@ -31,6 +38,7 @@ export enum SendedNameSpace {
     commandBarSended = "commandBarSended",
     modalSended = "modalSended",
     dialogSended = "dialogSended",
+    txtFilterDtlSended = "txtFilterDtlSended",
 }
 
 export enum ReceivedNameSpace {
@@ -42,6 +50,7 @@ export enum ReceivedNameSpace {
     messageBarReceived = "messageBarReceived",
     choiceGroupReceived = "choiceGroupReceived",
     btnLeadReceived = "btnLeadReceived",
+    txtFilterDtlReceived = "txtFilterDtlReceived"
 }
 
 export enum LendingNameSpace {
@@ -52,6 +61,7 @@ export enum LendingNameSpace {
     modalLending = "modalLending",
     textAreaLending = "textAreaLending",
     messageBarLending = "messageBarLending",
+    txtFilterDtlLending = "txtFilterDtlLending"
 }
 
 export enum PaybackNameSpace {
@@ -59,6 +69,7 @@ export enum PaybackNameSpace {
     detailListPayback = "detailListPayback",
     commandBarPayback = "commandBarPayback",
     dialogPayback = "dialogPayback",
+    txtFilterDtlPayback = "txtFilterDtlPayback"
 }
 
 export enum ReportNameSpace {    

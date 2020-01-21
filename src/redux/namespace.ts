@@ -10,6 +10,9 @@ import { IDropdownProps } from "./reducers/general/dropdown/IDropdownProps";
 import { IModalProps } from "./reducers/general/modal/IModalProps";
 import { IDatePickerProps } from "./reducers/general/datePicker/IDatePickerProps";
 import { ICheckboxProps } from "./reducers/general/checkbox/ICheckboxProps";
+import { ITooltipProps } from "./reducers/general/tooltip/ITooltip";
+import { IOverlayProps } from "./reducers/general/overlay/IOverlay";
+import { ISpinnerProps } from "./reducers/general/spinner/ISpinner";
 
 export const contextNs:string = "context";
 export const detailListNs:string = "detailList";
@@ -24,6 +27,8 @@ export const buttonNS:string = "buttonNS";
 export const choiceGroupNS:string = "choiceGroupNS";
 export const dropdownNS:string = "dropdownNS";
 export const modalNS:string = "modalNs";
+export const overlay:string = "overlayGeneral";
+export const spinner:string = "spinnerGeneral";
 
 export interface IIOIPStoreGeneral {
     /**
@@ -85,6 +90,21 @@ export interface IIOIPStoreGeneral {
      * Almacena las propiedades nativas y genericas para el componente general de checkbox de UiFabric
      */
     checkbox:ICheckboxProps;
+
+    /**
+     * Almacena las propiedades nativas y genericas para el componente general de tooltip de UiFabric
+     */
+    tooltip:ITooltipProps;
+
+    /**
+     * Almacena las propiedades nativas y genericas para el componente general de overlay de UiFabric
+     */
+    overlay:IOverlayProps;
+
+    /**
+     * Almacena las propiedades nativas y genericas para el componente general de spinner de UiFabric
+     */
+    spinner:ISpinnerProps;
 }
 
 
@@ -133,6 +153,7 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
     commandBarSended:         ICommandBarProps;
     modalSended:              IModalProps;
     dialogSended:             IDialogProps;
+    txtFilterDtlSended:       ITextFieldProps;
 
     //Lending - Received 
     contextReceived:          IContextProps;
@@ -143,6 +164,7 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
     messageBarReceived:       IMessageBarProps;
     choiceGroupReceived:      IChoiceGroupProps;
     btnLeadReceived:          IButtonProps;
+    txtFilterDtlReceived:     ITextFieldProps;
 
     //Lending - Lending 
     contextLending:           IContextProps;
@@ -152,12 +174,14 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
     modalLending:             IModalProps;
     textAreaLending:          ITextFieldProps;
     messageBarLending:        IMessageBarProps;
+    txtFilterDtlLending:      ITextFieldProps;
 
     //Lending - Payback 
     contextPayback:           IContextProps;
     detailListPayback:        IDetailListProps;
     commandBarPayback:        ICommandBarProps;
     dialogPayback:            IDialogProps;
+    txtFilterDtlPayback:      ITextFieldProps;
 
     //Lending - Report 
     contextReport:            IContextProps;
@@ -183,5 +207,5 @@ export interface IAction {
     /**
      * Suministra el valor a tratar por el reducer
      */
-    payload:any;
+    payload?:any;
 }

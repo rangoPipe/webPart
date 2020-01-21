@@ -26,27 +26,34 @@ import { ICheckboxProps } from "../../../../redux/reducers/general/checkbox/IChe
 import { changeLabel } from "../../../../redux/actions/general/checkbox/_actionName";
 import { IContextProps } from "../../../../redux/reducers/common/IContextProps";
 
+/**
+ * @class Clase ReportClass contenedor principal del componente de reportes para prestamos.
+ */
 class ReportClass extends React.Component<IReportProps, IReportState> {
-  private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextReport, ReportNameSpace.context )(store);
-  private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListReport, ReportNameSpace.detailListReport )(store);
+  /** @private */ private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextReport, ReportNameSpace.context )(store);
+  /** @private */ private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListReport, ReportNameSpace.detailListReport )(store);
 
-  private _buttonSearchController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonSearchReport, ReportNameSpace.buttonSearchReport )(store);
-  private _buttonCancelController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonCancelReport, ReportNameSpace.buttonCancelReport )(store);
+  /** @private */ private _buttonSearchController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonSearchReport, ReportNameSpace.buttonSearchReport )(store);
+  /** @private */ private _buttonCancelController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonCancelReport, ReportNameSpace.buttonCancelReport )(store);
   
-  private _datePickerStartController:Subspace<IDatePickerProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.datePickerStartReport, ReportNameSpace.datePickerStartReport )(store);
-  private _datePickerEndController:Subspace<IDatePickerProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.datePickerEndReport, ReportNameSpace.datePickerEndReport )(store);
+  /** @private */ private _datePickerStartController:Subspace<IDatePickerProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.datePickerStartReport, ReportNameSpace.datePickerStartReport )(store);
+  /** @private */ private _datePickerEndController:Subspace<IDatePickerProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.datePickerEndReport, ReportNameSpace.datePickerEndReport )(store);
 
-  private _chkSendedController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkSendedReport, ReportNameSpace.chkSendedReport )(store);
-  private _chkRequestController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkRequestReport, ReportNameSpace.chkRequestReport )(store);
-  private _chkAcceptedController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkAcceptedReport, ReportNameSpace.chkAcceptedReport )(store);
-  private _chkRejectedController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkRejectedReport, ReportNameSpace.chkRejectedReport )(store);
-  private _chkLendedController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkLendedReport, ReportNameSpace.chkLendedReport )(store);
-  private _chkPaybackController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkPaybackReport, ReportNameSpace.chkPaybackReport )(store);
+  /** @private */ private _chkSendedController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkSendedReport, ReportNameSpace.chkSendedReport )(store);
+  /** @private */ private _chkRequestController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkRequestReport, ReportNameSpace.chkRequestReport )(store);
+  /** @private */ private _chkAcceptedController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkAcceptedReport, ReportNameSpace.chkAcceptedReport )(store);
+  /** @private */ private _chkRejectedController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkRejectedReport, ReportNameSpace.chkRejectedReport )(store);
+  /** @private */ private _chkLendedController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkLendedReport, ReportNameSpace.chkLendedReport )(store);
+  /** @private */ private _chkPaybackController:Subspace<ICheckboxProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.chkPaybackReport, ReportNameSpace.chkPaybackReport )(store);
 
-  private _http: BaseService = new BaseService(ReportNameSpace.context);
-  private _selection: Selection;
-  private _dateFormat:string = "YYYY/MM/DD";
+  /** @private */ private _http: BaseService = new BaseService(ReportNameSpace.context);
+  /** @private */ private _selection: Selection;
+  /** @private */ private _dateFormat:string = "YYYY/MM/DD";
 
+  /**
+   * Crea una instancia de ReportClass.
+   * @param {IReportProps} props Recibe parametros inyectados por Redux.
+   */
   constructor(props: IReportProps) {
     super(props);
 
@@ -71,6 +78,12 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
     this._loadCheckbox();
   }
 
+  /**
+   * Crea los botones para el formulario de reportes.
+   * @private
+   * @method
+   * @returns {void}
+   */
   private _createButtons():void {
 
     this._buttonSearchController.dispatch({ type: createButton, payload: {
@@ -94,6 +107,12 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
 
   }
 
+  /**
+   * Crea las columnas del detaillist, retornando un arreglo de tipo IColumn.
+   * @private
+   * @function
+   * @returns {IColumn[]}
+   */
   private _createColumns = ():IColumn[] => {
     return [
       {
@@ -187,6 +206,12 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
     ];
   }
 
+  /**
+   * Carga el detaillist en base a los filtros obtenidos.
+   * @private
+   * @method
+   * @returns {void}
+   */
   private _loadPendings = ():void => {
     this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/Report`)
       .then((_response:LendingResultDTO) => {
@@ -205,6 +230,12 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
       });
   }
 
+  /**
+   * Crea los datepicker para el formulario de reportes.
+   * @private
+   * @method
+   * @returns {void}
+   */
   private _loadDatePicker = ():void => {
     
 
@@ -233,6 +264,12 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
     });
   }
 
+  /**
+   * Crea las checkbutton para el formulario de reportes.
+   * @private
+   * @method
+   * @returns {void}
+   */
   private _loadCheckbox = ():void => {
     this._chkSendedController.dispatch({type: changeLabel, payload: "Solicitudes enviadas"});
     this._chkRequestController.dispatch({type: changeLabel, payload: "Solicitudes recibidas"});
@@ -242,6 +279,12 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
     this._chkPaybackController.dispatch({type: changeLabel, payload: "Devoluciones"});
   }
 
+  /**
+   * Renderiza el componente
+   * @public
+   * @function
+   * @returns {JSX.Element }
+   */
   public render(): JSX.Element {
     return (
       <Page resultVisible = { this.state.resultVisible } />

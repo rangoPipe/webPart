@@ -2,6 +2,10 @@ import { IOIPResult } from "../IOIPResult";
 import { RecordState } from "../../enum/RecordState";
 import IRecord from "../model/record";
 
+/**
+ * Interfaces para el proceso de transferencias.
+ */
+
 export interface TransferFilter {
     idUsuario?:number;
     userName?:string;

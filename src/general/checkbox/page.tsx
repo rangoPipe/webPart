@@ -3,8 +3,8 @@ import { Checkbox } from "office-ui-fabric-react";
 import { ICheckboxGeneralProps } from "./ICheckboxGeneralProps";
 
 /**
- * Retorna el HTML del componente DatePicker
- * @param {ICheckboxGeneralProps} props Atributos del componente DatePicker
+ * Retorna el HTML del componente Checkbox
+ * @param {ICheckboxGeneralProps} props Atributos del componente Checkbox
  */
 function Page(props: ICheckboxGeneralProps) {
   const { checkbox } = props;

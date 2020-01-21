@@ -1,3 +1,6 @@
+/**
+ * Namespace para las instancias de los componentes, utilizados por Redux.
+ */
 export enum PendingNameSpace {
     context = "contextPendingArchivist",
     detailList = "detailListPendingArchivist",

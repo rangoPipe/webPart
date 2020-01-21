@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Pivot, PivotItem } from "office-ui-fabric-react";
+import { Pivot, PivotItem, Stack } from "office-ui-fabric-react";
 
 import { ILendingMainProps } from "./ILendingMainProps";
 
@@ -9,12 +9,18 @@ import Payback from "../payback";
 import Lending from "../lending";
 import Search from "../search";
 import Report from "../report";
+import Overlay from "../../../../general/overlay";
 
 import { IIOIPStore } from "../../../../redux/namespace";
 import { SubspaceProvider } from "react-redux-subspace";
 
+/**
+ * Retorna el HTML del principal del componente prestamos
+ * @param {ILendingMainProps} props Atributos del componente LendingMain
+ */
 export default function Page(props:ILendingMainProps) {
     return (
+      <Stack>
         <div className="ms-Grid" dir="ltr">
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
@@ -73,7 +79,8 @@ export default function Page(props:ILendingMainProps) {
                           detailListSended: state.detailListSended,
                           commandBarSended: state.commandBarSended,
                           modalSended : state.modalSended,
-                          dialogSended : state.dialogSended
+                          dialogSended : state.dialogSended,
+                          txtFilterDtlSended : state.txtFilterDtlSended
                           }; }}>                        
                           <SendRequest key = { props.key } />
                       </SubspaceProvider>
@@ -98,7 +105,8 @@ export default function Page(props:ILendingMainProps) {
                             messageBarReceived: state.messageBarReceived,
                             textAreaReceived: state.textAreaReceived,
                             choiceGroupReceived: state.choiceGroupReceived,
-                            btnLeadReceived : state.btnLeadReceived
+                            btnLeadReceived : state.btnLeadReceived,
+                            txtFilterDtlReceived : state.txtFilterDtlReceived
                             }; }}>                        
                         <ReceivedRequest key = { props.key }/>
                       </SubspaceProvider>
@@ -120,6 +128,7 @@ export default function Page(props:ILendingMainProps) {
                             detailListPayback: state.detailListPayback,
                             commandBarPayback: state.commandBarPayback,
                             dialogPayback: state.dialogPayback,
+                            txtFilterDtlPayback : state.txtFilterDtlPayback,
                             }; }}>                        
                         <Payback key = { props.key }/>
                       </SubspaceProvider>
@@ -144,6 +153,7 @@ export default function Page(props:ILendingMainProps) {
                             modalLending: state.modalLending,
                             messageBarLending: state.messageBarLending,
                             textAreaLending: state.textAreaLending,
+                            txtFilterDtlLending : state.txtFilterDtlLending,
                             }; }}>                        
                         <Lending key = { props.key }/>
                       </SubspaceProvider>
@@ -183,5 +193,11 @@ export default function Page(props:ILendingMainProps) {
             </Pivot>
           </div>
         </div>
-      );
+        <Stack>
+          <SubspaceProvider  mapState={(state: IIOIPStore) => { return { overlay : state.overlay }; }}>
+            <Overlay key = { props.key } />
+          </SubspaceProvider>
+        </Stack>
+      </Stack>
+    );
 }

@@ -1,3 +1,7 @@
+/**
+ * Estados para los expedientes en el proceso de transferencias.
+ */
+
 export enum RecordState {
     EnGestion = 1,
     ParaGestion = 2,

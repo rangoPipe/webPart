@@ -18,7 +18,10 @@ function Page(props: ITextFieldGeneralProps) {
         disabled={textField.disabled}
         defaultValue={textField.defaultValue}
         value={(textField.value) ? textField.value : ""}
-        onChange={textField.onChange}
+        onChange={ textField.onChange }
+        placeholder = { textField.placeholder }
+        styles = { textField.styles }
+        style = { textField.style}
       />
     </div>
   );

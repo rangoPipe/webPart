@@ -30,23 +30,31 @@ import { ButtonStyle } from "../../../../redux/reducers/general/button/IButtonPr
 import Content from "./contentModal";
 import { IContextProps } from "../../../../redux/reducers/common/IContextProps";
 
+/**
+ * @class Clase ReceivedRequestClass contenedor principal del componente de listado de solicitudes.
+ */
 class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IReceivedRequestState>  {
-  private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextReceived, ReceivedNameSpace.context )(store);
-  private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListReceived, ReceivedNameSpace.detailListReceived )(store);
-  private _commandBarController:Subspace<ICommandBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.commandBarReceived, ReceivedNameSpace.commandBarReceived )(store);
+  /** @private */  private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextReceived, ReceivedNameSpace.context )(store);
+  /** @private */  private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListReceived, ReceivedNameSpace.detailListReceived )(store);
+  /** @private */  private _commandBarController:Subspace<ICommandBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.commandBarReceived, ReceivedNameSpace.commandBarReceived )(store);
   
-  private _modalController:Subspace<IModalProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.modalReceived, ReceivedNameSpace.modalReceived )(store);
-  private _textAreaController:Subspace<ITextFieldProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.textAreaReceived, ReceivedNameSpace.textAreaReceived )(store);
-  private _messageBarController:Subspace<IMessageBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.messageBarReceived, ReceivedNameSpace.messageBarReceived )(store);
-  private _choiceGruopController:Subspace<IChoiceGroupProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.choiceGroupReceived, ReceivedNameSpace.choiceGroupReceived )(store);
-  private _btnLeadController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.btnLeadReceived, ReceivedNameSpace.btnLeadReceived )(store);
+  /** @private */  private _modalController:Subspace<IModalProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.modalReceived, ReceivedNameSpace.modalReceived )(store);
+  /** @private */  private _textAreaController:Subspace<ITextFieldProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.textAreaReceived, ReceivedNameSpace.textAreaReceived )(store);
+  /** @private */  private _messageBarController:Subspace<IMessageBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.messageBarReceived, ReceivedNameSpace.messageBarReceived )(store);
+  /** @private */  private _choiceGruopController:Subspace<IChoiceGroupProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.choiceGroupReceived, ReceivedNameSpace.choiceGroupReceived )(store);
+  /** @private */  private _btnLeadController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.btnLeadReceived, ReceivedNameSpace.btnLeadReceived )(store);
+  /** @private */  private _txtSearchController:Subspace<ITextFieldProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.txtFilterDtlReceived, ReceivedNameSpace.txtFilterDtlReceived )(store);
 
-  private _http: BaseService = new BaseService(ReceivedNameSpace.context);
-  private _selection: Selection;
+  /** @private */  private _http: BaseService = new BaseService(ReceivedNameSpace.context);
+  /** @private */  private _selection: Selection;
 
-  private _aproveLeadbtn:string = "Aprobar";
-  private _rejectLeadbtn:string = "Rechazar";  
+  /** @private */  private _aproveLeadbtn:string = "Aprobar";
+  /** @private */  private _rejectLeadbtn:string = "Rechazar";  
   
+  /**
+   * Crea una instancia de ReceivedRequestClass.
+   * @param {IReceivedRequestProps} props Recibe parametros inyectados por Redux.
+   */
     constructor(props:IReceivedRequestProps) {
        super(props);
 
@@ -91,6 +99,14 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
         }
       }});
 
+      this._txtSearchController.dispatch({ type: createTextField, payload: {
+        placeholder: "Buscar...",
+        style: { backgroundColor:"rgba(244, 244, 244, 0.43)" },
+        onChange: (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+          this._txtSearchController.dispatch({ type:changeTextField, payload: newValue});
+        }
+      }});
+
       this._btnLeadController.dispatch({ type: createButton, payload: {
         text:"Prestar",
         onClick: () => {
@@ -105,6 +121,12 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
       this._createModal();
     }
 
+  /**
+   * Retorna las opciones para la respuesta final en el formulario de respuesta.
+   * @private
+   * @function
+   * @returns {IChoiceGroupOption[]}
+   */
     private _createChoices = (): IChoiceGroupOption[] => {
       return [{
         key: "acceptChoice",
@@ -125,6 +147,12 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
       }];
     }
 
+  /**
+   * Retorna arreglo con las columnas del detaillist.
+   * @private
+   * @function
+   * @returns {IColumn[]}
+   */
     private _createColumns = ():IColumn[] => {
       const dateFormat = "YYYY/MM/DD";
       return [{
@@ -215,6 +243,12 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
       ];
     }
 
+  /**
+   * Retorna un arreglo de opciones para el menu.
+   * @private
+   * @function
+   * @returns {ICommandBarItemProps[]}
+   */
     private _loadMenu = ():ICommandBarItemProps[] => {
       return [{
         key: "aprove",
@@ -241,6 +275,12 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
       }];
     }
 
+  /**
+   * Carga el detaillist..
+   * @private
+   * @method
+   * @returns {void}
+   */
     private _loadData = ():void => {
       this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/MyReceived`)
       .then((_response:LendingResultDTO) => {
@@ -253,6 +293,12 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
       });
     }
 
+  /**
+   * Crea modal de la vista con el formulario de prestamo por medio de Redux.
+   * @private
+   * @method
+   * @returns {void}
+   */
     private _createModal() {
 
       const header:JSX.Element = (
@@ -272,6 +318,12 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
       }});
     }
 
+  /**
+   * Cierra la modal
+   * @private
+   * @event
+   * @returns {void}
+   */
     private _closeModal = (properties = {}) => {
       this.setState({
         ...this.state,
@@ -280,6 +332,12 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
       });
     }
 
+  /**
+   * Oculta el messageBar
+   * @private
+   * @event
+   * @returns {void}
+   */
     private _hideMessage =  ( showMessage, message = "", messageBarType = MessageBarType.error) => {
       this._messageBarController.dispatch({ type: hideMessageBar, payload : {
         messageBarType,
@@ -289,6 +347,12 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
       }});
     }
 
+  /**
+   * Metodo con peticion http, para renovacion o entrega del prestamo.
+   * @private
+   * @method
+   * @returns {void}
+   */
     private _sendRequest = (item:LendingDTO) => {
 
       const observacion:string = this._textAreaController.getState().value;           
@@ -318,6 +382,12 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
       });
     }
 
+  /**
+   * Renderiza el componente
+   * @public
+   * @function
+   * @returns {JSX.Element }
+   */
     public render(): JSX.Element {
       return <Page modalVisible = { this.state.modalVisible }/>;
     }

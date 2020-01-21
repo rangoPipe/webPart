@@ -13,6 +13,8 @@ import modal from "./reducers/general/modal/modal";
 import dropdown from "./reducers/general/dropdown/dropdown";
 import datePicker from "./reducers/general/datePicker/datePicker";
 import checkbox from "./reducers/general/checkbox/checkbox";
+import overlay from "./reducers/general/overlay/overlay";
+import spinner from "./reducers/general/spinner/spinner";
 
 import * as namespace from "./namespace";
 import { SearchNameSpace, SendedNameSpace, ReceivedNameSpace, LendingNameSpace, PaybackNameSpace, ReportNameSpace } from "../enum/lending/lendingEnum";
@@ -32,6 +34,8 @@ const reducer = combineReducers<any>({
     button: namespaced(namespace.buttonNS)(button),
     choiceGroup: namespaced(namespace.choiceGroupNS)(choiceGroup),
     modal: namespaced(namespace.modalNS)(modal),
+    overlay: namespaced(namespace.overlay)(overlay),
+    spinner: namespaced(namespace.spinner)(spinner),
     
     //Owner
     contextOwner: namespaced( OwnerNameSpace.context )(context),
@@ -77,6 +81,7 @@ const reducer = combineReducers<any>({
     commandBarSended: namespaced( SendedNameSpace.commandBarSended )(commnadBar),
     modalSended: namespaced( SendedNameSpace.modalSended )(modal),
     dialogSended: namespaced( SendedNameSpace.dialogSended )(dialog),
+    txtFilterDtlSended: namespaced( SendedNameSpace.txtFilterDtlSended )(textField),
 
     //Lending-Received-Request
     contextReceived: namespaced( ReceivedNameSpace.context )(context),
@@ -87,6 +92,7 @@ const reducer = combineReducers<any>({
     messageBarReceived: namespaced( ReceivedNameSpace.messageBarReceived )(messageBar),
     choiceGroupReceived: namespaced( ReceivedNameSpace.choiceGroupReceived )(choiceGroup),
     btnLeadReceived: namespaced( ReceivedNameSpace.btnLeadReceived )(button),
+    txtFilterDtlReceived: namespaced( ReceivedNameSpace.txtFilterDtlReceived )(textField),
 
     //Lending-Lending
     contextLending: namespaced( LendingNameSpace.context )(context),
@@ -96,12 +102,14 @@ const reducer = combineReducers<any>({
     modalLending: namespaced( LendingNameSpace.modalLending )(modal),
     textAreaLending: namespaced( LendingNameSpace.textAreaLending )(textField),
     messageBarLending: namespaced( LendingNameSpace.messageBarLending )(messageBar),
+    txtFilterDtlLending: namespaced( LendingNameSpace.txtFilterDtlLending )(textField),
 
     //Lending-Payback
     contextPayback: namespaced( PaybackNameSpace.context )(context),
     detailListPayback: namespaced( PaybackNameSpace.detailListPayback )(detailList),
     commandBarPayback: namespaced( PaybackNameSpace.commandBarPayback )(commnadBar),
     dialogPayback: namespaced( PaybackNameSpace.dialogPayback )(dialog),
+    txtFilterDtlPayback: namespaced( PaybackNameSpace.txtFilterDtlPayback )(textField),
 
     //Lending-Report
     contextReport: namespaced( ReportNameSpace.context )(context),

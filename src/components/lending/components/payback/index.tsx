@@ -15,17 +15,25 @@ import { PaybackNameSpace, EnumEstadoPrestamo, LendingNameSpace } from "../../..
 import { BaseService } from "../../../../common/classes/baseService";
 import { createCommandBar } from "../../../../redux/actions/general/commandBar/_actionName";
 import { createDialog, hideDialog } from "../../../../redux/actions/general/dialog/_actionName";
+import { createTextField, changeTextField } from "../../../../redux/actions/general/textField/_actionName";
 
-
+/**
+ * @class Clase PaybackClass contenedor principal del componente de listado de devoluciones.
+ */
 class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
   /** @private */ private _contextController = subspace( (state: IIOIPStore) => state.contextPayback, PaybackNameSpace.context)(store);
   /** @private */ private _detailListController = subspace( (state: IIOIPStore) => state.detailListPayback, PaybackNameSpace.detailListPayback)(store);
   /** @private */ private _commandBarController = subspace( (state: IIOIPStore) => state.commandBarPayback, PaybackNameSpace.commandBarPayback)(store);
   /** @private */ private _dialogController = subspace( (state: IIOIPStore) => state.dialogPayback, PaybackNameSpace.dialogPayback)(store);
+  /** @private */ private _txtSearchController = subspace( (state: IIOIPStore) => state.txtFilterDtlPayback, PaybackNameSpace.txtFilterDtlPayback)(store);
 
-  private _http: BaseService = new BaseService(LendingNameSpace.context);
-  private _selection: Selection;
+  /** @private */ private _http: BaseService = new BaseService(LendingNameSpace.context);
+  /** @private */ private _selection: Selection;
 
+  /**
+   * Crea una instancia de PaybackClass.
+   * @param {IPaybackProps} props Recibe parametros inyectados por Redux.
+   */
     constructor(props:IPaybackProps) {
        super(props);
 
@@ -51,9 +59,23 @@ class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
          }
        });
 
+       this._txtSearchController.dispatch({ type: createTextField, payload: {
+        placeholder: "Buscar...",
+        style: { backgroundColor:"rgba(244, 244, 244, 0.43)" },
+        onChange: (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+          this._txtSearchController.dispatch({ type:changeTextField, payload: newValue});
+        }
+      }});
+
        this._loadData();
     }
 
+  /**
+   * Carga el detaillist..
+   * @private
+   * @method
+   * @returns {void}
+   */
     private _loadData = ():void => {
       this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/Payback`)
       .then((_response:LendingResultDTO) => {
@@ -66,6 +88,12 @@ class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
       });
     }
 
+  /**
+   * Crea las columnas del detaillist, retornando un arreglo de tipo IColumn.
+   * @private
+   * @function
+   * @returns {IColumn[]}
+   */
     private _loadColumns = ():IColumn[] => {
       const dateFormat = "YYYY/MM/DD";
       return [
@@ -158,10 +186,22 @@ class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
       ];
     }
 
+    /**
+   * Cierra la dialog
+   * @private
+   * @event
+   * @returns {void}
+   */
     private _closeDialog = ():void => {
       this._dialogController.dispatch({type: hideDialog, payload: true });
     }
 
+  /**
+   * Retorna un arreglo de opciones para el menu.
+   * @private
+   * @function
+   * @returns {ICommandBarItemProps[]}
+   */
     private _loadMenu = ():ICommandBarItemProps[] => {
       return [{
         key: "acceptPayback",
@@ -181,6 +221,12 @@ class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
       }];
     }
 
+  /**
+   * Metodo que acepta retorno del prestamo.
+   * @private
+   * @method
+   * @returns {void}
+   */
     private _comeback = ():void => {
       let item:LendingDTO = this._detailListController.getState().selectedItems[0];
       item.idEstado = EnumEstadoPrestamo.Devuelto;
@@ -188,6 +234,12 @@ class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
       this._sendRequest(item);
     }
 
+  /**
+   * Metodo con peticion http, para renovacion o entrega del prestamo.
+   * @private
+   * @method
+   * @returns {void}
+   */
     private _sendRequest = (item:LendingDTO):void => {        
       this._closeDialog();
       this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/AproveLend`, item)
@@ -203,6 +255,12 @@ class PaybackClass extends React.Component<IPaybackProps, IPaybackState>  {
       });
     }
 
+  /**
+   * Renderiza el componente
+   * @public
+   * @function
+   * @returns {JSX.Element }
+   */
     public render(): JSX.Element {
       return <Page />;
     }

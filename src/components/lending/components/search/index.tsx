@@ -29,29 +29,36 @@ import { hideMessageBar } from "../../../../redux/actions/general/messageBar/_ac
 import Content from "./contentModal";
 import { IContextProps } from "../../../../redux/reducers/common/IContextProps";
 
+/**
+ * @class Clase SearchClass contenedor principal del componente de busqueda para prestamos.
+ */
 class SearchClass extends React.Component<ISearchProps, ISearchState> {
-  private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextSearch, SearchNameSpace.context )(store);
-  private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListSearch, SearchNameSpace.detailListSearch )(store);
-  private _dropDownSectionController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSectionSearch, SearchNameSpace.dropDownSectionSearch )(store);
-  private _dropDownSubsectionController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSubsectionSearch, SearchNameSpace.dropDownSubsectionSearch )(store);
-  private _dropDownSerieController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSerieSearch, SearchNameSpace.dropDownSerieSearch )(store);
-  private _dropDownSubserieController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSubserieSearch, SearchNameSpace.dropDownSubserieSearch )(store);
+  /** @private */ private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextSearch, SearchNameSpace.context )(store);
+  /** @private */ private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListSearch, SearchNameSpace.detailListSearch )(store);
+  /** @private */ private _dropDownSectionController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSectionSearch, SearchNameSpace.dropDownSectionSearch )(store);
+  /** @private */ private _dropDownSubsectionController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSubsectionSearch, SearchNameSpace.dropDownSubsectionSearch )(store);
+  /** @private */ private _dropDownSerieController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSerieSearch, SearchNameSpace.dropDownSerieSearch )(store);
+  /** @private */ private _dropDownSubserieController:Subspace<IDropdownProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.dropDownSubserieSearch, SearchNameSpace.dropDownSubserieSearch )(store);
   
-  private _buttonSearchController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonSearchSearch, SearchNameSpace.buttonSearchSearch )(store);
-  private _buttonCancelController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonCancelSearch, SearchNameSpace.buttonCancelSearch )(store);
-  private _buttonLendController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonLendSearch, SearchNameSpace.buttonLendSearch )(store);
+  /** @private */ private _buttonSearchController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonSearchSearch, SearchNameSpace.buttonSearchSearch )(store);
+  /** @private */ private _buttonCancelController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonCancelSearch, SearchNameSpace.buttonCancelSearch )(store);
+  /** @private */ private _buttonLendController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonLendSearch, SearchNameSpace.buttonLendSearch )(store);
 
-  private _modalController:Subspace<IModalProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.modalSearch, SearchNameSpace.modalSearch )(store);
-  private _textAreaController:Subspace<ITextFieldProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.textAreaSearch, SearchNameSpace.textAreaSearch )(store);
-  private _messageBarController:Subspace<IMessageBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.messageBarSearch, SearchNameSpace.messageBarSearch )(store);
+  /** @private */ private _modalController:Subspace<IModalProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.modalSearch, SearchNameSpace.modalSearch )(store);
+  /** @private */ private _textAreaController:Subspace<ITextFieldProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.textAreaSearch, SearchNameSpace.textAreaSearch )(store);
+  /** @private */ private _messageBarController:Subspace<IMessageBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.messageBarSearch, SearchNameSpace.messageBarSearch )(store);
 
-  private _choiceGroup: IChoiceGroupProps;
+  /** @private */ private _choiceGroup: IChoiceGroupProps;
 
-  private _lendingFilter: LendingFilter = {};
+  /** @private */ private _lendingFilter: LendingFilter = {};
 
-  private _http: BaseService = new BaseService(SearchNameSpace.context);
-  private _selection: Selection;
+  /** @private */ private _http: BaseService = new BaseService(SearchNameSpace.context);
+  /** @private */ private _selection: Selection;
 
+  /**
+   * Crea una instancia de SearchClass.
+   * @param {ISearchProps} props Recibe parametros inyectados por Redux.
+   */
   constructor(props: ISearchProps) {
     super(props); 
     
@@ -96,17 +103,33 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     this._createModal();
   }
 
-  public componentDidMount() {
+  /**
+   * Ciclo de vida del componente.
+   * @public
+   * @returns {void}
+   */
+  public componentDidMount():void {
     this._loadDropdown();
   }
 
-  public componentDidUpdate() {
+  /**
+   * Ciclo de vida del componente.
+   * @public
+   * @returns {void}
+   */
+  public componentDidUpdate():void {
     if (this.state.resultVisible ){      
       window.scrollTo(0, document.body.scrollHeight);
     }
   }
 
-  private _createButtons() {
+  /**
+   * Crea botones de la vista por medio de Redux.
+   * @private
+   * @method
+   * @returns {void}
+   */
+  private _createButtons():void {
 
     this._buttonSearchController.dispatch({ type: createButton, payload: {
       buttonStyle: ButtonStyle.PrimaryButton,
@@ -161,7 +184,13 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     }});   
   }
 
-  private _createChoices() {
+  /**
+   * Crea radiobutton de la vista por medio de Redux.
+   * @private
+   * @method
+   * @returns {void}
+   */
+  private _createChoices():void {
     const options: IChoiceGroupOptionProps[] = [
       {
         key: "filed",
@@ -235,7 +264,13 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     };
   }
 
-  private _createDropdowns() {
+  /**
+   * Crea dropdown de la vista por medio de Redux.
+   * @private
+   * @method
+   * @returns {void}
+   */
+  private _createDropdowns():void {
 
     this._dropDownSectionController.dispatch({ type: createDropdown, payload: {
       id: IdDropdownsEnum.ddlSection.toString(),
@@ -276,7 +311,13 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     }});
   }
 
-  private _createModal() {
+  /**
+   * Crea modal de la vista con el formulario de prestamo por medio de Redux.
+   * @private
+   * @method
+   * @returns {void}
+   */
+  private _createModal():void {
 
     const header:JSX.Element = (
       <div className = { contentStyles.header } >
@@ -296,6 +337,12 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     }});
   }
 
+  /**
+   * Crea las columnas del detaillist, retornando un arreglo de tipo IColumn.
+   * @private
+   * @function
+   * @returns {IColumn[]}
+   */
   private _createColumns = (): IColumn[] => {
     return [
       {
@@ -378,7 +425,13 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     ];
   }
 
-  private _loadDropdown = () => {
+  /**
+   * Carga los datos de los filtros.
+   * @private
+   * @method
+   * @returns {void}
+   */
+  private _loadDropdown = ():void => {
     
     this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/Filters`, this._lendingFilter)
       .then((_response:LendingResult) => {
@@ -420,6 +473,12 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
       });
   }
 
+  /**
+   * Carga el detaillist de consulta, en base a los filtros.
+   * @private
+   * @method
+   * @returns {void}
+   */
   private _loadPendings = () => {
     this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/Lendings`, this._lendingFilter)
       .then((_response:LendingResultDTO) => {
@@ -438,7 +497,13 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
       });
   }
 
-  private _closeModal = (properties = {}) => {
+  /**
+   * Cierra la modal
+   * @private
+   * @event
+   * @returns {void}
+   */
+  private _closeModal = (properties = {}):void => {
     this.setState({
       ...this.state,
       ...properties,
@@ -446,6 +511,12 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     });
   }
 
+  /**
+   * Cierra la modal
+   * @private
+   * @event
+   * @returns {void}
+   */
   private _hideMessage =  ( showMessage, message = "", messageBarType = MessageBarType.error) => {
     this._messageBarController.dispatch({ type: hideMessageBar, payload : {
       messageBarType,
@@ -455,7 +526,13 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     }});
   }
 
-  private _sendRequest = (item:LendingDTO) => {
+   /**
+   * Genera petición para el proceso de prestamo.
+   * @private
+   * @method
+   * @returns {void}
+   */
+  private _sendRequest = (item:LendingDTO):void => {
 
     const observacion:string = this._textAreaController.getState().value;
 
@@ -486,6 +563,13 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     }
   }
 
+
+   /**
+   * Renderiza el componente
+   * @public
+   * @function
+   * @returns {JSX.Element }
+   */
   public render(): JSX.Element {
     return (
       <Page
