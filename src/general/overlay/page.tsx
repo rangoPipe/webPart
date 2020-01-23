@@ -13,7 +13,7 @@ function Page(props: IOverlayGeneralProps) {
     <Stack>
       { ( !overlay.hidden )
         ? 
-        <Overlay hidden = { overlay.hidden }>
+        <Overlay hidden = { overlay.hidden } style = { overlay.style } isDarkThemed = { overlay.isDarkThemed}>
           { overlay.content }
         </Overlay>
         : null

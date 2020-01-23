@@ -10,7 +10,7 @@ function Page(props: ISpinnerGeneralProps) {
   const { spinner } = props;
   
   return (
-    <Spinner label = { spinner.label } />
+    <Spinner label = { spinner.label } style = { spinner.style } />
   );
 }
 

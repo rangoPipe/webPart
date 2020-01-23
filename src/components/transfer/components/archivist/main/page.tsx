@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Pivot, PivotItem } from "office-ui-fabric-react";
+import { Pivot, PivotItem, Stack } from "office-ui-fabric-react";
 
 //Redux
 import { IIOIPStore } from "../../../../../redux/namespace";
@@ -12,10 +12,12 @@ import { IArchivistMainProps } from "./IArchivistMain";
 import Pending from "../pending";
 import Approved from "../approved";
 import Rejected from "../rejected";
+import Overlay from "../../../../../general/overlay";
 
 export default function Page(props:IArchivistMainProps) {
   
     return (
+      <Stack>
         <div className="ms-Grid" dir="ltr">
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
@@ -97,5 +99,11 @@ export default function Page(props:IArchivistMainProps) {
             </Pivot>
           </div>
         </div>
+        <Stack>
+          <SubspaceProvider  mapState={(state: IIOIPStore) => { return { overlay : state.overlay }; }}>
+            <Overlay key = { props.key } />
+          </SubspaceProvider>
+        </Stack>
+      </Stack>
       );
 }
