@@ -196,6 +196,9 @@ export interface IIOIPStore extends IIOIPStoreGeneral {
     chkRejectedReport:        ICheckboxProps;
     chkLendedReport:          ICheckboxProps;
     chkPaybackReport:         ICheckboxProps;
+    commandBarReport:         ICommandBarProps;
+    txtFilterDtlReport:       ITextFieldProps;
+    modalReport:              IModalProps;
 }
 
 export interface IAction {

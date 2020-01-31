@@ -1,4 +1,5 @@
 import { IOIPResult } from "../IOIPResult";
+import { EnumEstadoPrestamoReporte } from "../../enum/lending/lendingEnum";
 
 /**
  * Interfaces para el proceso de prestamos.
@@ -10,6 +11,11 @@ export interface LendingFilter {
     idSubserie?:number | string;
     idSeccion?:number | string;
     idSubseccion?:number | string;
+    idExpediente?:number | string;
+
+    estado?: EnumEstadoPrestamoReporte[];
+    fechaInicial?: Date;
+    fechaFinal?: Date;
 
     serie?: any[];
     subserie?: any[];

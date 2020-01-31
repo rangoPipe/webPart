@@ -15,6 +15,7 @@ function Page(props: ICheckboxGeneralProps) {
         disabled = { checkbox.disabled }
         defaultChecked = { checkbox.defaultChecked }
         checked = { checkbox.checked }
+        value = { checkbox.value }
     />
   );
 }

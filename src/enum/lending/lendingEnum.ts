@@ -14,6 +14,19 @@ export enum EnumEstadoPrestamo
 }
 
 /**
+ * Estados de los prestamos para los reportes.
+ */
+export enum EnumEstadoPrestamoReporte
+{
+    Solicitud_enviada = 1,
+    Solicitud_recibida = 2,
+    Aceptado = 3,
+    Rechazado = 4,
+    Prestamo = 5,
+    Devolucion = 6
+}
+
+/**
  * Namespace para las instancias de los componentes, utilizados por Redux.
  */
 
@@ -85,4 +98,7 @@ export enum ReportNameSpace {
     chkRejectedReport = "chkRejectedReport",
     chkLendedReport = "chkLendedReport",
     chkPaybackReport = "chkPaybackReport",
+    txtFilterDtlReport = "txtFilterDtlReport",
+    commandBarReport = "commandBarReport",
+    modalReport = "modalReport",
 }

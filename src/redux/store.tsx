@@ -123,7 +123,10 @@ const reducer = combineReducers<any>({
     chkAcceptedReport: namespaced( ReportNameSpace.chkAcceptedReport )(checkbox),
     chkRejectedReport: namespaced( ReportNameSpace.chkRejectedReport )(checkbox),
     chkLendedReport: namespaced( ReportNameSpace.chkLendedReport )(checkbox),
-    chkPaybackReport: namespaced( ReportNameSpace.chkPaybackReport )(checkbox)
+    chkPaybackReport: namespaced( ReportNameSpace.chkPaybackReport )(checkbox),
+    txtFilterDtlReport: namespaced( ReportNameSpace.txtFilterDtlReport )(textField),
+    commandBarReport: namespaced( ReportNameSpace.commandBarReport )(commnadBar),
+    modalReport: namespaced( ReportNameSpace.modalReport )(modal),
 });
 
 const store = createStore(reducer);

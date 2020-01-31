@@ -1,6 +1,4 @@
-import {
-  createDatePicker
-} from "../../../actions/general/datePicker/_actionName";
+import { createDatePicker, changeValue } from "../../../actions/general/datePicker/_actionName";
 import { IAction } from "../../../namespace";
 import { IDatePickerProps, languageEs } from "./IDatePickerProps";
 import { DayOfWeek } from "office-ui-fabric-react";
@@ -9,8 +7,10 @@ const defaultState: IDatePickerProps = {
   firstDayOfWeek :  DayOfWeek.Monday,
   strings : languageEs,
   placeholder: languageEs.placeholder,
+  onSelectDate: () => {},
   label: "",
-  formatDate:undefined
+  formatDate:undefined,
+  value: undefined
 };
 
 function reducer(state = defaultState, { type, payload }: IAction): IDatePickerProps {
@@ -19,6 +19,12 @@ function reducer(state = defaultState, { type, payload }: IAction): IDatePickerP
       return {
         ...state,
         ...payload
+      };
+    }
+    case changeValue: {
+      return {
+        ...state,
+        value: payload
       };
     }
 

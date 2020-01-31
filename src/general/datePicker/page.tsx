@@ -15,6 +15,8 @@ function Page(props: IDatePickerGeneralProps) {
         placeholder = { datePicker.placeholder }
         label = { datePicker.label }
         formatDate = { datePicker.formatDate }
+        onSelectDate = { datePicker.onSelectDate }
+        value = { datePicker.value }
     />
   );
 }

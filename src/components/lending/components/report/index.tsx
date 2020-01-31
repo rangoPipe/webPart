@@ -2,15 +2,17 @@ import * as React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { subspace, Subspace } from "redux-subspace";
-import { IColumn, Selection, SelectionMode } from "office-ui-fabric-react";
+import { IColumn, Selection, SelectionMode, ICommandBarItemProps, IconButton } from "office-ui-fabric-react";
 
 import Page from "./page";
+import Content from "./contentModal";
 import store from "../../../../redux/store";
+import { contentStyles, iconButtonStyles } from "../../../../common/classes/style";
 
 import { IIOIPStore } from "../../../../redux/namespace";
 import { BaseService } from "../../../../common/classes/baseService";
 import { IReportProps, IReportState } from "./IReport";
-import { ReportNameSpace } from "../../../../enum/lending/lendingEnum";
+import { ReportNameSpace, EnumEstadoPrestamoReporte } from "../../../../enum/lending/lendingEnum";
 
 import { createDetailList, loadDetailList, selectRowItem  } from "../../../../redux/actions/general/detailList/_actionName";
 import { createButton } from "../../../../redux/actions/general/button/_actionName";
@@ -19,12 +21,18 @@ import { createButton } from "../../../../redux/actions/general/button/_actionNa
 import { IButtonProps, ButtonStyle } from "../../../../redux/reducers/general/button/IButtonProps";
 import { IDetailListProps } from "../../../../redux/reducers/general/detailList/IDetailListProps";
 
-import { LendingResultDTO, LendingDTO } from "../../../../interface/lending/lendingResult";
+import { LendingResultDTO, LendingDTO, LendingFilter } from "../../../../interface/lending/lendingResult";
 import { IDatePickerProps, languageEs } from "../../../../redux/reducers/general/datePicker/IDatePickerProps";
-import { createDatePicker } from "../../../../redux/actions/general/datePicker/_actionName";
+import { createDatePicker, changeValue } from "../../../../redux/actions/general/datePicker/_actionName";
 import { ICheckboxProps } from "../../../../redux/reducers/general/checkbox/ICheckboxProps";
-import { changeLabel } from "../../../../redux/actions/general/checkbox/_actionName";
+import { createCheckbox, changeChecked } from "../../../../redux/actions/general/checkbox/_actionName";
 import { IContextProps } from "../../../../redux/reducers/common/IContextProps";
+import { createTextField, changeTextField } from "../../../../redux/actions/general/textField/_actionName";
+import { createCommandBar } from "../../../../redux/actions/general/commandBar/_actionName";
+import { IModalProps } from "../../../../redux/reducers/general/modal/IModalProps";
+import { ITextFieldProps } from "../../../../redux/reducers/general/textField/ITextFieldProps";
+import { ICommandBarProps } from "../../../../redux/reducers/general/commandBar/ICommandBarProps";
+import { createModal, createContent } from "../../../../redux/actions/general/modal/_actionName";
 
 /**
  * @class Clase ReportClass contenedor principal del componente de reportes para prestamos.
@@ -32,6 +40,9 @@ import { IContextProps } from "../../../../redux/reducers/common/IContextProps";
 class ReportClass extends React.Component<IReportProps, IReportState> {
   /** @private */ private _contextController:Subspace<IContextProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.contextReport, ReportNameSpace.context )(store);
   /** @private */ private _detailListController:Subspace<IDetailListProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.detailListReport, ReportNameSpace.detailListReport )(store);
+  /** @private */ private _commandBarController:Subspace<ICommandBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.commandBarReport, ReportNameSpace.commandBarReport )(store);
+  /** @private */ private _txtSearchController:Subspace<ITextFieldProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.txtFilterDtlReport, ReportNameSpace.txtFilterDtlReport )(store);
+  /** @private */ private _modalController:Subspace<IModalProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.modalReport, ReportNameSpace.modalReport )(store);
 
   /** @private */ private _buttonSearchController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonSearchReport, ReportNameSpace.buttonSearchReport )(store);
   /** @private */ private _buttonCancelController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.buttonCancelReport, ReportNameSpace.buttonCancelReport )(store);
@@ -58,14 +69,29 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
     super(props);
 
     this.state = {
-      resultVisible: false
+      resultVisible: false,
+      modalVisible: false
     };
   
     this._selection = new Selection({
       onSelectionChanged: () => {
-        this._detailListController.dispatch({ type: selectRowItem, payload: this._selection.getSelection() });     
+        this._detailListController.dispatch({ type: selectRowItem, payload: this._selection.getSelection() });
+        this._commandBarController.dispatch({
+          type: createCommandBar,
+          payload: {
+            items: (this._selection.getSelectedCount() > 0 ) ? this._createMenu() : []
+          }
+        });
       }
     });
+
+    this._txtSearchController.dispatch({ type: createTextField, payload: {
+      placeholder: "Buscar...",
+      style: { backgroundColor:"rgba(244, 244, 244, 0.43)" },
+      onChange: (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+        this._txtSearchController.dispatch({ type:changeTextField, payload: newValue});
+      }
+    }});
     
     this._detailListController.dispatch({ type: createDetailList, payload: {
       columns: this._createColumns(),
@@ -76,6 +102,7 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
     this._createButtons();
     this._loadDatePicker();
     this._loadCheckbox();
+    this._createModal();
   }
 
   /**
@@ -94,7 +121,34 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
         iconName: "Search"
       },
       onClick: () => {
-        this._loadPendings();
+        let filter:LendingFilter = { estado: [] };
+        if(this._datePickerStartController.getState().value) {
+          filter.fechaInicial = this._datePickerStartController.getState().value;
+        }
+        if(this._datePickerEndController.getState().value) {
+          filter.fechaFinal = this._datePickerEndController.getState().value;
+        }
+
+        if(this._chkSendedController.getState().checked) {
+          filter.estado.push(this._chkSendedController.getState().value as EnumEstadoPrestamoReporte);
+        }
+        if(this._chkRequestController.getState().checked) {
+          filter.estado.push(this._chkRequestController.getState().value as EnumEstadoPrestamoReporte);
+        }
+        if(this._chkAcceptedController.getState().checked) {
+          filter.estado.push(this._chkAcceptedController.getState().value as EnumEstadoPrestamoReporte);
+        }
+        if(this._chkRejectedController.getState().checked) {
+          filter.estado.push(this._chkRejectedController.getState().value as EnumEstadoPrestamoReporte);
+        }
+        if(this._chkLendedController.getState().checked) {
+          filter.estado.push(this._chkLendedController.getState().value as EnumEstadoPrestamoReporte);
+        }
+        if(this._chkPaybackController.getState().checked) {
+          filter.estado.push(this._chkPaybackController.getState().value as EnumEstadoPrestamoReporte);
+        }
+        
+        this._loadPendings(filter);
       }
     }});
 
@@ -102,6 +156,10 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
       text: "Cancelar",
       onClick: () => {
         this._selection.setAllSelected(false);
+        this.setState({
+          ...this.state,
+          resultVisible:false
+        });
       }
     }});   
 
@@ -189,7 +247,8 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
         data: "string",
         minWidth: 100,
         onRender: (item: LendingDTO) => {
-          return <span>{ moment(item.fecha_devolucion).format(this._dateFormat) }</span>;
+          let date:string = moment(item.fecha_devolucion).format(this._dateFormat);
+          return <span>{ (date !== "0001/01/01") ? date : null }</span>;
         }
       },
       {
@@ -200,10 +259,69 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
         data: "string",
         minWidth: 100,
         onRender: (item: LendingDTO) => {
-          return <span>{ moment(item.fecha_entrega).format(this._dateFormat) }</span>;
+          let date:string = moment(item.fecha_entrega).format(this._dateFormat);
+          return <span>{ (date !== "0001/01/01") ? date : null }</span>;
         }
       }
     ];
+  }
+
+  /**
+   * Retorna un arreglo de opciones para el menu.
+   * @private
+   * @function
+   * @returns {ICommandBarItemProps[]}
+   */
+  private _createMenu = ():ICommandBarItemProps[] => {
+    return [{
+      key: "aprove",
+      name: "Observaciones",
+      iconProps: {
+        iconName: "Comment"
+      },
+      onClick: () => {
+        this._loadTrazability(this._detailListController.getState().selectedItems[0].idExpediente);
+      }
+    }];
+  }
+
+  /**
+   * Crea modal de la vista con el formulario de prestamo por medio de Redux.
+   * @private
+   * @method
+   * @returns {void}
+   */
+  private _createModal() {
+
+    const header:JSX.Element = (
+      <div className = { contentStyles.header } >
+        <span>Observaciones</span>
+        <IconButton
+          styles = { iconButtonStyles }
+          iconProps={{ iconName: 'Cancel' }}
+          onClick={ () => this._closeModal() }
+        />
+      </div>);
+
+    this._modalController.dispatch({ type: createModal, payload: {
+      header,
+      isOpen: true,
+      onDismiss : () => this._closeModal()
+    }});
+  }
+
+  /**
+   * Cierra la modal
+   * @private
+   * @event
+   * @returns {void}
+   */
+  private _closeModal = (properties = {}) => {
+    this.setState({
+      ...this.state,
+      ...properties,
+      modalVisible: false
+    });
   }
 
   /**
@@ -212,8 +330,8 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
    * @method
    * @returns {void}
    */
-  private _loadPendings = ():void => {
-    this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/Report`)
+  private _loadPendings = (filter:LendingFilter):void => {
+    this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/Report`, filter)
       .then((_response:LendingResultDTO) => {
         if(_response.success) {        
           
@@ -245,6 +363,7 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
         strings: languageEs,
         placeholder: languageEs.placeholder,
         label: "Fecha Inicial",
+        onSelectDate: (date: Date) => this._datePickerStartController.dispatch({ type: changeValue, payload: date }),        
         formatDate: (date: Date): string => {
           return moment(date).format(this._dateFormat);
         }
@@ -256,6 +375,7 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
       payload: {
         strings: languageEs,
         placeholder: languageEs.placeholder,
+        onSelectDate: (date: Date) => this._datePickerEndController.dispatch({ type: changeValue, payload: date }), 
         label: "Fecha Final",
         formatDate: (date: Date): string => {
           return moment(date).format(this._dateFormat);
@@ -271,12 +391,41 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
    * @returns {void}
    */
   private _loadCheckbox = ():void => {
-    this._chkSendedController.dispatch({type: changeLabel, payload: "Solicitudes enviadas"});
-    this._chkRequestController.dispatch({type: changeLabel, payload: "Solicitudes recibidas"});
-    this._chkAcceptedController.dispatch({type: changeLabel, payload: "Préstamos aceptados"});
-    this._chkRejectedController.dispatch({type: changeLabel, payload: "Préstamos rechazados"});
-    this._chkLendedController.dispatch({type: changeLabel, payload: "Expedientes en préstamo"});
-    this._chkPaybackController.dispatch({type: changeLabel, payload: "Devoluciones"});
+    this._chkSendedController.dispatch({type: createCheckbox, payload: { label: "Solicitudes enviadas", value: EnumEstadoPrestamoReporte.Solicitud_enviada, onChange: (e,checked) => this._chkSendedController.dispatch({type: changeChecked, payload: checked }) }});
+    this._chkRequestController.dispatch({type: createCheckbox, payload: { label: "Solicitudes recibidas", value: EnumEstadoPrestamoReporte.Solicitud_recibida ,onChange: (e,checked) => this._chkRequestController.dispatch({type: changeChecked, payload: checked }) }}); 
+    this._chkAcceptedController.dispatch({type: createCheckbox, payload: { label: "Préstamos aceptados", value: EnumEstadoPrestamoReporte.Aceptado,onChange: (e,checked) => this._chkAcceptedController.dispatch({type: changeChecked, payload: checked }) }});
+    this._chkRejectedController.dispatch({type: createCheckbox, payload: { label: "Préstamos rechazados", value: EnumEstadoPrestamoReporte.Rechazado,onChange: (e,checked) => this._chkRejectedController.dispatch({type: changeChecked, payload: checked }) }});
+    this._chkLendedController.dispatch({type: createCheckbox, payload: { label: "Expedientes en préstamo", value: EnumEstadoPrestamoReporte.Prestamo,onChange: (e,checked) => this._chkLendedController.dispatch({type: changeChecked, payload: checked }) }});
+    this._chkPaybackController.dispatch({type: createCheckbox, payload: { label: "Devoluciones", value: EnumEstadoPrestamoReporte.Devolucion,onChange: (e,checked) => this._chkPaybackController.dispatch({type: changeChecked, payload: checked }) }});
+  }
+
+  /**
+   * Carga la trazabilidad de un expediente por id
+   * @private
+   * @method
+   * @returns {void}
+   */
+  private _loadTrazability = (idExpediente) => {
+    this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/Trazability`,{ idExpediente })
+      .then((_response:LendingResultDTO) => {
+        if(_response.success) {            
+          this._modalController.dispatch({ 
+            type: createContent,
+             payload: 
+              <Content items = { _response.result } 
+                onCancel = { () => this._closeModal() } 
+                /> 
+            });
+
+          this.setState({
+            ...this.state,
+            modalVisible: true
+          });
+        }                           
+      })
+      .catch(err => {
+        console.log(err);        
+      });
   }
 
   /**
@@ -287,7 +436,7 @@ class ReportClass extends React.Component<IReportProps, IReportState> {
    */
   public render(): JSX.Element {
     return (
-      <Page resultVisible = { this.state.resultVisible } />
+      <Page resultVisible = { this.state.resultVisible } modalVisible = { this.state.modalVisible } />
     );
   }
 }

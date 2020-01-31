@@ -1,4 +1,4 @@
-import { createCheckbox, changeLabel } from "../../../actions/general/checkbox/_actionName";
+import { createCheckbox, changeLabel, changeChecked } from "../../../actions/general/checkbox/_actionName";
 import { IAction } from "../../../namespace";
 import { ICheckboxProps } from "./ICheckboxProps";
 
@@ -7,7 +7,8 @@ const defaultState: ICheckboxProps = {
   onChange: undefined,
   disabled: false,
   defaultChecked:false,
-  checked:undefined
+  checked:undefined,
+  value: undefined
 };
 
 function reducer(state = defaultState, { type, payload }: IAction): ICheckboxProps {
@@ -22,6 +23,12 @@ function reducer(state = defaultState, { type, payload }: IAction): ICheckboxPro
       return {
         ...state,
         label: payload
+      };
+    }
+    case changeChecked: {
+      return {
+        ...state,
+        checked: payload
       };
     }
 

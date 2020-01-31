@@ -19,7 +19,6 @@ import { SubspaceProvider } from "react-redux-subspace";
  * @param {ILendingMainProps} props Atributos del componente LendingMain
  */
 export default function Page(props:ILendingMainProps) {
-  console.log(props);
   
   const { onClickMenu, menu } = props; 
 
@@ -186,7 +185,7 @@ export default function Page(props:ILendingMainProps) {
                       <Lending key = { props.key }/>
                     </SubspaceProvider>
                 : ( menu === "reportLending")
-                 ? <SubspaceProvider mapState={(state: IIOIPStore) => {                      
+                 ? <SubspaceProvider mapState={(state: IIOIPStore) => {
                         return {
                           contextReport: state.contextReport,
                           detailListReport: state.detailListReport,                           
@@ -200,6 +199,9 @@ export default function Page(props:ILendingMainProps) {
                           chkRejectedReport: state.chkRejectedReport,
                           chkLendedReport: state.chkLendedReport,
                           chkPaybackReport: state.chkPaybackReport,
+                          txtFilterDtlReport : state.txtFilterDtlReport,
+                          commandBarReport : state.commandBarReport,
+                          modalReport : state.modalReport,
                           }; }}>                        
                       <Report key = { props.key }/>
                     </SubspaceProvider>

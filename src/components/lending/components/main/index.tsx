@@ -12,7 +12,7 @@ export default class LendingMain extends React.Component<ILendingMainProps, ILen
 
     this.state = {
       menu: null
-    }
+    };
   }
 
   public changeState = (value:string) => {

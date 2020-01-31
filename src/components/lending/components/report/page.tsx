@@ -1,13 +1,16 @@
 import * as React from "react";
 import { SubspaceProvider } from "react-redux-subspace";
-import { Stack } from "office-ui-fabric-react";
+import { Stack, TooltipHost } from "office-ui-fabric-react";
 import { IIOIPStore } from "../../../../redux/namespace";
 import { IReportProps } from "./IReport";
 
 import Button from "../../../../general/button";
 import DetailList from "../../../../general/detailList";
+import CommandBar from "../../../../general/commandBar";
 import DatePicker from "../../../../general/datePicker";
+import Textfield from "../../../../general/textField";
 import Checkbox from "../../../../general/checkbox";
+import Modal from "../../../../general/modal";
 
 import './style.css';
 
@@ -16,7 +19,7 @@ import './style.css';
  * @param {IReportProps} props Atributos del componente ReportClass
  */
 export default function Page(props:IReportProps) {
-  const { resultVisible } = props;
+  const { resultVisible, modalVisible } = props;
     return (
       <Stack>
         <div className="ms-Grid ms-depth-8 container">
@@ -89,11 +92,41 @@ export default function Page(props:IReportProps) {
           </div>
         </div>
         { resultVisible ? (
-          <SubspaceProvider mapState={(state: IIOIPStore) => { return { detailList: state.detailListReport }; }} >
-            <DetailList />
-          </SubspaceProvider>
-        ) : null}
-
+          <div className="ms-Grid ms-depth-8 container resultReport">
+            <div className="ms-Grid-row body">
+              <div className="ms-Grid-col ms-sm12">
+                <div className="ms-Grid">
+                  <div className="ms-Grid-row">
+                    <div className="ms-Grid-col ms-sm9 ms-md10 ms-lg9">
+                      <SubspaceProvider mapState={(state: IIOIPStore) => {
+                       return { commandBar: state.commandBarReport }; }} >
+                        <CommandBar />
+                      </SubspaceProvider>
+                    </div>
+                    <div className="ms-Grid-col ms-sm3 ms-md2 ms-lg3">
+                      <TooltipHost content="Buscar préstamos filtrando por ...">            
+                        <SubspaceProvider mapState={(state: IIOIPStore) => { return { textField: state.txtFilterDtlReport }; }} >
+                          <Textfield />
+                        </SubspaceProvider>
+                      </TooltipHost>
+                    </div>
+                    <div className="ms-Grid-col ms-sm12">
+                      <SubspaceProvider mapState={(state: IIOIPStore) => { return { detailList: state.detailListReport }; }} >
+                        <DetailList />
+                      </SubspaceProvider>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null }
+        { modalVisible 
+         ?  <SubspaceProvider mapState={(state: IIOIPStore) => { return { modal: state.modalReport }; }} >
+              <Modal />
+            </SubspaceProvider>
+         : null
+         }
       </Stack>
     );
 }
