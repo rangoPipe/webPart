@@ -3,7 +3,6 @@ import * as React from "react";
 import * as moment from "moment";
 import { Selection, ICommandBarItemProps, MessageBarType, DialogFooter, PrimaryButton, DefaultButton } from "office-ui-fabric-react";
 import { subspace } from "redux-subspace";
-import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 import { RecordState } from "../../../../enum/RecordState";
 import Page from "./page";

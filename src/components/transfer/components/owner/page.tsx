@@ -13,7 +13,6 @@ import "./style.css";
 //Componentes
 import Dialog from "../../../../general/dialog";
 import CommandBar from "../../../../general/commandBar";
-import Overlay from "../../../../general/overlay";
 
 /**
  * Retorna el HTML del principal del propietario
@@ -56,11 +55,6 @@ export default function Page(props: IOwnerProps) {
           <Dialog />
         </SubspaceProvider>
       </div>
-      <Stack>
-          <SubspaceProvider  mapState={(state: IIOIPStore) => { return { overlay : state.overlay }; }}>
-            <Overlay />
-          </SubspaceProvider>
-        </Stack>
     </Stack>
   );
 }

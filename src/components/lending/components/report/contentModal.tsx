@@ -37,7 +37,7 @@ export default function Page(props: contentModalProps) {
                             <Label>Estado: </Label>{ x.estado }
                             <Label>Usuario: </Label>{ x.userRequest }
                             <Textfield  textField={{ value: x.observacion, disabled: true, label: "Observación:", rows: 5, multiline: true }}/>
-                          </div>)
+                          </div>);
                       })
                     }
                 </div>
