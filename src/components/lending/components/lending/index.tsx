@@ -305,7 +305,7 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
    */
     private _payback = ():void => {
       let item:LendingDTO = this._detailListController.getState().selectedItems[0];
-      item = {...item, idEstado : EnumEstadoPrestamo.Devolver, observacion: "El usuario solicita el retorno del prestamo" };
+      item = {...item, idEstado : EnumEstadoPrestamo.Devuelto, observacion: "El usuario retorna del préstamo" };
       this._sendRequest(item);
     }
 
@@ -323,7 +323,7 @@ class LendingClass extends React.Component<ILendingProps, ILendingState>  {
       }
 
       let item:LendingDTO = this._detailListController.getState().selectedItems[0];
-      item = {...item, idEstado : EnumEstadoPrestamo.Renovado, observacion };
+      item = {...item, idEstado : EnumEstadoPrestamo.Renovar, observacion };
       this._sendRequest(item);
     }
 

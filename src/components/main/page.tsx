@@ -21,7 +21,7 @@ export default function Page(props:IMainProps) {
       <Stack>
         <div className="ms-Grid" dir="ltr">
         <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12" style = { { overflowY:"scroll", marginTop:"9px", maxHeight:"420px" }}>
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
               <h1 className={"ms-font-xl ms-fontColor-themePrimary"} tabIndex={0}>
                 { props.title }
               </h1>
@@ -117,15 +117,6 @@ export default function Page(props:IMainProps) {
                             key: EnumModules.ReceivedLending,
                             onClick: (ev?: React.MouseEvent<HTMLElement>, item?: INavLink) => {
                               onClickMenu(item.key);
-                            }
-                          },
-                          {
-                            name: 'Devoluciones',
-                            url: '',
-                            icon: 'ReturnToSession',
-                            key: EnumModules.PaybackLending,
-                            onClick: (ev?: React.MouseEvent<HTMLElement>, item?: INavLink) => {
-                              onClickMenu(item.key);                            
                             }
                           },
                           {

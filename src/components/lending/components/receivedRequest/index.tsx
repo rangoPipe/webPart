@@ -2,8 +2,7 @@ import * as React from "react";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { subspace, Subspace } from "redux-subspace";
-import { IColumn, SelectionMode, ICommandBarProps, ICommandBarItemProps, Selection, IconButton, IModalProps, ITextFieldProps, IMessageBarProps, MessageBarType, IChoiceGroupOption, IButtonProps } from "office-ui-fabric-react";
-import { IChoiceGroupProps } from "../../../../redux/reducers/general/choiceGroup/IChoiceGroupProps";
+import { IColumn, SelectionMode, ICommandBarProps, ICommandBarItemProps, Selection, IconButton, IModalProps, ITextFieldProps, IMessageBarProps, MessageBarType, IButtonProps, IContextualMenuProps } from "office-ui-fabric-react";
 
 import { contentStyles, iconButtonStyles } from "../../../../common/classes/style";
 import { EnumEstadoPrestamo } from "../../../../enum/lending/lendingEnum";
@@ -20,9 +19,8 @@ import { LendingDTO, LendingResultDTO, LendingResult } from "../../../../interfa
 
 import { hideMessageBar } from "../../../../redux/actions/general/messageBar/_actionName";
 import { createDetailList, loadDetailList, selectRowItem } from "../../../../redux/actions/general/detailList/_actionName";
-import { createChoiceGroup, selectChoiceGroup } from "../../../../redux/actions/general/choiceGroup/_actionName";
 import { createTextField, changeTextField } from "../../../../redux/actions/general/textField/_actionName";
-import { createButton, changeText } from "../../../../redux/actions/general/button/_actionName";
+import { createButton } from "../../../../redux/actions/general/button/_actionName";
 import { createCommandBar } from "../../../../redux/actions/general/commandBar/_actionName";
 import { createModal, createContent } from "../../../../redux/actions/general/modal/_actionName";
 import { ButtonStyle } from "../../../../redux/reducers/general/button/IButtonProps";
@@ -41,15 +39,11 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
   /** @private */  private _modalController:Subspace<IModalProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.modalReceived, ReceivedNameSpace.modalReceived )(store);
   /** @private */  private _textAreaController:Subspace<ITextFieldProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.textAreaReceived, ReceivedNameSpace.textAreaReceived )(store);
   /** @private */  private _messageBarController:Subspace<IMessageBarProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.messageBarReceived, ReceivedNameSpace.messageBarReceived )(store);
-  /** @private */  private _choiceGruopController:Subspace<IChoiceGroupProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.choiceGroupReceived, ReceivedNameSpace.choiceGroupReceived )(store);
   /** @private */  private _btnLeadController:Subspace<IButtonProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.btnLeadReceived, ReceivedNameSpace.btnLeadReceived )(store);
   /** @private */  private _txtSearchController:Subspace<ITextFieldProps, any, IIOIPStore> = subspace((state: IIOIPStore) => state.txtFilterDtlReceived, ReceivedNameSpace.txtFilterDtlReceived )(store);
 
   /** @private */  private _http: BaseService = new BaseService(ReceivedNameSpace.context);
   /** @private */  private _selection: Selection;
-
-  /** @private */  private _aproveLeadbtn:string = "Aprobar";
-  /** @private */  private _rejectLeadbtn:string = "Rechazar";  
   
   /**
    * Crea una instancia de ReceivedRequestClass.
@@ -84,12 +78,6 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
         }
       });
 
-      this._choiceGruopController.dispatch({ type: createChoiceGroup, payload: {
-        options: this._createChoices(),
-        defaultSelectedKey: "acceptChoice",
-        optionSelected: EnumEstadoPrestamo.Aprobado
-      }});
-
       this._textAreaController.dispatch({ type: createTextField, payload: {        
         multiline: true,
         label: "Observación respuesta",
@@ -108,43 +96,13 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
       }});
 
       this._btnLeadController.dispatch({ type: createButton, payload: {
-        text:"Prestar",
-        onClick: () => {
-          
-          const item = this._detailListController.getState().selectedItems[0];
-          this._sendRequest(item);          
-        },
-        buttonStyle: ButtonStyle.PrimaryButton
+        text:"Responder",
+        buttonStyle: ButtonStyle.PrimaryButton,
+        menuProps: this._createButtonResponse()
       }});
       
       this._loadData();
       this._createModal();
-    }
-
-  /**
-   * Retorna las opciones para la respuesta final en el formulario de respuesta.
-   * @private
-   * @function
-   * @returns {IChoiceGroupOption[]}
-   */
-    private _createChoices = (): IChoiceGroupOption[] => {
-      return [{
-        key: "acceptChoice",
-        iconProps: { iconName: "BoxCheckmarkSolid" },
-        text: "Aceptar",
-        onClick: () => {
-          this._btnLeadController.dispatch({ type: changeText, payload: this._aproveLeadbtn });
-          this._choiceGruopController.dispatch({type: selectChoiceGroup, payload:  EnumEstadoPrestamo.Aprobado });
-        }
-      },{
-        key: "rejectChoice",
-        iconProps: { iconName: "BoxMultiplySolid" },
-        text: "Rechazar",
-        onClick: () => {
-          this._btnLeadController.dispatch({ type: changeText, payload: this._rejectLeadbtn });          
-          this._choiceGruopController.dispatch({type: selectChoiceGroup, payload: EnumEstadoPrestamo.Rechazado });
-        }
-      }];
     }
 
   /**
@@ -242,6 +200,44 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
         }
       ];
     }
+
+  /**
+   * Crea botones de la modal por medio de React.
+   * @private
+   * @method
+   * @returns {void}
+   */
+  private _createButtonResponse():IContextualMenuProps {
+    return  {
+      directionalHint: 0,
+      onDismiss: ev => {
+        if (ev && ev.shiftKey) {
+          ev.preventDefault();
+        }
+      },
+      items: [
+        {
+          key: 'accept',
+          text: 'Aprobar',
+          iconProps: { iconName: 'CheckMark' },
+          onClick: () => {
+            const item = this._detailListController.getState().selectedItems[0];
+            this._sendRequest(item, EnumEstadoPrestamo.Prestado); 
+          }
+        },
+        {
+          key: 'reject',
+          text: 'Rechazar',
+          iconProps: { iconName: 'Cancel' },
+          onClick: () => {
+            const item = this._detailListController.getState().selectedItems[0];
+            this._sendRequest(item, EnumEstadoPrestamo.Rechazado); 
+          }
+        }
+      ],
+      directionalHintFixed: true
+    };
+  }
 
   /**
    * Retorna un arreglo de opciones para el menu.
@@ -353,14 +349,14 @@ class ReceivedRequestClass extends React.Component<IReceivedRequestProps, IRecei
    * @method
    * @returns {void}
    */
-    private _sendRequest = (item:LendingDTO) => {
+    private _sendRequest = (item:LendingDTO, state:EnumEstadoPrestamo) => {
 
       const observacion:string = this._textAreaController.getState().value;           
       this._hideMessage(true);
       const requestLend: LendingDTO = {
           ...item, 
           observacion, 
-          idEstado: this._choiceGruopController.getState().optionSelected };
+          idEstado: state };
       this._hideMessage(false, "Procesando...", MessageBarType.warning );
 
       this._http.FetchPost(`${this._contextController.getState().connectionString}/Api/Lending/AproveLend`, requestLend)

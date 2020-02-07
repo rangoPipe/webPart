@@ -36,6 +36,7 @@ export interface LendingDTO {
     userName?: string;
     userRequest?: string;
     fecha_solicitud?: string;
+    fecha_solicitud_anterior?: string;
     fecha_devolucion?: string;
     fecha_entrega?: string;
     estado?:string;

@@ -10,7 +10,7 @@ export enum EnumEstadoPrestamo
     Cancelado = 5,
     Devolver = 6,
     Devuelto = 7,
-    Renovado = 8
+    Renovar = 8
 }
 
 /**

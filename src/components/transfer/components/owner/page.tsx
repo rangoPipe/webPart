@@ -23,14 +23,6 @@ export default function Page(props: IOwnerProps) {
     <Stack>
       <div className="ms-Grid" dir="ltr">
         <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
-            <h1 className={"ms-font-xl ms-fontColor-themePrimary"} tabIndex={0}>
-              {props.title }
-              <small> Propietario</small>
-            </h1>
-          </div>
-        </div>
-        <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-md12">
               <SubspaceProvider mapState={(state: IIOIPStore) => {  return { commandBar: state.commandBarOwner };  }} >
                 <CommandBar />

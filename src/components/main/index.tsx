@@ -113,6 +113,7 @@ export default class Main extends React.Component<IMainProps, IMainState> {
                 buttonSearchSearch: state.buttonSearchSearch,
                 buttonCancelSearch: state.buttonCancelSearch,
                 buttonLendSearch: state.buttonLendSearch,
+                buttonResponseSearch: state.buttonResponseSearch,
                 modalSearch: state.modalSearch,
                 textAreaSearch: state.textAreaSearch,
                 messageBarSearch: state.messageBarSearch

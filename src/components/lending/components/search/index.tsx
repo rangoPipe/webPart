@@ -112,16 +112,7 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
     this._loadDropdown();
   }
 
-  /**
-   * Ciclo de vida del componente.
-   * @public
-   * @returns {void}
-   */
-  public componentDidUpdate():void {
-    if (this.state.resultVisible ){      
-      window.scrollTo(0, document.body.scrollHeight);
-    }
-  }
+
 
   /**
    * Crea botones de la vista por medio de Redux.
@@ -192,22 +183,6 @@ class SearchClass extends React.Component<ISearchProps, ISearchState> {
    */
   private _createChoices():void {
     const options: IChoiceGroupOptionProps[] = [
-      {
-        key: "filed",
-        iconProps: { iconName: "ComplianceAudit" },
-        text: "Radicado",
-        onClick: e => {
-          this.setState({
-            ...this.state,
-            sectionVisible: SectionVisibleEnum.Filed,
-            noRecord: null,
-            titleRecord: null,
-            noTypeDocumental: null,
-            titleTypeDocumental: null,
-            resultVisible: false
-          });
-        }
-      },
       {
         key: "record",
         iconProps: { iconName: "FileRequest" },

@@ -49,16 +49,7 @@ export default function Page(props:ISearchProps) {
 
                 <div className="ms-Grid-row section">
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                    <SubspaceProvider
-                      mapState={(state: IIOIPStore) => {
-                        return {
-                          dropdown: state.dropDownSectionSearch
-                        };
-                      }}
-                    >
-                      <Dropdown />
-                    </SubspaceProvider>
-                    
+                    <Textfield textField={{ onChange: e => {}, label : "Usuario Responsable:" }} />
                   </div>
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
                     <SubspaceProvider
@@ -93,24 +84,7 @@ export default function Page(props:ISearchProps) {
                       <Dropdown />
                     </SubspaceProvider>
                   </div>
-                  <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                    <Textfield textField={{ onChange: e => {}, label : "Usuario Responsable:" }} />
-                  </div>
                 </div>
-
-                {sectionVisible === SectionVisibleEnum.Record ? (
-                  <div className="ms-Grid-row section">
-                    <Stack>
-                      <Separator theme={theme}>Expediente</Separator>
-                    </Stack>
-                    <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                      <Textfield textField={{ onChange: e => {}, label:"Número Expediente:" }} />
-                    </div>
-                    <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6">
-                      <Textfield textField={{ onChange: e => {}, label:"Titulo Expediente:" }} />
-                    </div>
-                  </div>
-                ) : null}
 
                 {sectionVisible === SectionVisibleEnum.Filed ? (
                   <div className="ms-Grid-row section">
@@ -142,14 +116,14 @@ export default function Page(props:ISearchProps) {
 
                 <div className="ms-Grid-row footer">
                   <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg6 ms-mdPush6">
-                    <Stack horizontal>
-                      <SubspaceProvider mapState={(state: IIOIPStore) => { return { button: state.buttonSearchSearch }; }} >
+                    <Stack horizontal reversed>                      
+                      <SubspaceProvider mapState={(state: IIOIPStore) => { return { button: state.buttonCancelSearch }; }} >
                         <Button />
                       </SubspaceProvider>
                       <SubspaceProvider mapState={(state: IIOIPStore) => { return { button: state.buttonLendSearch }; }} >
                         <Button />
-                      </SubspaceProvider>
-                      <SubspaceProvider mapState={(state: IIOIPStore) => { return { button: state.buttonCancelSearch }; }} >
+                      </SubspaceProvider>                      
+                      <SubspaceProvider mapState={(state: IIOIPStore) => { return { button: state.buttonSearchSearch }; }} >
                         <Button />
                       </SubspaceProvider>
                     </Stack>
