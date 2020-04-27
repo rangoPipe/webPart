@@ -1,0 +1,1 @@
+export const createCommandBar:string = "createCommandBar";
