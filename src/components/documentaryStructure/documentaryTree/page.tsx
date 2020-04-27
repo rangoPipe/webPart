@@ -1,7 +1,10 @@
+
 import * as React from "react";
 import { Container, Row, Col, Card, Button, Navbar, Nav, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faChevronRight, faFolder, faFolderOpen } from '@fortawesome/free-solid-svg-icons'
+import TreeView from '@material-ui/lab/TreeView';
+import TreeItem from '@material-ui/lab/TreeItem';
 
 import "./style.css";
 export default function Page() {
@@ -11,7 +14,7 @@ export default function Page() {
                 <Col xs md={12}>
                     <Card>
                         <Card.Header>
-                            <Navbar bg="light" expand="lg">
+                            <Navbar expand="lg">
                                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                                 <Navbar.Collapse id="basic-navbar-nav">
                                     <Nav className="mr-auto">
@@ -28,11 +31,25 @@ export default function Page() {
                             </Navbar>
                         </Card.Header>
                         <Card.Body>
-                            <Card.Title>Special title treatment</Card.Title>
-                            <Card.Text>
-                                With supporting text below as a natural lead-in to additional content.
-                        </Card.Text>
-                            <Button variant="primary">Go somewhere</Button>
+                        <TreeView
+                            defaultCollapseIcon={<FontAwesomeIcon icon={faFolderOpen} color="#FFE588" />}
+                            defaultExpandIcon={<FontAwesomeIcon icon={faFolder} color="#FFE588" />}
+                            >
+                            <TreeItem nodeId="1" label="Applications" >
+                                <TreeItem nodeId="2" label="Calendar" />
+                                <TreeItem nodeId="3" label="Chrome" />
+                                <TreeItem nodeId="4" label="Webstorm" />
+                            </TreeItem>
+                            <TreeItem nodeId="5" label="Documents">
+                                <TreeItem nodeId="10" label="OSS" />
+                                <TreeItem nodeId="6" label="Material-UI">
+                                <TreeItem nodeId="7" label="src">
+                                    <TreeItem nodeId="8" label="index.js" />
+                                    <TreeItem nodeId="9" label="tree-view.js" />
+                                </TreeItem>
+                                </TreeItem>
+                            </TreeItem>
+                            </TreeView>
                         </Card.Body>
                     </Card>
                 </Col>

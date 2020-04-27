@@ -1,3 +1,19 @@
 .btn-outline-light {
-    color: gray;
+    color: #747474;
+}
+
+.fa-plus {
+    color: #BED12E;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.card-header, nav {
+    background-color: #FFFFFF;
+}
+
+.card-header nav .btn {
+    border-color: #FFFFFF;
 }
