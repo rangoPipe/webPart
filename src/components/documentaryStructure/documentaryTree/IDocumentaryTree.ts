@@ -1,7 +1,7 @@
-export interface IDocumentaryState {
+export interface IDocumentaryTreeState {
 
 }
 
-export interface IDocumentaryProps extends IDocumentaryState {
+export interface IDocumentaryTreeProps extends IDocumentaryTreeState {
     
 }

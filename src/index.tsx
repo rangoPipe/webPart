@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { initializeIcons } from "@uifabric/icons";
 import { Provider } from 'react-redux'
-import { subspace, Subspace } from 'redux-subspace';
 import store from './redux/store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DocumentaryMain from "./components/documentaryStructure/main";

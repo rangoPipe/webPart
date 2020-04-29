@@ -1,0 +1,52 @@
+
+#DocumentaryForm, #DocumentaryForm .card {
+    height: 100%;
+}
+
+#DocumentaryForm .card {
+    border-radius: 10px;
+}
+
+#DocumentaryForm .card-body {
+    overflow: scroll;
+}
+
+#DocumentaryForm .card-header, nav {
+    background-color: #FFFFFF;
+}
+
+#DocumentaryForm .card-header {
+    border-bottom: none;
+}
+
+#DocumentaryForm .card-footer {
+    background-color: #FFFFFF;
+    border-top: none;
+}
+
+#DocumentaryForm input.form-control, #DocumentaryForm select.form-control {
+    background-color: #F5F5F5;
+    border-radius: 9px;
+    height: 53px;
+}
+
+#DocumentaryForm h3 {
+    color:#606060;
+}
+
+#DocumentaryForm .btn-cancelar, #DocumentaryForm .btn-guardar {
+    height: 61px;
+}
+
+#DocumentaryForm .btn-cancelar {
+    color: #C7C7C7;
+    border-color: #C7C7C7;
+}
+
+#DocumentaryForm .btn-guardar {
+    background-color: #BED12E;
+    color: #FFFFFF;
+    border-color: #BED12E;
+}
+
+

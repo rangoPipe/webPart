@@ -1,19 +1,43 @@
-.btn-outline-light {
+#DocumentaryTree, #DocumentaryTree .card{
+    height: 100%;
+}
+
+#DocumentaryTree .btn-outline-light {
     color: #747474;
 }
 
-.fa-plus {
+#DocumentaryTree .fa-plus {
     color: #BED12E;
 }
 
-.card {
+#DocumentaryTree .fa-folder {
+    color: #FFE588;
+}
+
+#DocumentaryTree .fa-folder-open {
+    color: #E9C447;
+}
+
+#DocumentaryTree .card {
     border-radius: 10px;
 }
 
-.card-header, nav {
+#DocumentaryTree .card-body {
+    overflow: scroll;
+}
+
+#DocumentaryTree .card-header, nav {
     background-color: #FFFFFF;
 }
 
-.card-header nav .btn {
+#DocumentaryTree .card-header nav .btn {
     border-color: #FFFFFF;
+}
+
+#DocumentaryTree .MuiTreeItem-content{
+    margin-bottom: 10px;
+}
+
+#DocumentaryTree .MuiTreeItem-label {
+    font-size: 20px;
 }

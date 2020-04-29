@@ -1,17 +1,14 @@
-import { createButton, hideButton, changeText } from "../../../actions/general/button/_actionName";
+import { createButton, hideButton, changeText, onClick } from "../../../actions/general/button/_actionName";
 import { IAction } from "../../../namespace";
-import { IButtonProps, ButtonStyle } from "./IButtonProps";
+import { IButtonProps } from "./IButton";
 
 const defaultState:IButtonProps = {
-    text:"",
-    split:false,
-    splitButtonAriaLabel: "",
-    menuProps: undefined,
+    text: undefined,
+    variant: "primary",
+    type: "button",
     onClick: undefined,
     disabled: undefined,
-    checked: false,
     hidden: false,
-    buttonStyle: ButtonStyle.DefaultButton
 };
 
 function reducer(state = defaultState, { type, payload }:IAction) : IButtonProps {    
@@ -27,11 +24,17 @@ function reducer(state = defaultState, { type, payload }:IAction) : IButtonProps
                 ...state,
                 hidden : payload
             };
-        }        
+        }
         case changeText: {                                  
             return {
                 ...state,
                 text : payload
+            };
+        }
+        case onClick: {                                  
+            return {
+                ...state,
+                onClick : payload
             };
         }
         

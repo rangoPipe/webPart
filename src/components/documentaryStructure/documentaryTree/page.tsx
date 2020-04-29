@@ -1,58 +1,87 @@
 
 import * as React from "react";
-import { Container, Row, Col, Card, Button, Navbar, Nav, Form } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faChevronRight, faFolder, faFolderOpen } from '@fortawesome/free-solid-svg-icons'
+import { SubspaceProvider } from "react-redux-subspace";
+
+import { Navbar, Nav, Form, Card } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFolder, faFolderOpen, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
+import Button from '../../../general/button';
 
 import "./style.css";
+import { IStore } from "../../../redux/namespace";
+
 export default function Page() {
     return (
-        <Container fluid={true}>
-            <Row>
-                <Col xs md={12}>
-                    <Card>
-                        <Card.Header>
-                            <Navbar expand="lg">
-                                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                                <Navbar.Collapse id="basic-navbar-nav">
-                                    <Nav className="mr-auto">
-                                        <Button variant="outline-light"><FontAwesomeIcon icon={faPlus} /> Fondo</Button>
-                                        <Button variant="outline-light"><FontAwesomeIcon icon={faPlus} /> Sección</Button>
-                                        <Button variant="outline-light"><FontAwesomeIcon icon={faPlus} /> Sub Sección</Button>
-                                        <Button variant="outline-light"><FontAwesomeIcon icon={faPlus} /> Serie</Button>
-                                        <Button variant="outline-light"><FontAwesomeIcon icon={faPlus} /> Sub Serie</Button>
-                                    </Nav>
-                                    <Form inline>
-                                        <Button variant="outline-light"><FontAwesomeIcon icon={faPlus} /> Tipo Documental</Button>
-                                    </Form>
-                                </Navbar.Collapse>
-                            </Navbar>
-                        </Card.Header>
-                        <Card.Body>
-                        <TreeView
-                            defaultCollapseIcon={<FontAwesomeIcon icon={faFolderOpen} color="#FFE588" />}
-                            defaultExpandIcon={<FontAwesomeIcon icon={faFolder} color="#FFE588" />}
-                            >
-                            <TreeItem nodeId="1" label="Applications" >
-                                <TreeItem nodeId="2" label="Calendar" />
-                                <TreeItem nodeId="3" label="Chrome" />
-                                <TreeItem nodeId="4" label="Webstorm" />
-                            </TreeItem>
-                            <TreeItem nodeId="5" label="Documents">
-                                <TreeItem nodeId="10" label="OSS" />
-                                <TreeItem nodeId="6" label="Material-UI">
-                                <TreeItem nodeId="7" label="src">
-                                    <TreeItem nodeId="8" label="index.js" />
-                                    <TreeItem nodeId="9" label="tree-view.js" />
+        <div id="DocumentaryTree">
+            <Card>
+                <Card.Header>
+                    <Navbar expand="lg">
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                        <Navbar.Collapse id="basic-navbar-nav">
+                            <Nav className="mr-auto">
+                                <SubspaceProvider mapState={(state: IStore) => { return { button: state.btnFondoDocumentary }; }} >
+                                    <Button />
+                                </SubspaceProvider>
+                                <SubspaceProvider mapState={(state: IStore) => { return { button: state.btnSeccionDocumentary }; }} >
+                                    <Button />
+                                </SubspaceProvider>
+                                <SubspaceProvider mapState={(state: IStore) => { return { button: state.btnSubseccionDocumentary }; }} >
+                                    <Button />
+                                </SubspaceProvider>
+                                <SubspaceProvider mapState={(state: IStore) => { return { button: state.btnSerieDocumentary }; }} >
+                                    <Button />
+                                </SubspaceProvider>
+                                <SubspaceProvider mapState={(state: IStore) => { return { button: state.btnSubserieDocumentary }; }} >
+                                    <Button />
+                                </SubspaceProvider>
+                            </Nav>
+                            <Form inline>
+                                <SubspaceProvider mapState={(state: IStore) => { return { button: state.btnTipoDocumentary }; }} >
+                                    <Button />
+                                </SubspaceProvider>
+                            </Form>
+                        </Navbar.Collapse>
+                    </Navbar>
+                </Card.Header>
+                <Card.Body>
+                    <TreeView
+                        defaultCollapseIcon={<FontAwesomeIcon icon={faFolderOpen} />}
+                        defaultExpandIcon={<FontAwesomeIcon icon={faFolder} />}
+                    >
+                        
+                        <TreeItem nodeId="1" label="Fondo: Fundación Haceb"> 
+                            <TreeItem nodeId="1.1" label="Sección: Fundación Haceb" />
+                        </TreeItem>
+                        <TreeItem nodeId="2" label="Fondo: Haceb"> 
+                            <TreeItem nodeId="2.1" label="Sección: Haceb" />
+                        </TreeItem>
+                        <TreeItem nodeId="3" label="Fondo: Icasa"> 
+                            <TreeItem nodeId="3.1" label="Sección: Icasa" />
+                        </TreeItem>
+                        <TreeItem nodeId="4" label="Fondo: Industrias haceb">
+                            <TreeItem nodeId="4.1" label="Sección: DIR Proyectos" />
+                            <TreeItem nodeId="4.2" label="Sección: DIR Logistica">
+                                <TreeItem nodeId="4.2.1" label="Sub-Sección: Almacén de repuestos">
+                                    <TreeItem nodeId="4.2.1.1" label="Serie: Devoluciones">
+                                        <TreeItem nodeId="4.2.1.1.1" label="Serie: Devoluciones">
+                                            <TreeItem nodeId="4.2.1.1.1.1" label="Expediente">
+                                                <TreeItem nodeId="4.2.1.1.1.1.1" label="Devolución_a_proveedores" icon={<FontAwesomeIcon icon={faFilePdf} />} />
+                                                <TreeItem nodeId="4.2.1.1.1.1.2" label="Devolución_de_materiales" icon={<FontAwesomeIcon icon={faFilePdf} />} />
+                                            </TreeItem>
+                                        </TreeItem>
+                                    </TreeItem>
                                 </TreeItem>
-                                </TreeItem>
                             </TreeItem>
-                            </TreeView>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>);
+                        </TreeItem>
+                        <TreeItem nodeId="5" label="Fondo: Fedehaceb"> 
+                            <TreeItem nodeId="5.1" label="Sección: Fedehaceb" />
+                        </TreeItem>
+                    </TreeView>
+                </Card.Body>
+            </Card>
+        </div>
+    );
 }
