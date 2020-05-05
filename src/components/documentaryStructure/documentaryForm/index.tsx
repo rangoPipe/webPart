@@ -8,7 +8,7 @@ import Page from "./page";
 export class DocumentaryFormClass extends React.Component<IDocumentaryFormProps,IDocumentaryFormState> {
     
     public render(){
-        return <Page activeView = { this.props.activeView } onCancel = { this.props.onCancel } />
+        return <Page activeView = { this.props.activeView } onCancel = { this.props.onCancel } />;
     }
 }
 

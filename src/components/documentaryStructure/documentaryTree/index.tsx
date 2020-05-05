@@ -70,7 +70,7 @@ export class DocumentaryTreeClass extends React.Component<IDocumentaryTreeProps,
     }
 
     public render(){
-        return <Page />
+        return <Page />;
     }
 }
 

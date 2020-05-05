@@ -6,7 +6,7 @@ import Page from "./page";
 
 export class ButtonClass extends React.Component<IButtonProps, IButtonState> {
   
-    render():JSX.Element {
+    public render():JSX.Element {
       const { button } = this.props;
         return ( <Page button = { button } />);
     }

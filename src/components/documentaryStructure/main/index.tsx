@@ -27,7 +27,7 @@ export default class MainClass extends React.Component<IMainProps, IMainState> {
 
         this.state = {
             activeView: undefined
-        }
+        };
 
         this._fondoController.dispatch({
             type: onClicEvent, payload: () => this._changeView("fondo")
@@ -70,6 +70,6 @@ export default class MainClass extends React.Component<IMainProps, IMainState> {
 
 
     public render() {
-        return <Page activeView = { this._stateController.getState().activeView } onCancel={ this._onCancel } />
+        return <Page activeView = { this._stateController.getState().activeView } onCancel={ this._onCancel } />;
     }
 }

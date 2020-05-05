@@ -20,7 +20,7 @@ export default function Page(props:IDocumentaryFormProps) {
                 </Col>
             </Row>
         </Container>
-    </div>
+    </div>;
 
     const tipodocumental = <div>
         <h3>Agregar tipo documental</h3>
@@ -36,7 +36,7 @@ export default function Page(props:IDocumentaryFormProps) {
                 </Col>
             </Row>
         </Container>
-    </div>
+    </div>;
 
     const seccion = <div>
         <Container fluid={true}>
@@ -66,7 +66,7 @@ export default function Page(props:IDocumentaryFormProps) {
                 </Col>
             </Row>
         </Container>
-    </div>
+    </div>;
 
     const subseccion = <div>
         <Container fluid={true}>
@@ -82,7 +82,7 @@ export default function Page(props:IDocumentaryFormProps) {
                 </Col>
             </Row>
         </Container>
-    </div>
+    </div>;
 
     const serie = <div>
         <Container fluid={true}>
@@ -98,7 +98,7 @@ export default function Page(props:IDocumentaryFormProps) {
                 </Col>
             </Row>
         </Container>
-    </div>
+    </div>;
 
     const subserie = <div>
         <Container fluid={true}>
@@ -165,7 +165,7 @@ export default function Page(props:IDocumentaryFormProps) {
                 </Col>
             </Row>
         </Container>
-    </div>
+    </div>;
 
     return (
         <div id="DocumentaryForm">

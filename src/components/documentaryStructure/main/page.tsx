@@ -8,9 +8,9 @@ export default function Page(props:IMainProps) {
     const { activeView, onCancel } = props; 
     
     return (
-        <Container fluid={true} style={{ height:"100%" }}>
+        <Container fluid={true} style={{ height:"100%" }} className="mb-4 mt-4">
             <Row style={{ height:"100%" }}>
-                <Col md={(activeView)? 8 : 12} style={{ height:"100%" }}>
+                <Col md={(activeView)? 8 : 12}>
                     <Tree />
                 </Col>
                 {
@@ -22,5 +22,5 @@ export default function Page(props:IMainProps) {
                 }
             </Row>
         </Container>
-    )
+    );
 }
