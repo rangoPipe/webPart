@@ -4,7 +4,7 @@ import { SubspaceProvider } from "react-redux-subspace";
 
 import { Navbar, Nav, Form, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolder, faFolderOpen, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faFolder, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
@@ -98,33 +98,33 @@ export default function Page(props:IDocumentaryTreeProps) {
 }
 
 function filterItem(items:any[],value: string, type:TypeFolderEnum ):any[] {
-    if(items.length == 0)
+    if(items.length === 0)
     {
         return items;
     }
-    return items.filter((x:any) => x[type].ID == value);
+    return items.filter((x:any) => x[type].ID === value);
 }
 
 function buildStructure(props: IDocumentaryTreeProps ){
 
     props.serie.forEach( (se) => {
         if(props.subserie)
-            se[TypeFolderEnum.Subserie] = props.subserie.filter(sse => sse[TypeFolderEnum.Serie].ID == se.ID )
+            se[TypeFolderEnum.Subserie] = props.subserie.filter(sse => sse[TypeFolderEnum.Serie].ID === se.ID )
     });
 
     props.subseccion.forEach( (se) => {
         if(props.serie)
-            se[TypeFolderEnum.Serie] = props.serie.filter(sse => sse[TypeFolderEnum.Subseccion].ID == se.ID )
+            se[TypeFolderEnum.Serie] = props.serie.filter(sse => sse[TypeFolderEnum.Subseccion].ID === se.ID )
     });
 
     props.seccion.forEach( (se) => {
         if(props.subseccion)
-        se[TypeFolderEnum.Subseccion] = props.subseccion.filter(sse => sse[TypeFolderEnum.Seccion].ID == se.ID )
+        se[TypeFolderEnum.Subseccion] = props.subseccion.filter(sse => sse[TypeFolderEnum.Seccion].ID === se.ID )
     });
 
     props.fondo.forEach( (se) => {
         if(props.seccion)
-        se[TypeFolderEnum.Seccion] = props.seccion.filter(sse => sse[TypeFolderEnum.Fondo].ID == se.ID )
+        se[TypeFolderEnum.Seccion] = props.seccion.filter(sse => sse[TypeFolderEnum.Fondo].ID === se.ID )
     });
 }
 

@@ -37,52 +37,79 @@ export class DocumentaryTreeClass extends React.Component<IDocumentaryTreeProps,
         this._fondoController.dispatch({
             type: createButton, payload: {
                 text: <div><FontAwesomeIcon icon={faPlus} /> Fondo</div>,
-                variant: "outline-light"
+                variant: "outline-light",
+                size: "lg",
             }
         });
 
         this._seccionController.dispatch({
             type: createButton, payload: {
                 text: <div><FontAwesomeIcon icon={faPlus} /> Sección</div>,
-                variant: "outline-light"
+                variant: "outline-light",
+                size: "lg",
             }
         });
 
         this._subseccionController.dispatch({
             type: createButton, payload: {
                 text: <div><FontAwesomeIcon icon={faPlus} /> Subsección</div>,
-                variant: "outline-light"
+                variant: "outline-light",
+                size: "lg",
             }
         });
 
         this._serieController.dispatch({
             type: createButton, payload: {
                 text: <div><FontAwesomeIcon icon={faPlus} /> Serie</div>,
-                variant: "outline-light"
+                variant: "outline-light",
+                size: "lg",
             }
         });
 
         this._subserieController.dispatch({
             type: createButton, payload: {
                 text: <div><FontAwesomeIcon icon={faPlus} /> Subserie</div>,
-                variant: "outline-light"
+                variant: "outline-light",
+                size: "lg",
             }
         });
 
         this._tipodocumentalController.dispatch({
             type: createButton, payload: {
                 text: <div><FontAwesomeIcon icon={faPlus} /> Tipo documental</div>,
-                variant: "outline-light"
+                variant: "outline-light",
+                size: "lg",
             }
         });
     }
 
     public async componentDidMount(): Promise<void> {
 
-       /* await sp.web.lists.getByTitle(TypeFolderEnum.Fondo).items.add({
-            Title: "probando",
-            Codigo: "001"
-        })*/
+       /* 
+       const fondo = await sp.web.lists.getByTitle(TypeFolderEnum.Fondo).items.select("ID","Title","Codigo").getAll()
+        .then((data) => { return data; });
+
+        const seccion = await sp.web.lists.getByTitle(TypeFolderEnum.Seccion).items.select("ID","Title","Codigo",`${TypeFolderEnum.Fondo}/ID`).expand(TypeFolderEnum.Fondo).getAll()
+        .then((data) => { return data; });
+
+        const subseccion = await sp.web.lists.getByTitle(TypeFolderEnum.Subseccion).items.select("ID","Title","Codigo",`${TypeFolderEnum.Seccion}/ID`).expand(TypeFolderEnum.Seccion).getAll()
+        .then((data) => { return data; });
+
+        const serie = await sp.web.lists.getByTitle(TypeFolderEnum.Serie).items.select("ID","Title","Codigo",`${TypeFolderEnum.Seccion}/ID`,`${TypeFolderEnum.Subseccion}/ID`).expand(TypeFolderEnum.Seccion,TypeFolderEnum.Subseccion).getAll()
+        .then((data) => {return data; });
+
+        const subserie = await sp.web.lists.getByTitle(TypeFolderEnum.Subserie).items.select("ID","Title","Codigo",`${TypeFolderEnum.Serie}/ID`).expand(TypeFolderEnum.Serie).getAll()
+        .then((data) => {return data; });
+
+        this.setState({
+            ...this.state,
+            fondo,
+            seccion,
+            subseccion,
+            serie,
+            subserie
+        })
+       */
 
         
         

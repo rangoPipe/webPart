@@ -1,4 +1,4 @@
-import { createControl, hideControl, changeText } from "../../../actions/general/control/_actionName";
+import { createControl, changeText } from "../../../actions/general/control/_actionName";
 import { IAction } from "../../../namespace";
 import { IControlProps } from "./IControl";
 

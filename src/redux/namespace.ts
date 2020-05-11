@@ -4,6 +4,8 @@ import { IButtonProps } from "./reducers/general/button/IButton";
 import { ICardProps } from "./reducers/general/card/ICard";
 import { IMainDocumentary } from "./reducers/component/mainDocumentary/IMainDocumentary";
 import { IControlProps } from "./reducers/general/control/IControl";
+import { ISelectProps } from "./reducers/general/select/ISelect";
+import { ICheckProps } from "./reducers/general/check/ICheck";
 
 export interface IStoreGeneral {
     context: IContextProps;
@@ -11,6 +13,8 @@ export interface IStoreGeneral {
     treeItem: ITreeItemProps;
     card: ICardProps;
     control: IControlProps;
+    select: ISelectProps;
+    check: ICheckProps;
 }
 
 
@@ -28,11 +32,19 @@ export interface IStore extends IStoreGeneral {
     btnTipoDocumentary:      IButtonProps;
 
     //DocumentaryForm
-    contextDocumentaryForm:         IContextProps;
+    contextDocumentaryForm:     IContextProps;
     btnSaveDocumentaryForm:     IButtonProps;
     btnCancelDocumentaryForm:   IButtonProps;
     txtNombreDocumentaryForm:   IControlProps;
     txtCodigoDocumentaryForm:   IControlProps;
+    lstCentralDocumentaryForm:  ISelectProps;
+    lstGestionDocumentaryForm:  ISelectProps;
+    lstHistoryDocumentaryForm:  ISelectProps;
+    lstSecurityDocumentaryForm: ISelectProps;
+    chkKeepDocumentaryForm:     ICheckProps;
+    chkSelectDocumentaryForm:   ICheckProps;
+    chkDigitizeDocumentaryForm: ICheckProps;
+    chkDeleteDocumentaryForm:   ICheckProps;
 }
 
 export interface IAction {

@@ -8,6 +8,10 @@ export enum DocumentaryFormEnum {
     lstGestion = "lstGestionDocumentaryForm",
     lstHistory = "lstHistoryDocumentaryForm",
     lstCentral = "lstCentralDocumentaryForm",
+    chkDelete = "chkDeleteDocumentaryForm",
+    chkDigitize = "chkDigitizeDocumentaryForm",
+    chkSelect = "chkSelectDocumentaryForm",
+    chkKeep = "chkKeepDocumentaryForm",
 }
 
 export enum TypeFolderEnum {

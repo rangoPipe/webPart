@@ -5,6 +5,6 @@ import { IControlProps } from "./IControl";
 export default function Page(props: IControlProps) {
     const { control } = props;
     return (
-        <Form.Control type={control.type} className={control.className} placeholder = { control.placeholder } />
+        <Form.Control type={control.type} className={control.className} placeholder = { control.placeholder } onChange={control.onChange} value={control.value} />
     );
 }

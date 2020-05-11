@@ -6,9 +6,11 @@ const defaultState:IButtonProps = {
     text: undefined,
     variant: "primary",
     type: "button",
+    size: "sm",
     onClick: undefined,
     disabled: undefined,
     hidden: false,
+    className: undefined
 };
 
 function reducer(state = defaultState, { type, payload }:IAction) : IButtonProps {    

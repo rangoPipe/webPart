@@ -7,5 +7,4 @@ export interface IDocumentaryFormState {
 
 export interface IDocumentaryFormProps extends IDocumentaryFormState {
     activeView: TypeFolderEnum;
-    onCancel?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }

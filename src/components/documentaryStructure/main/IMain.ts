@@ -4,5 +4,4 @@ export interface IMainState extends IMainDocumentary {
 }
 
 export interface IMainProps extends IMainState {
-    onCancel?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }

@@ -8,7 +8,10 @@ export default function Page(props: IButtonProps) {
         <Button
             type={button.type}
             onClick={button.onClick}
-            variant={button.variant}>
+            variant={button.variant}
+            size={button.size}
+            className={button.className }
+            >
             {button.text}
         </Button>
     );

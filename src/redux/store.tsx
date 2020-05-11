@@ -7,6 +7,8 @@ import { MainDocumentaryEnum } from "../common/documentary/main/mainDocumentaryE
 import context from "./reducers/common/context";
 import button from "./reducers/general/button/button";
 import control from "./reducers/general/control/control";
+import select from "./reducers/general/select/select";
+import check from "./reducers/general/check/check";
 
 import mainDocumentary from "./reducers/component/mainDocumentary/mainDocumentary";
 import { DocumentaryFormEnum } from "../common/documentary/documentaryForm/documentaryTreeEnum";
@@ -20,6 +22,14 @@ const reducer = combineReducers<any>({
     btnCancelDocumentaryForm: namespaced(DocumentaryFormEnum.btnCancel)(button),
     txtCodigoDocumentaryForm: namespaced(DocumentaryFormEnum.txtCodigo)(control),
     txtNombreDocumentaryForm: namespaced(DocumentaryFormEnum.txtNombre)(control),
+    lstSecurityDocumentaryForm: namespaced(DocumentaryFormEnum.lstSecurity)(select),
+    lstCentralDocumentaryForm: namespaced(DocumentaryFormEnum.lstCentral)(select),
+    lstGestionDocumentaryForm: namespaced(DocumentaryFormEnum.lstGestion)(select),
+    lstHistoryDocumentaryForm: namespaced(DocumentaryFormEnum.lstHistory)(select),
+    chkKeepDocumentaryForm: namespaced(DocumentaryFormEnum.chkKeep)(check),
+    chkSelectDocumentaryForm: namespaced(DocumentaryFormEnum.chkSelect)(check),
+    chkDigitizeDocumentaryForm: namespaced(DocumentaryFormEnum.chkDigitize)(check),
+    chkDeleteDocumentaryForm: namespaced(DocumentaryFormEnum.chkDelete)(check),
 
     
     //Documentary Tree

@@ -5,7 +5,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { IMainProps } from "./IMain";
 
 export default function Page(props:IMainProps) {
-    const { activeView, onCancel } = props; 
+    const { activeView } = props; 
     
     return (
         <Container fluid={true} style={{ height:"100%" }} className="mb-4 mt-4">
@@ -16,7 +16,7 @@ export default function Page(props:IMainProps) {
                 {
                     (activeView) 
                     ? <Col md={4} style={{ height:"100%" }}>
-                        <Form activeView = {activeView} onCancel = { onCancel }/>
+                        <Form activeView = {activeView }/>
                     </Col>
                     : null
                 }

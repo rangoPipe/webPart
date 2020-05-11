@@ -3,14 +3,15 @@ import { subspace } from "redux-subspace";
 import { IMainProps, IMainState } from "./IMain";
 
 import { IStore } from "../../../redux/namespace";
-import { viewDocumentary, MainDocumentaryEnum } from "../../../common/documentary/main/mainDocumentaryEnum";
+import { MainDocumentaryEnum } from "../../../common/documentary/main/mainDocumentaryEnum";
 import { DocumentaryTreeEnum, TypeFolderEnum } from "../../../common/documentary/documentaryTree/documentaryTreeEnum";
 
-import { onClick as onClicEvent } from "../../../redux/actions/general/button/_actionName";
+import { onClick as onClicEvent, onClick } from "../../../redux/actions/general/button/_actionName";
 import { changeView } from "../../../redux/actions/component/mainDocumentary/_actionName";
 
 import store from "../../../redux/store";
 import Page from "./page";
+import { DocumentaryFormEnum } from "../../../common/documentary/documentaryForm/documentaryTreeEnum";
 
 export default class MainClass extends React.Component<IMainProps, IMainState> {
 
@@ -21,6 +22,9 @@ export default class MainClass extends React.Component<IMainProps, IMainState> {
     private _serieController = subspace( (state: IStore) => state.btnSerieDocumentary, DocumentaryTreeEnum.btnSerie )(store);
     private _subserieController = subspace( (state: IStore) => state.btnSubserieDocumentary, DocumentaryTreeEnum.btnSubserie )(store);
     private _tipodocumentalController = subspace( (state: IStore) => state.btnTipoDocumentary, DocumentaryTreeEnum.btnTipo )(store);
+
+
+    private _btnCancelFormController = subspace( (state: IStore) => state.btnCancelDocumentaryForm, DocumentaryFormEnum.btnCancel )(store);
 
     constructor(props:IMainProps) {
         super(props);
@@ -52,6 +56,13 @@ export default class MainClass extends React.Component<IMainProps, IMainState> {
         this._tipodocumentalController.dispatch({
             type: onClicEvent, payload: () => this._changeView(TypeFolderEnum.TipoDocumental)
         });
+
+        this._btnCancelFormController.dispatch({ type: onClick, 
+            payload: () =>{
+                this._stateController.dispatch({ type: changeView, payload: undefined });
+                this.forceUpdate();
+            }
+        });
     }
 
     private _changeView = (view:TypeFolderEnum) => {
@@ -61,15 +72,8 @@ export default class MainClass extends React.Component<IMainProps, IMainState> {
         this.forceUpdate();
     }
 
-    private _onCancel = () => {
-        this._stateController.dispatch({
-            type: changeView, payload: undefined
-        });
-        this.forceUpdate();
-    }
-
 
     public render() {
-        return <Page activeView = { this._stateController.getState().activeView } onCancel={ this._onCancel } />;
+        return <Page activeView = { this._stateController.getState().activeView } />;
     }
 }
