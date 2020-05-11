@@ -4,7 +4,7 @@ import { IMainProps, IMainState } from "./IMain";
 
 import { IStore } from "../../../redux/namespace";
 import { viewDocumentary, MainDocumentaryEnum } from "../../../common/documentary/main/mainDocumentaryEnum";
-import { DocumentaryTreeEnum } from "../../../common/documentary/documentaryTree/documentaryTreeEnum";
+import { DocumentaryTreeEnum, TypeFolderEnum } from "../../../common/documentary/documentaryTree/documentaryTreeEnum";
 
 import { onClick as onClicEvent } from "../../../redux/actions/general/button/_actionName";
 import { changeView } from "../../../redux/actions/component/mainDocumentary/_actionName";
@@ -30,31 +30,31 @@ export default class MainClass extends React.Component<IMainProps, IMainState> {
         };
 
         this._fondoController.dispatch({
-            type: onClicEvent, payload: () => this._changeView("fondo")
+            type: onClicEvent, payload: () => this._changeView(TypeFolderEnum.Fondo)
         });
 
         this._seccionController.dispatch({
-            type: onClicEvent, payload: () => this._changeView("seccion")
+            type: onClicEvent, payload: () => this._changeView(TypeFolderEnum.Seccion)
         });
 
         this._subseccionController.dispatch({
-            type: onClicEvent, payload: () => this._changeView("subseccion")
+            type: onClicEvent, payload: () => this._changeView(TypeFolderEnum.Subseccion)
         });
 
         this._serieController.dispatch({
-            type: onClicEvent, payload: () => this._changeView("serie")
+            type: onClicEvent, payload: () => this._changeView(TypeFolderEnum.Serie)
         });
 
         this._subserieController.dispatch({
-            type: onClicEvent, payload: () => this._changeView("subserie")
+            type: onClicEvent, payload: () => this._changeView(TypeFolderEnum.Subserie)
         });
 
         this._tipodocumentalController.dispatch({
-            type: onClicEvent, payload: () => this._changeView("tipodocumental")
+            type: onClicEvent, payload: () => this._changeView(TypeFolderEnum.TipoDocumental)
         });
     }
 
-    private _changeView = (view:viewDocumentary) => {
+    private _changeView = (view:TypeFolderEnum) => {
         this._stateController.dispatch({
             type: changeView, payload: (this._stateController.getState().activeView === view) ? undefined : view
         });

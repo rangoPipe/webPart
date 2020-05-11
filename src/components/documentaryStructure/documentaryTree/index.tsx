@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import { IDocumentaryTreeProps, IDocumentaryTreeState } from "./IDocumentaryTree";
-import { DocumentaryTreeEnum } from "../../../common/documentary/documentaryTree/documentaryTreeEnum";
+import { DocumentaryTreeEnum, TypeFolderEnum } from "../../../common/documentary/documentaryTree/documentaryTreeEnum";
 import { createButton } from "../../../redux/actions/general/button/_actionName";
 
 import { IStore } from "../../../redux/namespace";
@@ -25,6 +25,14 @@ export class DocumentaryTreeClass extends React.Component<IDocumentaryTreeProps,
 
     constructor(props:IDocumentaryTreeProps){
         super(props);
+
+        this.state = {
+            fondo: [],
+            seccion: [],
+            subseccion: [],
+            serie: [],
+            subserie: []
+        }
         
         this._fondoController.dispatch({
             type: createButton, payload: {
@@ -69,8 +77,23 @@ export class DocumentaryTreeClass extends React.Component<IDocumentaryTreeProps,
         });
     }
 
+    public async componentDidMount(): Promise<void> {
+
+       /* await sp.web.lists.getByTitle(TypeFolderEnum.Fondo).items.add({
+            Title: "probando",
+            Codigo: "001"
+        })*/
+
+        
+        
+    }
+
+    public saveForm(type: TypeFolderEnum, data) {
+        
+    }
+
     public render(){
-        return <Page />;
+        return <Page fondo={ this.state.fondo } seccion={ this.state.seccion } subseccion={this.state.subseccion} serie={this.state.serie} subserie={this.state.subserie} />;
     }
 }
 

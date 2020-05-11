@@ -1,22 +1,31 @@
 
 import * as React from "react";
-import { Card, Form, Container, Row, Col, Button } from "react-bootstrap";
+import { Card, Form, Container, Row, Col } from "react-bootstrap";
 import { IDocumentaryFormProps } from "./IDocumentaryForm";
 import "./style.css";
+import { TypeFolderEnum } from "../../../common/documentary/documentaryTree/documentaryTreeEnum";
+import { SubspaceProvider } from "react-redux-subspace";
+import { IStore } from "../../../redux/namespace";
+import Control from "../../../general/control";
+import Button from "../../../general/button";
 
 export default function Page(props:IDocumentaryFormProps) {
     const { activeView } = props; 
-    const fondo = <div>
+    /*const fondo = <div>
         <h3>Agregar Fondo</h3>
         <Container fluid={true}>
             <Row>
                 <Col md={12}>
-                    <Form.Control type={"text"} placeholder="Código" className="mt-3" />
+                    <SubspaceProvider mapState={(state: IStore) => { return { control: state.txtCodigoDocumentaryForm }; }} >
+                        <Control />
+                    </SubspaceProvider>
                 </Col>
             </Row>
             <Row>
                 <Col md={12}>
-                    <Form.Control  type={"text"} placeholder="Nombre" className="mt-3" />
+                    <SubspaceProvider mapState={(state: IStore) => { return { control: state.txtNombreDocumentaryForm }; }} >
+                        <Control />
+                    </SubspaceProvider>
                 </Col>
             </Row>
         </Container>
@@ -165,34 +174,39 @@ export default function Page(props:IDocumentaryFormProps) {
                 </Col>
             </Row>
         </Container>
-    </div>;
+    </div>;*/
 
     return (
         <div id="DocumentaryForm">
             <Card>
                 <Card.Body>
-                {
-                    (activeView === "fondo")
-                    ? fondo
-                    : (activeView === "seccion")
-                    ? seccion
-                    : (activeView === "subseccion")
-                    ? subseccion
-                    : (activeView === "serie")
-                    ? serie
-                    : (activeView === "subserie")
-                    ? subserie
-                    : (activeView === "tipodocumental")
-                    ? tipodocumental
-                    : null
-                }
-                
+                    <h3>Agregar Fondo</h3>
+                    <Container fluid={true}>
+                        <Row>
+                            <Col md={12}>
+                                <SubspaceProvider mapState={(state: IStore) => { return { control: state.txtCodigoDocumentaryForm }; }} >
+                                    <Control />
+                                </SubspaceProvider>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={12}>
+                                <SubspaceProvider mapState={(state: IStore) => { return { control: state.txtNombreDocumentaryForm }; }} >
+                                    <Control />
+                                </SubspaceProvider>
+                            </Col>
+                        </Row>
+                    </Container>
                 </Card.Body>
                 <Card.Footer>
                     <Container>
                         <Row>
-                            <Button variant="outline-dark" className="btn-guardar mr-2" size="lg">Guardar</Button>
-                            <Button variant="outline-dark" className="btn-cancelar" size="lg" onClick={ props.onCancel }>Cancelar</Button>
+                            <SubspaceProvider mapState={(state: IStore) => { return { button: state.btnSaveDocumentaryForm }; }} >
+                                <Button />
+                            </SubspaceProvider>
+                            <SubspaceProvider mapState={(state: IStore) => { return { button: state.btnCancelDocumentaryForm }; }} >
+                                <Button />
+                            </SubspaceProvider>
                         </Row>
                     </Container>
                 </Card.Footer>
@@ -201,3 +215,5 @@ export default function Page(props:IDocumentaryFormProps) {
     );
 }
 
+//<Button variant="outline-dark" className="btn-guardar mr-2" size="lg">Guardar</Button>
+//<Button variant="outline-dark" className="btn-cancelar" size="lg" onClick={ props.onCancel }>Cancelar</Button>

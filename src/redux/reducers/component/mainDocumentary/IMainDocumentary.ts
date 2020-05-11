@@ -1,5 +1,5 @@
-import { viewDocumentary } from "../../../../common/documentary/main/mainDocumentaryEnum";
+import { TypeFolderEnum } from "../../../../common/documentary/documentaryTree/documentaryTreeEnum";
 
 export interface IMainDocumentary {
-    activeView?: viewDocumentary;
+    activeView?: TypeFolderEnum;
 }

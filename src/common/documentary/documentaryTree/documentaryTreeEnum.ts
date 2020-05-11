@@ -7,3 +7,12 @@ export enum DocumentaryTreeEnum {
     btnSubserie = "btnSubserie",
     btnTipo = "btnTipo",
 }
+
+export enum TypeFolderEnum {
+    Fondo = "Fondo",
+    Seccion = "Seccion",
+    Subseccion = "Subseccion",
+    Serie = "Serie",
+    Subserie = "Subserie",
+    TipoDocumental = "TipoDocumental",
+}

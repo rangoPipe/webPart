@@ -21,6 +21,6 @@
     "jsx": "react"
   },
   "include": [
-    "src/**/*.ts", "src/components/estructuraDocumental/main/index.tsx"
+    "src/**/*.ts", "src/common/service/baseService.tsx",
   ]
 }
