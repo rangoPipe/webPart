@@ -1,4 +1,4 @@
-import { createSelect, loadItems, onChange, hideElement } from "../../../actions/general/select/_actionName";
+import { createSelect, loadItems, onChange, hideElement, changeValue } from "../../../actions/general/select/_actionName";
 import { IAction } from "../../../namespace";
 import { ISelectProps } from "./ISelect";
 
@@ -8,7 +8,8 @@ const defaultState:ISelectProps = {
     disabled: false,
     hidden: false,
     className: undefined,
-    items: []
+    items: [],
+    value: undefined
 };
 
 function reducer(state = defaultState, { type, payload }:IAction) : ISelectProps {    
@@ -35,6 +36,12 @@ function reducer(state = defaultState, { type, payload }:IAction) : ISelectProps
             return {
                 ...state,
                 hidden : payload
+            };
+        }
+        case changeValue: {                                  
+            return {
+                ...state,
+                value : payload
             };
         }
         

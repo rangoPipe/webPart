@@ -7,6 +7,6 @@ export default function Page(props: ICheckProps) {
     return (
         (check.hidden)
         ? null
-        : <Form.Check label={check.label} type={check.type} id={ check.id } className = {check.className} inline />
+        : <Form.Check label={check.label} type={check.type} id={ check.id } className = {check.className} inline checked={ check.checked } onClick={ check.onClick } onChange={check.onChange} />
     );
 }

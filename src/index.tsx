@@ -11,7 +11,7 @@ initializeIcons();
 
 const page = (
 <Provider store={store}>
-    <DocumentaryMain />
+    <DocumentaryMain key = { Math.random().toString() }  />
 </Provider>
 );
 

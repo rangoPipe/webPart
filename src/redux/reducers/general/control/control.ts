@@ -1,10 +1,12 @@
-import { createControl, changeText } from "../../../actions/general/control/_actionName";
+import { createControl, changeLabel, hideControl, changeValue } from "../../../actions/general/control/_actionName";
 import { IAction } from "../../../namespace";
 import { IControlProps } from "./IControl";
 
 const defaultState:IControlProps = {
     type:"text",
-    label: null
+    label: null,
+    hidden: false,
+    value: undefined
 };
 
 function reducer(state = defaultState, { type, payload }:IAction) : IControlProps {    
@@ -15,10 +17,22 @@ function reducer(state = defaultState, { type, payload }:IAction) : IControlProp
                 ...payload
             };
         }
-        case changeText: {                                  
+        case changeLabel: {                                  
+            return {
+                ...state,
+                label : payload
+            };
+        }
+        case changeValue: {                                  
             return {
                 ...state,
                 value : payload
+            };
+        }
+        case hideControl: {                                  
+            return {
+                ...state,
+                hidden : payload
             };
         }
         

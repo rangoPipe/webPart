@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { subspace } from "redux-subspace";
+import { sp } from "@pnp/sp-commonjs";
 
 import { IDocumentaryFormProps, IDocumentaryFormState } from "./IDocumentaryForm";
 import { IStore } from "../../../redux/namespace";
@@ -8,16 +9,18 @@ import store from "../../../redux/store";
 
 import Page from "./page";
 import { DocumentaryFormEnum } from "../../../common/documentary/documentaryForm/documentaryTreeEnum";
+import { MainDocumentaryEnum } from "../../../common/documentary/main/mainDocumentaryEnum";
 import { createButton } from "../../../redux/actions/general/button/_actionName";
-import { createControl, changeText } from "../../../redux/actions/general/control/_actionName";
+import { createControl, changeValue } from "../../../redux/actions/general/control/_actionName";
 import { TypeFolderEnum } from "../../../common/documentary/documentaryTree/documentaryTreeEnum";
 import { createSelect, hideElement } from "../../../redux/actions/general/select/_actionName";
 import { createCheck } from "../../../redux/actions/general/check/_actionName";
 export class DocumentaryFormClass extends React.Component<IDocumentaryFormProps,IDocumentaryFormState> {
 
+    private _stateController = subspace( (state: IStore) => state.stateMainDocumentary, MainDocumentaryEnum.state )(store);
     //private _fondoController = subspace( (state: IStore) => state.contextDocumentaryForm, DocumentaryFormEnum.contextDocumentaryForm )(store);
-    private _btnSaveController = subspace( (state: IStore) => state.btnSeccionDocumentary, DocumentaryFormEnum.btnSave )(store);
-    private _btnCancelController = subspace( (state: IStore) => state.btnSubseccionDocumentary, DocumentaryFormEnum.btnCancel )(store);
+    private _btnSaveController = subspace( (state: IStore) => state.btnSaveDocumentaryForm, DocumentaryFormEnum.btnSave )(store);
+    private _btnCancelController = subspace( (state: IStore) => state.btnCancelDocumentaryForm, DocumentaryFormEnum.btnCancel )(store);
     private _txtNombreController = subspace( (state: IStore) => state.txtNombreDocumentaryForm, DocumentaryFormEnum.txtNombre )(store);
     private _txtCodigoController = subspace( (state: IStore) => state.txtCodigoDocumentaryForm, DocumentaryFormEnum.txtCodigo )(store);
     private _lstCentralController = subspace( (state: IStore) => state.lstCentralDocumentaryForm, DocumentaryFormEnum.lstCentral )(store);
@@ -31,6 +34,14 @@ export class DocumentaryFormClass extends React.Component<IDocumentaryFormProps,
 
     constructor(props:IDocumentaryFormProps){
         super(props);
+
+        const times = [
+            { text: "", key :0, hidden: true },
+            { text: "6 meses", key: 1, value: 6 },
+            { text: "12 meses", key: 2, value: 12 },
+            { text: "18 meses", key: 3, value: 18 },
+            { text: "24 meses", key: 4, value: 24 }
+        ];
 
         this._btnSaveController.dispatch({
             type: createButton, payload: {
@@ -53,57 +64,61 @@ export class DocumentaryFormClass extends React.Component<IDocumentaryFormProps,
 
         this._txtNombreController.dispatch({
             type: createControl, payload: {
-                label: "Nombre:",
                 placeholder: "Nombre",
                 variant: "outline-dark",
                 type: "text",
                 className: "mt-3",
                 onChange: (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-                    this._txtNombreController.dispatch({ type:changeText, payload: e.currentTarget.value });
+                    this._txtNombreController.dispatch({ type:changeValue, payload: e.currentTarget.value });
                 }
             }
         });
 
         this._txtCodigoController.dispatch({
             type: createControl, payload: {
-                label: "Código:",
                 placeholder: "Código",
                 variant: "outline-dark",
                 type: "text",
                 className: "mt-3",
                 onChange: (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-                    this._txtCodigoController.dispatch({ type:changeText, payload: e.currentTarget.value});
+                    this._txtCodigoController.dispatch({ type:changeValue, payload: e.currentTarget.value});
                 },
             }
         });
 
+        times[0].text = "Tiempo de retención archivos de gestión";
         this._lstGestionController.dispatch({
             type: createSelect, payload: {
                 label: "Tablas de retención documental",
                 hidden: true,
-                items: [
-                    { text: "Tiempo de retención archivos de gestión", hidden: true, key :0 }
-                ]
+                items: times,
+                onChange: (e: React.MouseEvent<HTMLSelectElement>)  => {
+                    this._lstGestionController.dispatch({ type:changeValue, payload: e.currentTarget.value});
+                },
             }
         });
 
+        times[0].text = "Tiempo de retención archivos central";
         this._lstCentralController.dispatch({
             type: createSelect, payload: {
                 className: "mt-3",
                 hidden: true,
-                items: [
-                    { text: "Tiempo de retención de archivos central",  hidden: true, key :0 }
-                ]
+                items: times,
+                onChange: (e: React.MouseEvent<HTMLSelectElement>) => {
+                    this._lstCentralController.dispatch({ type:changeValue, payload: e.currentTarget.value});
+                },
             }
         });
-
+        
+        times[0].text = "Tiempo de retención archivos históricos";
         this._lstHistoryController.dispatch({
             type: createSelect, payload: {
                 className: "mt-3",
                 hidden: true,
-                items: [
-                    { text: "Tiempo de retención archivos históricos", hidden: true, key :0 }
-                ]
+                items: times,
+                onChange: (e: React.MouseEvent<HTMLSelectElement>)  => {
+                    this._lstHistoryController.dispatch({ type:changeValue, payload: e.currentTarget.value});
+                },
             }
         });
 
@@ -113,21 +128,26 @@ export class DocumentaryFormClass extends React.Component<IDocumentaryFormProps,
                 hidden: true,
                 items: [
                     { text: "Lista de grupos", value: undefined, hidden: true, key :0 }
-                ]
+                ],
+                onChange: (e: React.MouseEvent<HTMLSelectElement>)  => {
+                    this._lstHistoryController.dispatch({ type:changeValue, payload: e.currentTarget.value});
+                },
             }
         });
 
         this._chkKeepController.dispatch({
             type: createCheck, payload: {
                 label: "Conservación total",
-                id: "chk01"
+                id: "chk01",
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) => this._chkKeepController.dispatch({ type:changeValue }),
             }
         });
 
         this._chkDeleteController.dispatch({
             type: createCheck, payload: {
                 label: "Eliminación",
-                id: "chk04"
+                id: "chk04",
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) => this._chkDeleteController.dispatch({ type:changeValue }),
             }
         });
 
@@ -135,6 +155,7 @@ export class DocumentaryFormClass extends React.Component<IDocumentaryFormProps,
             type: createCheck, payload: {
                 label: "Digitalización",
                 id: "chk03",
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) => this._chkDigitizeController.dispatch({ type:changeValue }),
             }
         });
 
@@ -142,6 +163,7 @@ export class DocumentaryFormClass extends React.Component<IDocumentaryFormProps,
             type: createCheck, payload: {
                 label: "Selección",
                 id: "chk02",
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) => this._chkSelectController.dispatch({ type:changeValue }),
             }
         });
     }
@@ -164,13 +186,60 @@ export class DocumentaryFormClass extends React.Component<IDocumentaryFormProps,
     }
 
     private saveElement = async (type:TypeFolderEnum) => {
-        /*await sp.web.lists.getByTitle(TypeFolderEnum).items.add({
-            Title: this._txtNombreController.dispatch({ type:changeText, payload: undefined}),
-            Codigo: this._txtCodigoController.dispatch({ type:changeText, payload: undefined})
-          });*/
+        let body:any = {
+            Title: this._txtNombreController.getState().value,
+            Codigo: this._txtCodigoController.getState().value,
+        }
 
-          this._txtCodigoController.dispatch({ type:changeText, payload: undefined});
-          this._txtNombreController.dispatch({ type:changeText, payload: undefined});
+        switch(type){
+            case TypeFolderEnum.Seccion:
+                body = {
+                    ...body,
+                    FondoId: 4,
+                    SecurityGroup: this._lstSecurityController.getState().value,
+                }
+            break;
+            case TypeFolderEnum.Subseccion:
+                body = {
+                    ...body,
+                    SeccionId: 1
+                }
+            break;
+            case TypeFolderEnum.Serie:
+                body = {
+                    ...body,
+                    SeccionId: 1,
+                    SubseccionId: 1
+                }
+            break;
+            case TypeFolderEnum.Subserie:
+                body = {
+                    ...body,
+                    SerieId: 1,
+                    TiempoGestion: this._lstGestionController.getState().value,
+                    TiempoCentral: this._lstCentralController.getState().value,
+                    TiempoHistorico: this._lstHistoryController.getState().value,
+                    Conservacion: this._chkKeepController.getState().checked,
+                    Eliminacion: this._chkDeleteController.getState().checked,
+                    Seleccion: this._chkSelectController.getState().checked,
+                    Digitalizacion: this._chkDigitizeController.getState().checked
+                }
+            break;
+        }
+        
+        /*sp.web.lists.getByTitle(type).items.add(body)
+        .then(data => {
+            console.log(data);
+            this._txtCodigoController.dispatch({ type:changeValue, payload: undefined});
+            this._txtNombreController.dispatch({ type:changeValue, payload: undefined});
+            this._btnCancelController.getState().onClick(undefined);
+        })
+        .catch(error => {
+
+        });*/  
+
+        console.log(this._stateController.getState());
+        
     }
 
     public componentDidUpdate(){

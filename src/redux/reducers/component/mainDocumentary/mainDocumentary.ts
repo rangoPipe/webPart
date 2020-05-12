@@ -8,13 +8,13 @@ const defaultState:IMainDocumentary = {
 
 function reducer(state = defaultState, { type, payload }:IAction) : IMainDocumentary {    
     switch(type) {
-        case createState: {                                  
+        case createState: {
             return {
                 ...state,
                 ...payload
             };
         }
-        case changeView: {                                  
+        case changeView: {
             return {
                 ...state,
                 activeView : payload

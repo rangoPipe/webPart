@@ -6,12 +6,12 @@ import { IStore } from "../../../redux/namespace";
 import { MainDocumentaryEnum } from "../../../common/documentary/main/mainDocumentaryEnum";
 import { DocumentaryTreeEnum, TypeFolderEnum } from "../../../common/documentary/documentaryTree/documentaryTreeEnum";
 
-import { onClick as onClicEvent, onClick } from "../../../redux/actions/general/button/_actionName";
-import { changeView } from "../../../redux/actions/component/mainDocumentary/_actionName";
+import { onClick as onClicEvent } from "../../../redux/actions/general/button/_actionName";
 
 import store from "../../../redux/store";
 import Page from "./page";
 import { DocumentaryFormEnum } from "../../../common/documentary/documentaryForm/documentaryTreeEnum";
+import { changeView } from "../../../redux/actions/component/mainDocumentary/_actionName";
 
 export default class MainClass extends React.Component<IMainProps, IMainState> {
 
@@ -23,7 +23,6 @@ export default class MainClass extends React.Component<IMainProps, IMainState> {
     private _subserieController = subspace( (state: IStore) => state.btnSubserieDocumentary, DocumentaryTreeEnum.btnSubserie )(store);
     private _tipodocumentalController = subspace( (state: IStore) => state.btnTipoDocumentary, DocumentaryTreeEnum.btnTipo )(store);
 
-
     private _btnCancelFormController = subspace( (state: IStore) => state.btnCancelDocumentaryForm, DocumentaryFormEnum.btnCancel )(store);
 
     constructor(props:IMainProps) {
@@ -34,7 +33,7 @@ export default class MainClass extends React.Component<IMainProps, IMainState> {
         };
 
         this._fondoController.dispatch({
-            type: onClicEvent, payload: () => this._changeView(TypeFolderEnum.Fondo)
+            type: onClicEvent, payload: () =>  this._changeView(TypeFolderEnum.Fondo)
         });
 
         this._seccionController.dispatch({
@@ -57,23 +56,19 @@ export default class MainClass extends React.Component<IMainProps, IMainState> {
             type: onClicEvent, payload: () => this._changeView(TypeFolderEnum.TipoDocumental)
         });
 
-        this._btnCancelFormController.dispatch({ type: onClick, 
-            payload: () =>{
-                this._stateController.dispatch({ type: changeView, payload: undefined });
-                this.forceUpdate();
-            }
+        this._btnCancelFormController.dispatch({ type: onClicEvent, 
+            payload: () => this._changeView(this.state.activeView)
         });
     }
 
     private _changeView = (view:TypeFolderEnum) => {
-        this._stateController.dispatch({
-            type: changeView, payload: (this._stateController.getState().activeView === view) ? undefined : view
-        });
-        this.forceUpdate();
+        const activeView = (this.state.activeView === view) ? undefined : view;
+        this._stateController.dispatch({type:changeView, payload: activeView });
+        this.setState({...this.state, activeView });
     }
 
 
     public render() {
-        return <Page activeView = { this._stateController.getState().activeView } />;
+        return <Page activeView = { this.state.activeView } />;
     }
 }

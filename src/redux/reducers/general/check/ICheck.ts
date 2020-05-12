@@ -5,5 +5,8 @@ export interface ICheckProps extends FormCheckProps {
     className?: string;
     placeholder?: string;
     hidden?: boolean;
+    checked?: boolean;
+    onClick?: (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => void
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 

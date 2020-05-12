@@ -63,7 +63,7 @@ export default function Page(props:IDocumentaryTreeProps) {
                                 return  (<TreeItem nodeId={ "F" + f.ID  } label={ `${TypeFolderEnum.Fondo}: ${f.Title}` }  >
                                         {
                                             filterItem(seccion, f.ID, TypeFolderEnum.Fondo ).map((s) => {
-                                                return <TreeItem nodeId={ "S" + s.ID  } label={ `${TypeFolderEnum.Seccion}: ${s.Title}` }  >
+                                                return <TreeItem nodeId={ "S" + s.ID  } label={ `${TypeFolderEnum.Seccion}: ${s.Title}` } onClick={() => console.log(s.ID)} >
                                                         {
                                                             filterItem(subseccion, s.ID, TypeFolderEnum.Seccion ).map((ss) => {
                                                                 return <TreeItem nodeId={ "SS" + ss.ID  } label={ `${TypeFolderEnum.Subseccion}: ${ss.Title}` }  >
@@ -74,19 +74,19 @@ export default function Page(props:IDocumentaryTreeProps) {
                                                                                     filterItem(subserie, se.ID, TypeFolderEnum.Serie ).map((sse) => {
                                                                                         return <TreeItem nodeId={ "SSE" + sse.ID  } label={ `${TypeFolderEnum.Subserie}: ${sse.Title}` } onClick={()=>{ console.log(sse); }}  > 
                                                                                         
-                                                                                        </TreeItem>
+                                                                                        </TreeItem>;
                                                                                     })
                                                                                 }
-                                                                                </TreeItem>
+                                                                                </TreeItem>;
                                                                             })
                                                                         }
-                                                                    </TreeItem>
+                                                                    </TreeItem>;
                                                             })
                                                         }
-                                                    </TreeItem>
+                                                    </TreeItem>;
                                             })
                                         }
-                                    </TreeItem>)
+                                    </TreeItem>);
                             })
                         }
                         
@@ -109,22 +109,22 @@ function buildStructure(props: IDocumentaryTreeProps ){
 
     props.serie.forEach( (se) => {
         if(props.subserie)
-            se[TypeFolderEnum.Subserie] = props.subserie.filter(sse => sse[TypeFolderEnum.Serie].ID === se.ID )
+            se[TypeFolderEnum.Subserie] = props.subserie.filter(sse => sse[TypeFolderEnum.Serie].ID === se.ID );
     });
 
     props.subseccion.forEach( (se) => {
         if(props.serie)
-            se[TypeFolderEnum.Serie] = props.serie.filter(sse => sse[TypeFolderEnum.Subseccion].ID === se.ID )
+            se[TypeFolderEnum.Serie] = props.serie.filter(sse => sse[TypeFolderEnum.Subseccion].ID === se.ID );
     });
 
     props.seccion.forEach( (se) => {
         if(props.subseccion)
-        se[TypeFolderEnum.Subseccion] = props.subseccion.filter(sse => sse[TypeFolderEnum.Seccion].ID === se.ID )
+        se[TypeFolderEnum.Subseccion] = props.subseccion.filter(sse => sse[TypeFolderEnum.Seccion].ID === se.ID );
     });
 
     props.fondo.forEach( (se) => {
         if(props.seccion)
-        se[TypeFolderEnum.Seccion] = props.seccion.filter(sse => sse[TypeFolderEnum.Fondo].ID === se.ID )
+        se[TypeFolderEnum.Seccion] = props.seccion.filter(sse => sse[TypeFolderEnum.Fondo].ID === se.ID );
     });
 }
 

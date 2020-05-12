@@ -12,6 +12,7 @@ import { createButton } from "../../../redux/actions/general/button/_actionName"
 import { IStore } from "../../../redux/namespace";
 import store from "../../../redux/store";
 import Page from "./page";
+import { sp } from "@pnp/sp-commonjs";
 
 export class DocumentaryTreeClass extends React.Component<IDocumentaryTreeProps,IDocumentaryTreeState> {
 
@@ -32,7 +33,7 @@ export class DocumentaryTreeClass extends React.Component<IDocumentaryTreeProps,
             subseccion: [],
             serie: [],
             subserie: []
-        }
+        };
         
         this._fondoController.dispatch({
             type: createButton, payload: {
@@ -85,8 +86,7 @@ export class DocumentaryTreeClass extends React.Component<IDocumentaryTreeProps,
 
     public async componentDidMount(): Promise<void> {
 
-       /* 
-       const fondo = await sp.web.lists.getByTitle(TypeFolderEnum.Fondo).items.select("ID","Title","Codigo").getAll()
+       /*const fondo = await sp.web.lists.getByTitle(TypeFolderEnum.Fondo).items.select("ID","Title","Codigo").getAll()
         .then((data) => { return data; });
 
         const seccion = await sp.web.lists.getByTitle(TypeFolderEnum.Seccion).items.select("ID","Title","Codigo",`${TypeFolderEnum.Fondo}/ID`).expand(TypeFolderEnum.Fondo).getAll()
@@ -108,11 +108,7 @@ export class DocumentaryTreeClass extends React.Component<IDocumentaryTreeProps,
             subseccion,
             serie,
             subserie
-        })
-       */
-
-        
-        
+        });*/
     }
 
     public saveForm(type: TypeFolderEnum, data) {
