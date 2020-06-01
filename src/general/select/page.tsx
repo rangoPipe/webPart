@@ -15,7 +15,7 @@ export default function Page(props: ISelectProps) {
                     ? <h3>{select.label}</h3>
                     : null
                 }
-                <Form.Control as="select" className={select.className} disabled={select.disabled} onChange={select.onChange}>
+                <Form.Control as="select" className={select.className} disabled={select.disabled} onChange={select.onChange} value={select.value}>
                     {
                         select.items.map((item) => {
                             return <option value={item.value} hidden={item.hidden} key={item.key}>{item.text}</option>;

@@ -13,12 +13,10 @@ import { IDocumentaryTreeProps } from "./IDocumentaryTree";
 
 import "./style.css";
 import { IStore } from "../../../redux/namespace";
-import { TypeFolderEnum } from "../../../common/documentary/documentaryTree/documentaryTreeEnum";
+import { TypeFolderEnum, IDocumentary } from "../../../common/documentary/documentaryTree/documentaryTreeEnum";
 
 export default function Page(props:IDocumentaryTreeProps) {
-    const  { fondo, seccion, subseccion, serie, subserie } = props;
-    buildStructure(props);
-    createTree(fondo);
+    const  { fondo, seccion, subseccion, serie, subserie, onSelectTreeItem } = props;
     
     return (
         <div id="DocumentaryTree">
@@ -53,26 +51,22 @@ export default function Page(props:IDocumentaryTreeProps) {
                     </Navbar>
                 </Card.Header>
                 <Card.Body>
-                    <TreeView
-                        defaultCollapseIcon={<FontAwesomeIcon icon={faFolderOpen} />}
-                        defaultExpandIcon={<FontAwesomeIcon icon={faFolder} />}
-                    >
-
+                    <TreeView  defaultCollapseIcon={<FontAwesomeIcon icon={faFolderOpen} />} defaultExpandIcon={<FontAwesomeIcon icon={faFolder} />} >
                         {
-                            fondo.map((f) => {
-                                return  (<TreeItem nodeId={ "F" + f.ID  } label={ `${TypeFolderEnum.Fondo}: ${f.Title}` }  >
+                            fondo.map((iFondo) => {
+                                return  (<TreeItem nodeId={ "F" + iFondo.ID  } label={ `${TypeFolderEnum.Fondo}: ${iFondo.Title}` } onClick={()=> onSelectTreeItem(iFondo, TypeFolderEnum.Fondo)}  >
                                         {
-                                            filterItem(seccion, f.ID, TypeFolderEnum.Fondo ).map((s) => {
-                                                return <TreeItem nodeId={ "S" + s.ID  } label={ `${TypeFolderEnum.Seccion}: ${s.Title}` } onClick={() => console.log(s.ID)} >
+                                            filterItem(seccion, iFondo.ID, TypeFolderEnum.Fondo ).map((iSeccion) => {
+                                                return <TreeItem nodeId={ "S" + iSeccion.ID  } label={ `${TypeFolderEnum.Seccion}: ${iSeccion.Title}` }  onClick={()=> onSelectTreeItem(iSeccion, TypeFolderEnum.Seccion, iFondo.ID)}  >
                                                         {
-                                                            filterItem(subseccion, s.ID, TypeFolderEnum.Seccion ).map((ss) => {
-                                                                return <TreeItem nodeId={ "SS" + ss.ID  } label={ `${TypeFolderEnum.Subseccion}: ${ss.Title}` }  >
+                                                            filterItem(subseccion, iSeccion.ID, TypeFolderEnum.Seccion ).map((iSubseccion) => {
+                                                                return <TreeItem nodeId={ "SS" + iSubseccion.ID  } label={ `${TypeFolderEnum.Subseccion}: ${iSubseccion.Title}` }  onClick={()=> onSelectTreeItem(iSubseccion, TypeFolderEnum.Subseccion, iSeccion.ID)} >
                                                                         {
-                                                                            filterItem(serie, ss.ID, TypeFolderEnum.Subseccion ).map((se) => {
-                                                                                return <TreeItem nodeId={ "SE" + se.ID  } label={ `${TypeFolderEnum.Serie}: ${se.Title}` }  > 
+                                                                            filterItem(serie, iSubseccion.ID, TypeFolderEnum.Subseccion ).map((iSerie) => {
+                                                                                return <TreeItem nodeId={ "SE" + iSerie.ID  } label={ `${TypeFolderEnum.Serie}: ${iSerie.Title}` }  onClick={()=> onSelectTreeItem(iSerie, TypeFolderEnum.Serie, iSubseccion.ID)}  > 
                                                                                 {
-                                                                                    filterItem(subserie, se.ID, TypeFolderEnum.Serie ).map((sse) => {
-                                                                                        return <TreeItem nodeId={ "SSE" + sse.ID  } label={ `${TypeFolderEnum.Subserie}: ${sse.Title}` } onClick={()=>{ console.log(sse); }}  > 
+                                                                                    filterItem(subserie, iSerie.ID, TypeFolderEnum.Serie ).map((iSubserie) => {
+                                                                                        return <TreeItem nodeId={ "SSE" + iSubserie.ID  } label={ `${TypeFolderEnum.Subserie}: ${iSubserie.Title}` } onClick={()=> onSelectTreeItem(iSubserie, TypeFolderEnum.Subserie, iSerie.ID )}  > 
                                                                                         
                                                                                         </TreeItem>;
                                                                                     })
@@ -83,13 +77,25 @@ export default function Page(props:IDocumentaryTreeProps) {
                                                                     </TreeItem>;
                                                             })
                                                         }
+                                                        {
+                                                            filterItem(serie, iSeccion.ID, TypeFolderEnum.Seccion ).map((iSerie) => {
+                                                                return <TreeItem nodeId={ "SE" + iSerie.ID  } label={ `${TypeFolderEnum.Serie}: ${iSerie.Title}` }  onClick={()=> onSelectTreeItem(iSerie, TypeFolderEnum.Serie, iSeccion.ID)}  > 
+                                                                {
+                                                                    filterItem(subserie, iSerie.ID, TypeFolderEnum.Serie ).map((iSubserie) => {
+                                                                        return <TreeItem nodeId={ "SSE" + iSubserie.ID  } label={ `${TypeFolderEnum.Subserie}: ${iSubserie.Title}` } onClick={()=> onSelectTreeItem(iSubserie, TypeFolderEnum.Subserie, iSerie.ID)}  > 
+                                                                        
+                                                                        </TreeItem>;
+                                                                    })
+                                                                }
+                                                                </TreeItem>;
+                                                            })
+                                                        }
                                                     </TreeItem>;
                                             })
                                         }
                                     </TreeItem>);
                             })
                         }
-                        
                     </TreeView>
                 </Card.Body>
             </Card>
@@ -97,37 +103,15 @@ export default function Page(props:IDocumentaryTreeProps) {
     );
 }
 
-function filterItem(items:any[],value: string, type:TypeFolderEnum ):any[] {
+function filterItem(items:IDocumentary[],value: string, type:TypeFolderEnum ):IDocumentary[] {
     if(items.length === 0)
     {
         return items;
     }
-    return items.filter((x:any) => x[type].ID === value);
-}
-
-function buildStructure(props: IDocumentaryTreeProps ){
-
-    props.serie.forEach( (se) => {
-        if(props.subserie)
-            se[TypeFolderEnum.Subserie] = props.subserie.filter(sse => sse[TypeFolderEnum.Serie].ID === se.ID );
+    return items.filter((x:any) => {
+        if(!x[type]){
+            return false;
+        }
+        return (x[type].ID === value);
     });
-
-    props.subseccion.forEach( (se) => {
-        if(props.serie)
-            se[TypeFolderEnum.Serie] = props.serie.filter(sse => sse[TypeFolderEnum.Subseccion].ID === se.ID );
-    });
-
-    props.seccion.forEach( (se) => {
-        if(props.subseccion)
-        se[TypeFolderEnum.Subseccion] = props.subseccion.filter(sse => sse[TypeFolderEnum.Seccion].ID === se.ID );
-    });
-
-    props.fondo.forEach( (se) => {
-        if(props.seccion)
-        se[TypeFolderEnum.Seccion] = props.seccion.filter(sse => sse[TypeFolderEnum.Fondo].ID === se.ID );
-    });
-}
-
-function createTree(fondo){
-    console.log(fondo);
 }

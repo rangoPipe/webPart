@@ -17,6 +17,9 @@ export default function Page(props:IDocumentaryFormProps) {
         <div id="DocumentaryForm">
             <Card>
                 <Card.Body>
+                    <SubspaceProvider mapState={(state: IStore) => { return { control: state.txtIdDocumentaryForm }; }} >
+                        <Control />
+                    </SubspaceProvider>
                     <h3>Agregar { activeView }</h3>
                     <Container fluid={true}>
                         <Row>

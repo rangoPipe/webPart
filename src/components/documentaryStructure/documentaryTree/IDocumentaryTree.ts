@@ -1,3 +1,6 @@
+import { TypeFolderEnum } from "../../../common/documentary/documentaryForm/documentaryFormEnum";
+import { IDocumentary } from "../../../common/documentary/documentaryTree/documentaryTreeEnum";
+
 export interface IDocumentaryTreeState {
     fondo?: any[];
     seccion?: any[];
@@ -7,5 +10,6 @@ export interface IDocumentaryTreeState {
 }
 
 export interface IDocumentaryTreeProps extends IDocumentaryTreeState {
-    onClickItem?: any;
+    onClickItem?: () => void;
+    onSelectTreeItem?: (item: IDocumentary, itemSelected: TypeFolderEnum, parentId?:string) => void;
 }

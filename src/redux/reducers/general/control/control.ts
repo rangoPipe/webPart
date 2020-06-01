@@ -6,7 +6,7 @@ const defaultState:IControlProps = {
     type:"text",
     label: null,
     hidden: false,
-    value: undefined
+    value: undefined,
 };
 
 function reducer(state = defaultState, { type, payload }:IAction) : IControlProps {    

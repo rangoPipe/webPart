@@ -10,8 +10,10 @@ import control from "./reducers/general/control/control";
 import select from "./reducers/general/select/select";
 import check from "./reducers/general/check/check";
 
-import mainDocumentary from "./reducers/component/mainDocumentary/mainDocumentary";
-import { DocumentaryFormEnum } from "../common/documentary/documentaryForm/documentaryTreeEnum";
+import mainDocumentary from "./reducers/component/documentaryStructure/mainDocumentary/mainDocumentary";
+import documentaryTree from "./reducers/component/documentaryStructure/documentaryTree/documentaryTree";
+
+import { DocumentaryFormEnum } from "../common/documentary/documentaryForm/documentaryFormEnum";
 
 const reducer = combineReducers<any>({
     //DocumentaryMain
@@ -20,6 +22,7 @@ const reducer = combineReducers<any>({
     //DocumentaryForm
     btnSaveDocumentaryForm: namespaced(DocumentaryFormEnum.btnSave)(button),
     btnCancelDocumentaryForm: namespaced(DocumentaryFormEnum.btnCancel)(button),
+    txtIdDocumentaryForm: namespaced(DocumentaryFormEnum.txtId)(control),
     txtCodigoDocumentaryForm: namespaced(DocumentaryFormEnum.txtCodigo)(control),
     txtNombreDocumentaryForm: namespaced(DocumentaryFormEnum.txtNombre)(control),
     lstSecurityDocumentaryForm: namespaced(DocumentaryFormEnum.lstSecurity)(select),
@@ -33,7 +36,7 @@ const reducer = combineReducers<any>({
 
     
     //Documentary Tree
-    contextDocumentary: namespaced(DocumentaryTreeEnum.contextDocumentary)(context),
+    stateDocumentaryTree: namespaced(DocumentaryTreeEnum.state)(documentaryTree),
     btnFondoDocumentary: namespaced(DocumentaryTreeEnum.btnFondo)(button),
     btnSeccionDocumentary: namespaced(DocumentaryTreeEnum.btnSeccion)(button),
     btnSubseccionDocumentary: namespaced(DocumentaryTreeEnum.btnSubseccion)(button),

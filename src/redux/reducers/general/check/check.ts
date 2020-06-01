@@ -30,12 +30,12 @@ function reducer(state = defaultState, { type, payload }:IAction) : ICheckProps 
             return {
                 ...state,
                 onChange: payload
-            }
+            };
         }
         case changeValue: {                                  
             return {
                 ...state,
-                checked : !state.checked
+                checked : payload
             };
         }
         

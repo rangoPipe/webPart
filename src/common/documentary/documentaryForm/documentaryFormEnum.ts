@@ -2,6 +2,7 @@ export enum DocumentaryFormEnum {
     contextDocumentaryForm = "contextDocumentaryForm",
     btnSave = "btnSaveDocumentaryForm",
     btnCancel = "btnCancelDocumentaryForm",
+    txtId = "txtIdDocumentaryForm",
     txtCodigo = "txtCodigoDocumentaryForm",
     txtNombre = "txtNombreDocumentaryForm",
     lstSecurity = "lstSecurityDocumentaryForm",

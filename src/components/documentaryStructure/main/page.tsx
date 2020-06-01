@@ -15,7 +15,8 @@ export default function Page(props:IMainProps) {
                 <Col md={(activeView)? 8 : 12}>
                     <SubspaceProvider mapState={(state: IStore) => { 
                       return {
-                            contextDocumentary: state.contextDocumentary,
+                            stateMainDocumentary: state.stateMainDocumentary,
+                            stateDocumentaryTree: state.stateDocumentaryTree,
                             btnFondoDocumentary: state.btnFondoDocumentary,
                             btnSeccionDocumentary: state.btnSeccionDocumentary,
                             btnSubseccionDocumentary : state.btnSubseccionDocumentary,
@@ -34,6 +35,7 @@ export default function Page(props:IMainProps) {
                                 stateMainDocumentary: state.stateMainDocumentary,
                                 btnSaveDocumentaryForm: state.btnSaveDocumentaryForm,
                                 btnCancelDocumentaryForm: state.btnCancelDocumentaryForm,
+                                txtIdDocumentaryForm : state.txtIdDocumentaryForm,
                                 txtNombreDocumentaryForm : state.txtNombreDocumentaryForm,
                                 txtCodigoDocumentaryForm : state.txtCodigoDocumentaryForm,
                                 lstCentralDocumentaryForm : state.lstCentralDocumentaryForm,

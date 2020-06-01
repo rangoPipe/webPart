@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export interface ISelectProps  {
-    label?: React.ElementType<any>;
+    label?: React.ElementType<any> | string;
     className?: string;
     onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
     hidden?: boolean;
@@ -11,9 +11,9 @@ export interface ISelectProps  {
 }
 
 
-interface ISelectItemProps {
+export interface ISelectItemProps {
     text: string;
     hidden?: boolean;
-    value: any;
+    value?: any;
     key: string | number;
 }

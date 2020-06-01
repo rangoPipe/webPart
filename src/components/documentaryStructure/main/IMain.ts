@@ -1,4 +1,4 @@
-import { IMainDocumentary } from "../../../redux/reducers/component/mainDocumentary/IMainDocumentary";
+import { IMainDocumentary } from "../../../redux/reducers/component/documentaryStructure/mainDocumentary/IMainDocumentary";
 
 export interface IMainState extends IMainDocumentary {
     key?:string;

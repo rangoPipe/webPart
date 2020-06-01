@@ -1,4 +1,4 @@
-import { createButton, hideButton, changeText, onClick } from "../../../actions/general/button/_actionName";
+import { createButton, hideButton, changeText, onClick, disableItem } from "../../../actions/general/button/_actionName";
 import { IAction } from "../../../namespace";
 import { IButtonProps } from "./IButton";
 
@@ -8,7 +8,7 @@ const defaultState:IButtonProps = {
     type: "button",
     size: "sm",
     onClick: undefined,
-    disabled: undefined,
+    disabled: false,
     hidden: false,
     className: undefined
 };
@@ -37,6 +37,12 @@ function reducer(state = defaultState, { type, payload }:IAction) : IButtonProps
             return {
                 ...state,
                 onClick : payload
+            };
+        }
+        case disableItem: {                                  
+            return {
+                ...state,
+                disabled : payload
             };
         }
         
