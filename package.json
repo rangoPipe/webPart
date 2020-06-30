@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@date-io/date-fns": "^2.6.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
@@ -10,6 +11,7 @@
     "@fortawesome/react-fontawesome": "^0.1.9",
     "@material-ui/core": "^4.9.12",
     "@material-ui/lab": "^4.0.0-alpha.51",
+    "@material-ui/pickers": "^3.2.10",
     "@microsoft/sp-http": "^1.10.0",
     "@microsoft/sp-webpart-base": "^1.10.0",
     "@pnp/sp": "^2.0.5",
@@ -21,6 +23,8 @@
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
     "bootstrap": "^4.4.1",
+    "date-fns": "^2.14.0",
+    "jspdf": "^1.5.3",
     "moment": "^2.24.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
@@ -28,7 +32,9 @@
     "react-redux": "^7.2.0",
     "react-redux-subspace": "^6.1.0",
     "react-scripts": "3.4.1",
+    "react-viewer": "^3.2.2",
     "redux-subspace": "^6.1.0",
+    "tiff.js": "^1.0.0",
     "typescript": "^3.7.5"
   },
   "scripts": {

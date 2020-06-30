@@ -1,0 +1,12 @@
+#main-admin-form.row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+    flex-wrap: wrap;
+  }
+  
+  #main-admin-form.row > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+  }

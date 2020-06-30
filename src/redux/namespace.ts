@@ -1,4 +1,3 @@
-import { IContextProps } from "./reducers/common/IContextProps";
 import { ITreeViewProps } from "./reducers/general/treeView/ITreeView";
 import { IButtonProps } from "./reducers/general/button/IButton";
 import { ICardProps } from "./reducers/general/card/ICard";
@@ -7,19 +6,33 @@ import { IDocumentaryTree } from "./reducers/component/documentaryStructure/docu
 import { IControlProps } from "./reducers/general/control/IControl";
 import { ISelectProps } from "./reducers/general/select/ISelect";
 import { ICheckProps } from "./reducers/general/check/ICheck";
+import { ITextFieldProps } from "./reducers/general/textField/ITextField";
+import { IDatePickerProps } from "./reducers/general/datePicker/IDatePicker";
+import { IContextProps } from "./reducers/webPart/IContext";
+import { IGridProps } from "./reducers/general/grid/IGrid";
+import { IViewerProps } from "./reducers/general/viewer/IViewer";
 
 export interface IStoreGeneral {
-    context: IContextProps;
     button: IButtonProps;
     treeView: ITreeViewProps;
     card: ICardProps;
     control: IControlProps;
+    textField: ITextFieldProps;
     select: ISelectProps;
     check: ICheckProps;
+    datePicker: IDatePickerProps;
+    grid: IGridProps;
+    viewer: IViewerProps;
+    context: IContextProps;
 }
 
-
 export interface IStore extends IStoreGeneral {
+    //MainApp
+    appContext:            IContextProps;
+    btnAdminMainApp:       IButtonProps;
+    btnStructureMainApp:   IButtonProps;
+    btnSearchMainApp:      IButtonProps;
+
     //DocumentaryMain
     stateMainDocumentary:   IMainDocumentary;
 
@@ -33,30 +46,31 @@ export interface IStore extends IStoreGeneral {
     btnTipoDocumentary:      IButtonProps;
 
     //DocumentaryForm
-    contextDocumentaryForm:     IContextProps;
     btnSaveDocumentaryForm:     IButtonProps;
     btnCancelDocumentaryForm:   IButtonProps;
     txtIdDocumentaryForm:       IControlProps;
-    txtNombreDocumentaryForm:   IControlProps;
-    txtCodigoDocumentaryForm:   IControlProps;
+    txtNombreDocumentaryForm:   ITextFieldProps;
+    txtCodigoDocumentaryForm:   ITextFieldProps;
     lstCentralDocumentaryForm:  ISelectProps;
     lstGestionDocumentaryForm:  ISelectProps;
     lstHistoryDocumentaryForm:  ISelectProps;
     lstSecurityDocumentaryForm: ISelectProps;
+    lstColumnDocumentaryForm:   ISelectProps;
     chkKeepDocumentaryForm:     ICheckProps;
     chkSelectDocumentaryForm:   ICheckProps;
     chkDigitizeDocumentaryForm: ICheckProps;
     chkDeleteDocumentaryForm:   ICheckProps;
-}
 
-export interface IAction {
-    /**
-     * Almacena el nombre de la accion
-     */
-    type:string;
+    //AdminForm
+    txtSearchAdminForm:         ITextFieldProps;
+    lstTypeAdminForm:           ISelectProps;
+    lstDocumentalTypeAdminForm: ISelectProps;
+    btnSaveAdminForm:           IButtonProps;
+    btnCancelAdminForm:         IButtonProps;
 
-    /**
-     * Suministra el valor a tratar por el reducer
-     */
-    payload?:any;
+    //AdminList
+    gridListAdmin:     IGridProps;
+
+    //AdminView
+    viewerAdminView:   IViewerProps;
 }

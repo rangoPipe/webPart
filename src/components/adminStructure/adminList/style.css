@@ -1,0 +1,7 @@
+#admin-list, #admin-list .card {
+    height: 100%;
+}
+
+#admin-list .card-header {
+    background-color: #ffffff;
+}

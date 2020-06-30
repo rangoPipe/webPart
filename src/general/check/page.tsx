@@ -1,12 +1,15 @@
 import * as React from "react";
-import { Form } from 'react-bootstrap';
 import { ICheckProps } from "./ICheck";
+import { FormControlLabel, Checkbox } from "@material-ui/core";
 
 export default function Page(props: ICheckProps) {
     const { check } = props;
     return (
         (check.hidden)
         ? null
-        : <Form.Check label={check.label} type={check.type} id={ check.id } className = {check.className} inline checked={ check.checked } onClick={ check.onClick } onChange={check.onChange} />
+        : <FormControlLabel
+                control={<Checkbox checked={check.checked} onChange={check.onChange} color="default" id={check.id} onClick={check.onClick} />}
+                label={check.label}
+        />
     );
 }

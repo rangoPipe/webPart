@@ -35,7 +35,7 @@
 }
 
 #DocumentaryForm .btn-cancelar, #DocumentaryForm .btn-guardar {
-    height: 61px;
+    width: 100%;
 }
 
 #DocumentaryForm .btn-cancelar {

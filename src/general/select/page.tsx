@@ -1,6 +1,8 @@
 import * as React from "react";
-import { Form } from 'react-bootstrap';
 import { ISelectProps } from "./ISelect";
+import { Autocomplete } from "@material-ui/lab";
+import { TextField } from "@material-ui/core";
+import { ISelectItemProps } from "../../redux/reducers/general/select/ISelect";
 
 export default function Page(props: ISelectProps) {
     const { select } = props;
@@ -11,17 +13,34 @@ export default function Page(props: ISelectProps) {
         :
             <div>
                 {
-                    (select.label)
-                    ? <h3>{select.label}</h3>
-                    : null
+                    (!select.multiple)
+                    ? <Autocomplete
+                        id={ select.id }
+                        disabled= {select.disabled }
+                        options={ select.items }
+                        onChange={ select.onChange }
+                        getOptionLabel={(option) => option.text}
+                        value= { (select.value as ISelectItemProps) }
+                        renderInput={(params) => (
+                            <TextField {...params} variant="outlined" label={ select.label } placeholder={ select.placeholder } margin="dense"/>
+                        )}
+                    />
+                    :
+                    <Autocomplete
+                        id={ select.id }
+                        multiple
+                        disableCloseOnSelect = { select.disableCloseOnSelect }
+                        disabled= {select.disabled }
+                        options={ select.items }
+                        onChange={ select.onChange }
+                        getOptionLabel={(option) => option.text}
+                        value= { (select.value as ISelectItemProps[]) }
+                        renderInput={(params) => (
+                            <TextField {...params} variant="outlined" label={ select.label } placeholder={ select.placeholder } margin="dense"/>
+                        )}
+                    />
                 }
-                <Form.Control as="select" className={select.className} disabled={select.disabled} onChange={select.onChange} value={select.value}>
-                    {
-                        select.items.map((item) => {
-                            return <option value={item.value} hidden={item.hidden} key={item.key}>{item.text}</option>;
-                        })
-                    }
-                </Form.Control>
+                
             </div>
     );
 }

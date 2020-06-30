@@ -1,3 +1,5 @@
+import { ISelectItemProps } from "../../../redux/reducers/general/select/ISelect";
+
 export enum DocumentaryFormEnum {
     contextDocumentaryForm = "contextDocumentaryForm",
     btnSave = "btnSaveDocumentaryForm",
@@ -9,6 +11,7 @@ export enum DocumentaryFormEnum {
     lstGestion = "lstGestionDocumentaryForm",
     lstHistory = "lstHistoryDocumentaryForm",
     lstCentral = "lstCentralDocumentaryForm",
+    lstColumn = "lstColumnDocumentaryForm",
     chkDelete = "chkDeleteDocumentaryForm",
     chkDigitize = "chkDigitizeDocumentaryForm",
     chkSelect = "chkSelectDocumentaryForm",
@@ -23,3 +26,10 @@ export enum TypeFolderEnum {
     Subserie = "Subserie",
     TipoDocumental = "TipoDocumental",
 }
+
+export const times:ISelectItemProps[] = [
+    { text: "6 meses", key: 1, value: 6 },
+    { text: "12 meses", key: 2, value: 12 },
+    { text: "18 meses", key: 3, value: 18 },
+    { text: "24 meses", key: 4, value: 24 }
+];

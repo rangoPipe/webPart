@@ -1,0 +1,23 @@
+#MainAppContainer .btn-main-menu {
+    color:#9D9D9D;
+    border-color: #FFFFFF;
+    font-size: 1.4rem;
+    text-transform: none;
+}
+
+#MainAppContainer .btn-main-menu:hover {
+    background-color: #FFFFFF;
+}
+
+#MainAppContainer #main-navbar-nav button {
+    font-size: 17px;
+}
+
+#MainAppContainer {
+    background-color: #F3F2F1;
+}
+
+#MainAppContainer .div-navbar {
+    padding-left: 0px;
+    padding-right: 0px;
+}

@@ -1,5 +1,4 @@
-import { loadItems } from "../../../../actions/component/documentaryStructure/documentaryTree/_actionName";
-import { IAction } from "../../../../namespace";
+import { IAction, ActionNameEnum } from "../../../../action";
 import { IDocumentaryTree } from "./IDocumentaryTree";
 
 const defaultState:IDocumentaryTree = {
@@ -8,7 +7,7 @@ const defaultState:IDocumentaryTree = {
 
 function reducer(state = defaultState, { type, payload }:IAction) : IDocumentaryTree {    
     switch(type) {
-        case loadItems: {
+        case ActionNameEnum.loadItems: {
             return {
                 ...state,
                 loadItems: payload

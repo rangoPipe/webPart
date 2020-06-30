@@ -1,5 +1,4 @@
-import { createControl, changeLabel, hideControl, changeValue } from "../../../actions/general/control/_actionName";
-import { IAction } from "../../../namespace";
+import { IAction, ActionNameEnum } from "../../../action";
 import { IControlProps } from "./IControl";
 
 const defaultState:IControlProps = {
@@ -11,25 +10,25 @@ const defaultState:IControlProps = {
 
 function reducer(state = defaultState, { type, payload }:IAction) : IControlProps {    
     switch(type) {
-        case createControl: {                                  
+        case ActionNameEnum.createElemet: {                                  
             return {
                 ...state,
                 ...payload
             };
         }
-        case changeLabel: {                                  
+        case ActionNameEnum.changeLabel: {                                  
             return {
                 ...state,
                 label : payload
             };
         }
-        case changeValue: {                                  
+        case ActionNameEnum.changeValue: {                                  
             return {
                 ...state,
                 value : payload
             };
         }
-        case hideControl: {                                  
+        case ActionNameEnum.hideElement: {                                  
             return {
                 ...state,
                 hidden : payload

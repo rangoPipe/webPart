@@ -1,5 +1,4 @@
-import { createCheck, hideElement, onChange, changeValue } from "../../../actions/general/check/_actionName";
-import { IAction } from "../../../namespace";
+import { IAction, ActionNameEnum } from "../../../action";
 import { ICheckProps } from "./ICheck";
 
 const defaultState:ICheckProps = {
@@ -13,26 +12,26 @@ const defaultState:ICheckProps = {
 
 function reducer(state = defaultState, { type, payload }:IAction) : ICheckProps {    
     switch(type) {
-        case createCheck: {                                  
+        case ActionNameEnum.createElemet: {                                  
             return {
                 ...state,
                 ...payload
             };
         }
 
-        case hideElement: {                                  
+        case ActionNameEnum.hideElement: {                                  
             return {
                 ...state,
                 hidden: payload
             };
         }
-        case onChange: {
+        case ActionNameEnum.onChange: {
             return {
                 ...state,
                 onChange: payload
             };
         }
-        case changeValue: {                                  
+        case ActionNameEnum.changeValue: {                                  
             return {
                 ...state,
                 checked : payload

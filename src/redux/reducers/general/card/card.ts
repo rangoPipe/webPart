@@ -1,5 +1,4 @@
-import { createCard } from "../../../actions/general/card/_actionName";
-import { IAction } from "../../../namespace";
+import { IAction, ActionNameEnum } from "../../../action";
 import { ICardProps } from "./ICard";
 
 const defaultState:ICardProps = {
@@ -9,7 +8,7 @@ const defaultState:ICardProps = {
 
 function reducer(state = defaultState, { type, payload }:IAction) : ICardProps {    
     switch(type) {
-        case createCard: {                                  
+        case ActionNameEnum.createElemet: {                                  
             return {
                 ...state,
                 ...payload

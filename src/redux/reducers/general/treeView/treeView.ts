@@ -1,5 +1,4 @@
-import { createTreeView } from "../../../actions/general/treeView/_actionName";
-import { IAction } from "../../../namespace";
+import { IAction, ActionNameEnum } from "../../../action";
 import { ITreeViewProps } from "./ITreeView";
 
 const defaultState:ITreeViewProps = {
@@ -8,7 +7,7 @@ const defaultState:ITreeViewProps = {
 
 function reducer(state = defaultState, { type, payload }:IAction) : ITreeViewProps {    
     switch(type) {
-        case createTreeView: {                                  
+        case ActionNameEnum.createElemet: {                                  
             return {
                 ...state,
                 ...payload

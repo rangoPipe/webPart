@@ -1,5 +1,4 @@
-import { changeView, createState, selectTreeItem, onChangeView } from "../../../../actions/component/documentaryStructure/mainDocumentary/_actionName";
-import { IAction } from "../../../../namespace";
+import { IAction, ActionNameEnum } from "../../../../action";
 import { IMainDocumentary } from "./IMainDocumentary";
 
 const defaultState:IMainDocumentary = {
@@ -11,26 +10,26 @@ const defaultState:IMainDocumentary = {
 
 function reducer(state = defaultState, { type, payload }:IAction) : IMainDocumentary {    
     switch(type) {
-        case createState: {
+        case ActionNameEnum.createElemet: {
             return {
                 ...state,
                 ...payload
             };
         }
-        case changeView: {
+        case ActionNameEnum.changeView: {
             return {
                 ...state,
                 activeView : payload
             };
         }
-        case selectTreeItem: {
+        case ActionNameEnum.selectTreeItem: {
             return {
                 ...state,
                 parent: payload.parent,
                 itemSelected: payload.itemSelected
             };
         }
-        case onChangeView: {
+        case ActionNameEnum.onChangeView: {
             return {
                 ...state,
                 onChangeView: payload

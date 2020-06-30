@@ -1,9 +1,11 @@
 import * as React from "react";
-import { ButtonProps } from "react-bootstrap";
 
-export interface IButtonProps extends ButtonProps {
-    text?: React.ElementType<any> | string;
+export interface IButtonProps {
+    text?: React.ElementType<any> | React.ReactElement | string;
     className?: string;
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     hidden?: boolean;
+    disabled?: boolean;
+    variant?: "contained" | "outlined" | "text";
+    color?: "inherit" | "primary" | "secondary" | "default";
 }

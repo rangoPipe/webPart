@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Button } from 'react-bootstrap';
 import { IButtonProps } from "./IButton";
+import { Button } from "@material-ui/core";
 
 export default function Page(props: IButtonProps) {
     const { button } = props;
@@ -8,12 +8,11 @@ export default function Page(props: IButtonProps) {
         (button.hidden)
         ? null
         :   <Button
-                type={button.type}
                 onClick={button.onClick}
                 variant={button.variant}
-                size={button.size}
                 className={button.className }
                 disabled = {button.disabled}
+                color={button.color}
                 >
                 {button.text}
             </Button>

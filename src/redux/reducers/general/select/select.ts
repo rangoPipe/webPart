@@ -1,44 +1,46 @@
-import { createSelect, loadItems, onChange, hideElement, changeValue } from "../../../actions/general/select/_actionName";
-import { IAction } from "../../../namespace";
+import { IAction, ActionNameEnum } from "../../../action";
 import { ISelectProps } from "./ISelect";
 
 const defaultState:ISelectProps = {
+    id: null,
     label: undefined,
     onChange: undefined,
     disabled: false,
     hidden: false,
     className: undefined,
     items: [],
-    value: undefined
+    value: undefined,
+    multiple: false,
+    disableCloseOnSelect: false,
 };
 
 function reducer(state = defaultState, { type, payload }:IAction) : ISelectProps {    
     switch(type) {
-        case createSelect: {                                  
+        case ActionNameEnum.createElemet: {                                  
             return {
                 ...state,
                 ...payload
             };
         }
-        case loadItems: {                                  
+        case ActionNameEnum.loadItems: {                                  
             return {
                 ...state,
-                hidden : payload
+                items : payload
             };
         }
-        case onChange: {                                  
+        case ActionNameEnum.onChange: {                                  
             return {
                 ...state,
                 onChange : payload
             };
         }
-        case hideElement: {                                  
+        case ActionNameEnum.hideElement: {                                  
             return {
                 ...state,
                 hidden : payload
             };
         }
-        case changeValue: {                                  
+        case ActionNameEnum.changeValue: {                                  
             return {
                 ...state,
                 value : payload

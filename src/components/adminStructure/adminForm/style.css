@@ -1,0 +1,46 @@
+#admin-form, #admin-form .admin-form-main-card {
+    height: 100%;
+}
+
+#admin-form .admin-form-main-card {
+    background-color: #F3F2F1;
+    border: 1px solid #f3f2f1;
+}
+
+#admin-form .admin-form-main-card .card-body {
+    
+}
+
+fieldset.scheduler-border {
+    border: 0.5px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+}
+
+legend.scheduler-border {
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+}
+
+#admin-form .card-footer {
+    background-color: #FFFFFF;
+    border-top: none;
+}
+
+#admin-form .btn-cancelar, #admin-form .btn-guardar {
+    width: 100%;
+}
+
+#admin-form .btn-cancelar {
+    color: #C7C7C7;
+    border-color: #C7C7C7;
+}
+
+#admin-form .btn-guardar {
+    background-color: #BED12E;
+    color: #FFFFFF;
+    border-color: #BED12E;
+}

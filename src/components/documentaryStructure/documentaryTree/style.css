@@ -1,6 +1,9 @@
 #DocumentaryTree, #DocumentaryTree .card{
     height: 100%;
 }
+#DocumentaryTree #basic-navbar-nav button {
+    text-transform: none;
+}
 
 #DocumentaryTree .btn-outline-light {
     color: #747474;

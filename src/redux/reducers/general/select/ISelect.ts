@@ -1,13 +1,17 @@
 import * as React from "react";
 
 export interface ISelectProps  {
+    id?: string;
     label?: React.ElementType<any> | string;
     className?: string;
-    onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+    onChange?: (event: React.ChangeEvent<HTMLSelectElement>, e?: any) => void;
     hidden?: boolean;
     disabled?:boolean;
     items?: ISelectItemProps[];
-    value?: string | number;
+    value?: ISelectItemProps | ISelectItemProps[];
+    placeholder?:string;
+    multiple?: boolean;
+    disableCloseOnSelect?: boolean;
 }
 
 
