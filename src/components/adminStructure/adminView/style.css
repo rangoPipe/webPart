@@ -1,3 +1,17 @@
-#admin-view, #admin-view .card {
+#admin-view, #admin-view #admin-view-first-card {
     height: 100%;
+}
+
+#admin-view #admin-view-first-card {
+    border-radius: 10px;
+}
+
+#admin-view #admin-view-first-card .card-header {
+    background-color: #ffffff;
+    color: #030622;
+    font-weight: 100;
+}
+
+#admin-view #admin-view-first-card .card-header .clickable {
+    cursor: pointer;
 }

@@ -34,7 +34,7 @@ export default function Page(props: IGridProps) {
 
 function generate(items:IGridItem[],classes) {
     return items.map((item:IGridItem) =>
-      <Col md={6} xs={12} className="mb-3">
+      <Col md={6} xs={12} className="mb-3" key={item.id}>
         <Card>
             <CardActionArea>
                 <CardMedia className={ classes.media }

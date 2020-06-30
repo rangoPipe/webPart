@@ -13,38 +13,43 @@ export default function Page(props:IAdminFormProps) {
     const { mainForm } = props; 
     
     return (
-        <div id="admin-form" className="mb-5">
-            <Card className="admin-form-main-card">
+        <div id="admin-form">
+            <Card id="admin-form-main-card">
                 <Card.Body>
-                    <Card>
+                    <Card id="admin-form-first-card" className="mb-5" >
                         <Card.Body>
-                            <Container fluid={true} className="mt-5">
-                                <fieldset className="scheduler-border">
-                                <legend className="scheduler-border"><h3>Buscar Expediente</h3></legend>
-                                    <Row>
-                                        <Col md={12}>
-                                            <SubspaceProvider mapState={(state: IStore) => { return { textField: state.txtSearchAdminForm }; }} >
-                                                <TextField />
-                                            </SubspaceProvider>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col md={12}>
-                                            <SubspaceProvider mapState={(state: IStore) => { return { select: state.lstTypeAdminForm }; }} >
-                                                <Select />
-                                            </SubspaceProvider>
-                                        </Col>
-                                    </Row>
-                                </fieldset>
+                            <Container fluid={true} className="mt-4 mb-4">
+                                <Row>
+                                    <Col md={12}>
+                                        <h3>Buscar expediente</h3>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col md={12}>
+                                        <SubspaceProvider mapState={(state: IStore) => { return { textField: state.txtSearchAdminForm }; }} >
+                                            <TextField />
+                                        </SubspaceProvider>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col md={12}>
+                                        <SubspaceProvider mapState={(state: IStore) => { return { select: state.lstTypeAdminForm }; }} >
+                                            <Select />
+                                        </SubspaceProvider>
+                                    </Col>
+                                </Row>
                             </Container>
                         </Card.Body>
                     </Card>
-                    <Card>
+                    <Card id="admin-form-second-card">
                         <Card.Body>
                             
-                            <Container fluid={true} className="mt-5">
-                                <fieldset className="scheduler-border">
-                                <legend className="scheduler-border"><h3>Tipo Documental</h3></legend>
+                            <Container fluid={true} className="mt-4 mb-4">
+                                <Row>
+                                    <Col md={12}>
+                                        <h3>Tipo documental</h3>
+                                    </Col>
+                                </Row>
                                 <Row>
                                     <Col md={12}>
                                         <SubspaceProvider mapState={(state: IStore) => { return { select: state.lstDocumentalTypeAdminForm }; }} >
@@ -61,25 +66,22 @@ export default function Page(props:IAdminFormProps) {
                                         }
                                     </Form>
                                 </Row>
-                                </fieldset>
                             </Container>
                             
                         </Card.Body>
-                        <Card.Footer>
-                            <Container>
-                                <Row>
-                                    <Col md={12}>
-                                        <SubspaceProvider mapState={(state: IStore) => { return { button: state.btnSaveAdminForm }; }} >
-                                            <Button />
-                                        </SubspaceProvider>
-                                    </Col>
-                                    <Col md={12}>
-                                        <SubspaceProvider mapState={(state: IStore) => { return { button: state.btnCancelAdminForm }; }} >
-                                            <Button />
-                                        </SubspaceProvider>
-                                    </Col>
-                                </Row>
-                            </Container>
+                        <Card.Footer className="mb-4">
+                            <Row>
+                                <Col md={6}>
+                                    <SubspaceProvider mapState={(state: IStore) => { return { button: state.btnSaveAdminForm }; }} >
+                                        <Button />
+                                    </SubspaceProvider>
+                                </Col>
+                                <Col md={6}>
+                                    <SubspaceProvider mapState={(state: IStore) => { return { button: state.btnCancelAdminForm }; }} >
+                                        <Button />
+                                    </SubspaceProvider>
+                                </Col>
+                            </Row>
                         </Card.Footer>
                     </Card>
                 </Card.Body>

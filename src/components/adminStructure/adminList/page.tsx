@@ -13,7 +13,7 @@ export default function Page(props:IAdminListProps) {
 
     return (
         <div id="admin-list" className="mb-5">
-            <Card>
+            <Card id="admin-list-first-card">
                 <Card.Header>
                   <FormControlLabel control={ <Checkbox checked={ props.allSelected }/> }  label="Seleccionar todo" />
                 </Card.Header>

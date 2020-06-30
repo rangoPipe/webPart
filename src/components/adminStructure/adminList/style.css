@@ -1,7 +1,13 @@
-#admin-list, #admin-list .card {
+#admin-list, #admin-list #admin-list-first-card {
     height: 100%;
 }
 
-#admin-list .card-header {
+#admin-list #admin-list-first-card {
+    border-radius: 10px;
+}
+
+#admin-list #admin-list-first-card .card-header {
     background-color: #ffffff;
+    border-radius: 10px 10px 0px 0px;
+    border:none;
 }

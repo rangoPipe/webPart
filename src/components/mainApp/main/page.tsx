@@ -15,7 +15,7 @@ export default function Page(props:IMainProps) {
     
     return (
         <Container fluid={true} style={{ height:"100%" }} className="mb-4" id="MainAppContainer">
-            <Row style={{ height:"100%" }}>
+            <Row>
                 <Col md={12} className="div-navbar">
                     <Navbar expand="lg">
                         <Navbar.Toggle aria-controls="main-navbar-nav" />
