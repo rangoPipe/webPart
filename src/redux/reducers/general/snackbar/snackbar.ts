@@ -3,7 +3,8 @@ import { ISnackbarProps } from "./ISnackbar";
 
 const defaultState:ISnackbarProps = {
     duration: 3000,
-    hidden: true,
+    show: false,
+    position: { vertical:'top', horizontal:'right' },
 };
 
 function reducer(state = defaultState, { type, payload }:IAction) : ISnackbarProps {    
@@ -12,6 +13,12 @@ function reducer(state = defaultState, { type, payload }:IAction) : ISnackbarPro
             return {
                 ...state,
                 ...payload
+            };
+        }
+        case ActionNameEnum.hideElement: {                                  
+            return {
+                ...state,
+                show: payload
             };
         }
         

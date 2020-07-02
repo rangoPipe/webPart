@@ -1,5 +1,6 @@
 export enum MainAppEnum {
     context = "appContext",
+    snackbar = "appSnackbar",
     btnAdmin = "btnAdminMainApp",
     btnStructure = "btnStructureMainApp",
     btnSearch = "btnSearchMainApp",

@@ -11,6 +11,7 @@ import { IDatePickerProps } from "./reducers/general/datePicker/IDatePicker";
 import { IContextProps } from "./reducers/webPart/IContext";
 import { IGridProps } from "./reducers/general/grid/IGrid";
 import { IViewerProps } from "./reducers/general/viewer/IViewer";
+import { ISnackbarProps } from "./reducers/general/snackbar/ISnackbar";
 
 export interface IStoreGeneral {
     button: IButtonProps;
@@ -23,12 +24,14 @@ export interface IStoreGeneral {
     datePicker: IDatePickerProps;
     grid: IGridProps;
     viewer: IViewerProps;
+    snackbar: ISnackbarProps;
     context: IContextProps;
 }
 
 export interface IStore extends IStoreGeneral {
     //MainApp
     appContext:            IContextProps;
+    appSnackbar:            ISnackbarProps;
     btnAdminMainApp:       IButtonProps;
     btnStructureMainApp:   IButtonProps;
     btnSearchMainApp:      IButtonProps;

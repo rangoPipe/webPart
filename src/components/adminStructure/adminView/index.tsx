@@ -6,8 +6,11 @@ import { IStore } from "../../../redux/namespace";
 import { AdminViewEnum } from "../../../common/admin/adminView/adminViewContent";
 import store from "../../../redux/store";
 import { connect } from "react-redux";
+import { MainAppEnum } from "../../../common/mainApp/main/mainAppContent";
+import { ActionNameEnum } from "../../../redux/action";
 export class AdminViewClass extends React.Component<IAdminViewProps, IAdminViewState> {
 
+    private _snackbar = subspace( (state: IStore) => state.appSnackbar, MainAppEnum.snackbar )(store);
     private _viewer = subspace( (state: IStore) => state.viewerAdminView, AdminViewEnum.viewer )(store);
     private _imageName: string; 
     constructor(props:IAdminViewProps) {
@@ -42,7 +45,8 @@ export class AdminViewClass extends React.Component<IAdminViewProps, IAdminViewS
             this.validateImage();
             (document.querySelector("#admin-view #admin-view-first-card img") as HTMLImageElement).click();
         } catch (error) {
-            console.log(error);
+            this.showSnackbar(error);
+
             throw error;
         }
     }
@@ -52,8 +56,17 @@ export class AdminViewClass extends React.Component<IAdminViewProps, IAdminViewS
             this.openImage();
             setTimeout(() => (document.querySelector(action) as HTMLElement).click(), 500); 
         } catch (error) {
-            console.log(error);
+            this.showSnackbar(error);
         }
+    }
+
+    private showSnackbar = (message:string) => {
+        this._snackbar.dispatch({ type: ActionNameEnum.createElemet, payload: { 
+            show: true, 
+            message, 
+            severity: "warning",
+            onClose: () => this._snackbar.dispatch({ type: ActionNameEnum.hideElement, payload: false })
+        }});
     }
 
     public render() {

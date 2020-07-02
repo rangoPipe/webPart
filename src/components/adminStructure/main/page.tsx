@@ -47,6 +47,7 @@ export default function Page(props:IMainProps) {
                     <Col md={4}>
                         <SubspaceProvider mapState={(state: IStore) => { 
                                 return {
+                                    appSnackbar: state.appSnackbar,
                                     viewerAdminView: state.viewerAdminView,
                                     viewer: state.viewerAdminView
                                 }; 

@@ -12,6 +12,7 @@ import select from "./reducers/general/select/select";
 import check from "./reducers/general/check/check";
 import grid from "./reducers/general/grid/grid";
 import viewer from "./reducers/general/viewer/viewer";
+import snackbar from "./reducers/general/snackbar/snackbar";
 
 import context from "./reducers/webPart/context";
 import mainDocumentary from "./reducers/component/documentaryStructure/mainDocumentary/mainDocumentary";
@@ -26,6 +27,7 @@ const reducer = combineReducers<any>({
     
     //MainApp
     appContext: namespaced(MainAppEnum.context)(context),
+    appSnackbar: namespaced(MainAppEnum.snackbar)(snackbar),
     btnAdminMainApp: namespaced(MainAppEnum.btnAdmin)(button),
     btnStructureMainApp: namespaced(MainAppEnum.btnStructure)(button),
     btnSearchMainApp: namespaced(MainAppEnum.btnSearch)(button),
