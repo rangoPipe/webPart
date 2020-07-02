@@ -3,4 +3,7 @@ export interface IAdminViewState {
 }
 
 export interface IAdminViewProps extends IAdminViewState {
+    imageName?: string;
+    openImage?: () => void;
+    actionImage?: (action: string) => void;
 }

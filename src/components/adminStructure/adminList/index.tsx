@@ -42,7 +42,7 @@ export default class MainClass extends React.Component<IAdminListProps, IAdminLi
             items = items.map(x => {
                 return {
                     ...x,
-                    onClick: (e) => this.selectImage(x.base64),
+                    onClick: (e) => this.selectImage(x.name,x.base64),
                     onSelect: (e) => this.selectItem(x.id) 
                 }
             });
@@ -67,7 +67,7 @@ export default class MainClass extends React.Component<IAdminListProps, IAdminLi
                     base64: base64,
                     buffer,
                     label: "Seleccionar",
-                    onClick: (e) => this.selectImage(base64),
+                    onClick: (e) => this.selectImage(x.Name, base64),
                     onSelect: (e) => this.selectItem(x.UniqueId)                  
                 };
             })
@@ -100,8 +100,8 @@ export default class MainClass extends React.Component<IAdminListProps, IAdminLi
         return canvas.toDataURL();
     }
 
-    private selectImage = (path:string) => {
-        let images:IViewerItem[] = [{ src:path }];
+    private selectImage = (name:string, path:string) => {
+        let images:IViewerItem[] = [{ src:path, name }];
         this._viewerController.dispatch({type: ActionNameEnum.createElemet, payload: { path, items: images } });
     }
 

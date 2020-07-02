@@ -10,4 +10,5 @@ export interface IViewerProps {
 export interface IViewerItem {
     src: string;
     alt?: string;
+    name?: string;
 }
