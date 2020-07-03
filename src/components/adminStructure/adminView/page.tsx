@@ -17,10 +17,10 @@ export default function Page(props:IAdminViewProps) {
             <Card id="admin-view-first-card">
                 <Card.Header>
                     <Row>
-                        <Col md={9} sm={12}>
+                        <Col md={8} sm={12}>
                             <FontAwesomeIcon icon={faImage}  /> { imageName }
                         </Col>
-                        <Col md={3} sm={12} className="text-right">
+                        <Col md={4} sm={12} className="text-right">
                             <Row>
                                 <Col md={3}>
                                     <FontAwesomeIcon icon={faMinusCircle} className="clickable" onClick={() => actionImage('[data-key="zoomOut"]')} /> 

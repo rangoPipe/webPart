@@ -2,6 +2,9 @@ import * as React from "react";
 
 export interface IGridProps {
     items?: IGridItem[];
+    itemsPerPage?: number;
+    actualPage?: number;
+    idPage?: string | number;
     hidden?: boolean;
 }
 

@@ -20,10 +20,11 @@ export class AdminViewClass extends React.Component<IAdminViewProps, IAdminViewS
 
     }
 
-    componentWillUpdate(){
+    public componentWillUpdate(){
         this.updateImageName();
     }
-    componentWillMount() {
+    
+    public componentWillMount() {
         this.updateImageName();
     }
     

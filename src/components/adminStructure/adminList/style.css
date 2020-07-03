@@ -11,3 +11,19 @@
     border-radius: 10px 10px 0px 0px;
     border:none;
 }
+
+#admin-list #admin-list-first-card .MuiPaper-elevation1 {
+    box-shadow: none;
+}
+
+#admin-list #admin-list-first-card .col-card-image {
+    background-color: #D0D0D0;
+}
+
+#admin-list #admin-list-first-card .card-body .MuiPaginationItem-root {
+    min-width: 28px;
+}
+
+#admin-list #admin-list-first-card .card-body .MuiPagination-ul {
+    display: inline-flex;
+}
