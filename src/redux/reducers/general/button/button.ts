@@ -8,7 +8,8 @@ const defaultState:IButtonProps = {
     hidden: false,
     className: undefined,
     variant: "contained",
-    color: "default"
+    color: "default",
+    startIcon: undefined
 };
 
 function reducer(state = defaultState, { type, payload }:IAction) : IButtonProps {    
@@ -41,6 +42,12 @@ function reducer(state = defaultState, { type, payload }:IAction) : IButtonProps
             return {
                 ...state,
                 disabled : payload
+            };
+        }
+        case ActionNameEnum.changeView: {
+            return {
+                ...state,
+                startIcon: payload
             };
         }
         

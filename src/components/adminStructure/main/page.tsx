@@ -19,6 +19,7 @@ export default function Page(props:IMainProps) {
                         <SubspaceProvider mapState={(state: IStore) => { 
                                 return { 
                                     appContext : state.appContext,
+                                    appSnackbar: state.appSnackbar,
                                     
                                     btnSaveAdminForm : state.btnSaveAdminForm,
                                     btnCancelAdminForm: state.btnCancelAdminForm,

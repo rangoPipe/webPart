@@ -8,6 +8,8 @@ export default function Page(props: IButtonProps) {
         (button.hidden)
         ? null
         :   <Button
+                startIcon={button.startIcon}
+                endIcon={button.endIcon}
                 onClick={button.onClick}
                 variant={button.variant}
                 className={button.className }

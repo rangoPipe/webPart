@@ -58,13 +58,15 @@ export default function Page(props:IAdminFormProps) {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Form id="main-form-adminForm">
-                                        {
-                                            mainForm.map(x => {
-                                                return <Col md={12}>{x}</Col>;
-                                            })
-                                        }
-                                    </Form>
+                                    <Col md={12}>
+                                        <Form id="main-form-adminForm">
+                                            {
+                                                mainForm.map(x => {
+                                                    return <Col md={12}>{x}</Col>;
+                                                })
+                                            }
+                                        </Form>
+                                    </Col>
                                 </Row>
                             </Container>
                             

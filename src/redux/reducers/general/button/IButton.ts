@@ -8,4 +8,6 @@ export interface IButtonProps {
     disabled?: boolean;
     variant?: "contained" | "outlined" | "text";
     color?: "inherit" | "primary" | "secondary" | "default";
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
 }
